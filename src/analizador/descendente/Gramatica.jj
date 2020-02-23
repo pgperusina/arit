@@ -1,0 +1,117 @@
+options {
+  IGNORE_CASE = true;
+  STATIC = false;
+}
+
+PARSER_BEGIN(Gramatica)
+
+package analizador.descendente;
+
+import java.util.ArrayList;
+
+public class Gramatica {
+}
+PARSER_END(Gramatica)
+
+/** Lexico */
+SKIP : {
+      " "
+    | "\t"
+    | "\r"
+    | "\n"
+    | <"#*"> : MULTI_LINE_COMMENT  // (~["*"])* "*" ("*" | ~["*","#"] (~["*"])* "*")* "#"> {System.out.println("COMENTARIOS ML -- " + image);}
+    | <"#"> : IN_LINE_COMMENT  //(~["\n", "\r"])*> {System.out.println("COMENTARIOS UL -- " + image);}
+}
+
+/* Comments */
+<IN_LINE_COMMENT> SKIP:
+{
+   "\n" : DEFAULT
+}
+
+<IN_LINE_COMMENT> MORE:
+{
+  < ~[] >
+}
+
+<MULTI_LINE_COMMENT> SKIP:
+{
+   "#*" : DEFAULT
+}
+
+<MULTI_LINE_COMMENT> MORE:
+{
+  < ~[] >
+}
+
+TOKEN : {
+      <INTEGER: (["0"-"9"])+>
+    | <NUMERIC: (["0"-"9"])+"."(["0"-"9"])+>
+    | <WHILE: "while">
+    | <IF: "if">
+    | <ELSE: "else">
+    | <PCOMA: ";">
+    | <PARINI: "(">
+    | <PAREND: ")">
+    | <CORI: "[">
+    | <CORD: "]">
+    | <LLAVEI: "{">
+    | <LLAVED: "}">
+    | <MAS: "+">
+    | <MENOS: "-">
+    | <POR: "*">
+    | <DIV: "/">
+    | <IGUAL: "=">
+    | <MENORQUE: "<">
+    | <MAYORQUE: ">">
+    | <MENORIGUAL: "<=">
+    | <MAYORIGUAL: ">=">
+    | <IGUALA: "==">
+    | <DIFERENTEDE: "!=">
+    | <AND: "&&">
+    | <OR: "||">
+    | <NOT: "!" >
+    | <IDENTIFICADOR: (["a"-"z"] | ".") ( ["a"-"z"] | "_" | ["0"-"9"] )* >
+}
+
+MORE :
+{
+    "\"" :STRING_STATE
+}
+
+<STRING_STATE> MORE:
+{
+    <~["\""]>
+}
+
+<STRING_STATE> TOKEN:
+{
+   <STRING:"\""> : DEFAULT
+}
+
+/**  FIN LEXICO **/
+
+/** Producción inicial
+    Analizar -> (Instruccion)+ EOF
+*/
+String Analizar() :
+{ArrayList<String> ins = new ArrayList<String>(); String e;}
+{
+  (e=Instruccion() )+ <EOF> {System.out.println("END OF FILE"); System.out.println("Instruccion " + e); return new String(e);}
+}
+
+String Instruccion() :
+{String e; Token t;}
+{
+    <INTEGER> { System.out.println("INTEGER " + token.image);
+        return new String(token.image);}
+    |
+    <NUMERIC> { System.out.println("NUMERIC " + token.image);
+        return new String(token.image);}
+    |
+    t=<STRING> { System.out.println("STRING " + token.image);
+        return new String(t.image.substring(1,t.image.length()-1));}
+    |
+    t=<IDENTIFICADOR> { System.out.println("ID " + t.image);
+        return new String(t.image);}
+}

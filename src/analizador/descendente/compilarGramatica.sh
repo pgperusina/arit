@@ -1,0 +1,1 @@
+java -cp ~/javacc/javacc.jar javacc Gramatica.jj
