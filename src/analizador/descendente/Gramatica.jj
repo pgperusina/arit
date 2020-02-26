@@ -7,6 +7,18 @@ PARSER_BEGIN(Gramatica)
 
 package analizador.descendente;
 
+import abstracto.AST;
+import expresiones.Funcion;
+import expresiones.Primitivo;
+import expresiones.Identificador;
+import expresiones.ExpresionLogica;
+import expresiones.ExpresionTernaria;
+import expresiones.ExpresionLogica.OperadorLogico;
+import expresiones.Retorno;
+import instrucciones.Declaracion;
+import tablasimbolos.Arbol;
+import tablasimbolos.Tipo;
+import tablasimbolos.Tipo.Tipos;
 import java.util.ArrayList;
 
 public class Gramatica {
@@ -19,14 +31,14 @@ SKIP : {
     | "\t"
     | "\r"
     | "\n"
-    | <"#*"> : MULTI_LINE_COMMENT  // (~["*"])* "*" ("*" | ~["*","#"] (~["*"])* "*")* "#"> {System.out.println("COMENTARIOS ML -- " + image);}
-    | <"#"> : IN_LINE_COMMENT  //(~["\n", "\r"])*> {System.out.println("COMENTARIOS UL -- " + image);}
+    | <"#*"> {System.out.println("ML comment start -- " +image);} : MULTI_LINE_COMMENT
+    | <"#"> {System.out.println("SL comment start -- " +image);} : IN_LINE_COMMENT
 }
 
 /* Comments */
 <IN_LINE_COMMENT> SKIP:
 {
-   "\n" : DEFAULT
+   "\n" {System.out.println("SL comment end -- " +image);} : DEFAULT
 }
 
 <IN_LINE_COMMENT> MORE:
@@ -36,7 +48,7 @@ SKIP : {
 
 <MULTI_LINE_COMMENT> SKIP:
 {
-   "#*" : DEFAULT
+   "#*" {System.out.println("ML comment end -- " +image);} : DEFAULT
 }
 
 <MULTI_LINE_COMMENT> MORE:
@@ -47,6 +59,8 @@ SKIP : {
 TOKEN : {
       <INTEGER: (["0"-"9"])+>
     | <NUMERIC: (["0"-"9"])+"."(["0"-"9"])+>
+    | <BOOLEAN: ("true"|"false")>
+    | <NULL: "null">
     | <WHILE: "while">
     | <IF: "if">
     | <ELSE: "else">
@@ -68,50 +82,180 @@ TOKEN : {
     | <MAYORIGUAL: ">=">
     | <IGUALA: "==">
     | <DIFERENTEDE: "!=">
-    | <AND: "&&">
-    | <OR: "||">
+    | <AND: "&">
+    | <OR: "|">
     | <NOT: "!" >
-    | <IDENTIFICADOR: (["a"-"z"] | ".") ( ["a"-"z"] | "_" | ["0"-"9"] )* >
+    | <QUESTION_MARK: "?" >
+    | <DOS_PUNTOS: ":" >
+    //| <IDENTIFICADOR: (["a"-"z"] | ".") ("." | ["a"-"z"] | "_" | ["0"-"9"] )* >
 }
 
+/**
+* ID STARTING WITH DOT
+*/
 MORE :
 {
-    "\"" :STRING_STATE
+    "." : ID_DOT_STATE
 }
 
-<STRING_STATE> MORE:
+<ID_DOT_STATE> MORE :
 {
+    <("." | ["a"-"z"] | "_")+ ("." | ["a"-"z"] | "_" | ["0"-"9"])* >
+}
+
+<ID_DOT_STATE> TOKEN:
+{
+   <IDENTIFICADOR_PUNTO: [" ","\t","\r","\n"]> : DEFAULT
+}
+
+/**
+* ID STARTING WITH LETTER
+*/
+MORE :
+{
+    <["a"-"z"]> : ID_LETTER_STATE
+}
+
+<ID_LETTER_STATE> MORE :
+{
+    <("." | ["a"-"z"] | "_" | ["0"-"9"])+ >
+}
+
+<ID_LETTER_STATE> TOKEN:
+{
+   <IDENTIFICADOR_LETRA: [" ","\t","\r","\n"]> : DEFAULT
+}
+
+/**
+* STRING Tokens
+* **/
+MORE :
+{
+    "\"" : STRING_STATE
+}
+
+<STRING_STATE> MORE :
+{
+    <"\\\""> {
+        System.out.println("COMILLA DOBLE -- " + image);
+        int pos = image.length() - 2;
+        image.replace(pos, pos + 2, "\"");
+        System.out.println("COMILLA DOBLE DESPUES DE PROCESAR -- " + image);
+        }
+    |
     <~["\""]>
 }
 
 <STRING_STATE> TOKEN:
 {
-   <STRING:"\""> : DEFAULT
+   <STRING:"\""> {
+                     System.out.println("TOKEN STRING_STATE -- " + image);
+
+                     } : DEFAULT
 }
 
 /**  FIN LEXICO **/
 
+
+/************** INICIO PARSER ****************/
+
 /** Producción inicial
-    Analizar -> (Instruccion)+ EOF
+    analizar -> (instruccion)+ EOF
 */
-String Analizar() :
-{ArrayList<String> ins = new ArrayList<String>(); String e;}
+Arbol analizar() :
+{ArrayList<AST> instrucciones = new ArrayList<AST>(); AST e;}
 {
-  (e=Instruccion() )+ <EOF> {System.out.println("END OF FILE"); System.out.println("Instruccion " + e); return new String(e);}
+  (e=instruccion() { instrucciones.add(e); } )+ <EOF>
+  { System.out.println("END OF FILE");
+    System.out.println("Instruccion " + e);
+    return new Arbol(instrucciones); }
+}
+ /**
+ * instruccion -> declaracion
+*/
+AST instruccion() :
+{AST e;}
+{
+    e = declaracion()
+    { System.out.println("DECLARACION -- " + e);
+        return e; }
+//    |
+//
 }
 
-String Instruccion() :
-{String e; Token t;}
+/**
+* declaracion -> ID = expresion
+*/
+AST declaracion() :
+{ Token id; AST e = null; }
 {
-    <INTEGER> { System.out.println("INTEGER " + token.image);
-        return new String(token.image);}
+    LOOKAHEAD(3) id = <IDENTIFICADOR_LETRA> <IGUAL> e = expresion() (<PCOMA>)?
+    {   System.out.println("declaracion *** " + e);
+        return new Declaracion(id.image.trim(), e, token.beginLine, token.beginColumn); }
     |
-    <NUMERIC> { System.out.println("NUMERIC " + token.image);
-        return new String(token.image);}
-    |
-    t=<STRING> { System.out.println("STRING " + token.image);
-        return new String(t.image.substring(1,t.image.length()-1));}
-    |
-    t=<IDENTIFICADOR> { System.out.println("ID " + t.image);
-        return new String(t.image);}
+    LOOKAHEAD(3) id = <IDENTIFICADOR_PUNTO> <IGUAL> e = expresion() (<PCOMA>)?
+    {   System.out.println("declaracion *** " + e);
+        return new Declaracion(id.image.trim(), e, token.beginLine, token.beginColumn); }
+}
+
+/**
+* expresion ->  condicion ? exp1 : exp1 [;]
+*/
+AST expresion() :
+{ AST e, e1, e2; }
+{
+    e = expresionOr() { System.out.println(e);}
+    (
+        LOOKAHEAD(2) <QUESTION_MARK> e1 = expresionOr() <DOS_PUNTOS> e2 = expresionOr()
+        { e = new ExpresionTernaria(e, e1, e2, token.beginLine, token.beginColumn); }
+    )*
+    { return e; }
+}
+
+AST expresionOr() :
+{ AST e, e1; }
+{
+    e = expresionAnd() { System.out.println(e);}
+    (
+        <OR> e1 = expresionAnd() { e = new ExpresionLogica(e, e1, OperadorLogico.OR, token.beginLine, token.beginColumn); }
+    )*
+    { return e; }
+}
+
+AST expresionAnd() :
+{ AST e, e1; }
+{
+    e = primitivo() { System.out.println(e);}
+        (
+            <AND> e1 = primitivo() { e = new ExpresionLogica(e, e1, OperadorLogico.AND, token.beginLine, token.beginColumn); }
+        )*
+        { return e; }
+}
+
+AST primitivo() :
+{ AST e; Token t; }
+{
+        <INTEGER> { System.out.println("INTEGER " + token.image);
+            return new Primitivo(new Tipo(Tipos.INTEGER), Integer.parseInt(token.image), token.beginLine, token.beginColumn); }
+        |
+        <NUMERIC> { System.out.println("NUMERIC " + token.image);
+            return new Primitivo(new Tipo(Tipos.NUMERIC), Double.parseDouble(token.image), token.beginLine, token.beginColumn); }
+        |
+        <BOOLEAN> { System.out.println("BOOLEAN " + token.image);
+            return new Primitivo(new Tipo(Tipos.BOOLEAN), Boolean.parseBoolean(token.image), token.beginLine, token.beginColumn);}
+        |
+        <NULL> { System.out.println("NULL " + token.image);
+            return new Primitivo(new Tipo(Tipos.BOOLEAN), Double.parseDouble(token.image), token.beginLine, token.beginColumn);}
+        |
+        t=<STRING> { System.out.println("STRING " + t.image);
+            return new Primitivo(new Tipo(Tipos.STRING), t.image.substring(1,t.image.length()-1), token.beginLine, token.beginColumn);}
+        |
+        t=<IDENTIFICADOR_PUNTO> { System.out.println("ID " + t.image + t.image.length());
+            return new Identificador(t.image.trim(), token.beginLine, token.beginColumn); }
+        |
+        t=<IDENTIFICADOR_LETRA> { System.out.println("ID " + t.image + " - " + t.image.length());
+            return new Identificador(t.image.trim(), token.beginLine, token.beginColumn); }
+        |
+        <PARINI> e=expresion() <PAREND>
+        {return e;}
 }

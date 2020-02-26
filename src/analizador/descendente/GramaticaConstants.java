@@ -15,57 +15,67 @@ public interface GramaticaConstants {
   /** RegularExpression Id. */
   int NUMERIC = 12;
   /** RegularExpression Id. */
-  int WHILE = 13;
+  int BOOLEAN = 13;
   /** RegularExpression Id. */
-  int IF = 14;
+  int NULL = 14;
   /** RegularExpression Id. */
-  int ELSE = 15;
+  int WHILE = 15;
   /** RegularExpression Id. */
-  int PCOMA = 16;
+  int IF = 16;
   /** RegularExpression Id. */
-  int PARINI = 17;
+  int ELSE = 17;
   /** RegularExpression Id. */
-  int PAREND = 18;
+  int PCOMA = 18;
   /** RegularExpression Id. */
-  int CORI = 19;
+  int PARINI = 19;
   /** RegularExpression Id. */
-  int CORD = 20;
+  int PAREND = 20;
   /** RegularExpression Id. */
-  int LLAVEI = 21;
+  int CORI = 21;
   /** RegularExpression Id. */
-  int LLAVED = 22;
+  int CORD = 22;
   /** RegularExpression Id. */
-  int MAS = 23;
+  int LLAVEI = 23;
   /** RegularExpression Id. */
-  int MENOS = 24;
+  int LLAVED = 24;
   /** RegularExpression Id. */
-  int POR = 25;
+  int MAS = 25;
   /** RegularExpression Id. */
-  int DIV = 26;
+  int MENOS = 26;
   /** RegularExpression Id. */
-  int IGUAL = 27;
+  int POR = 27;
   /** RegularExpression Id. */
-  int MENORQUE = 28;
+  int DIV = 28;
   /** RegularExpression Id. */
-  int MAYORQUE = 29;
+  int IGUAL = 29;
   /** RegularExpression Id. */
-  int MENORIGUAL = 30;
+  int MENORQUE = 30;
   /** RegularExpression Id. */
-  int MAYORIGUAL = 31;
+  int MAYORQUE = 31;
   /** RegularExpression Id. */
-  int IGUALA = 32;
+  int MENORIGUAL = 32;
   /** RegularExpression Id. */
-  int DIFERENTEDE = 33;
+  int MAYORIGUAL = 33;
   /** RegularExpression Id. */
-  int AND = 34;
+  int IGUALA = 34;
   /** RegularExpression Id. */
-  int OR = 35;
+  int DIFERENTEDE = 35;
   /** RegularExpression Id. */
-  int NOT = 36;
+  int AND = 36;
   /** RegularExpression Id. */
-  int IDENTIFICADOR = 37;
+  int OR = 37;
   /** RegularExpression Id. */
-  int STRING = 40;
+  int NOT = 38;
+  /** RegularExpression Id. */
+  int QUESTION_MARK = 39;
+  /** RegularExpression Id. */
+  int DOS_PUNTOS = 40;
+  /** RegularExpression Id. */
+  int IDENTIFICADOR_PUNTO = 43;
+  /** RegularExpression Id. */
+  int IDENTIFICADOR_LETRA = 46;
+  /** RegularExpression Id. */
+  int STRING = 50;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -74,7 +84,11 @@ public interface GramaticaConstants {
   /** Lexical state. */
   int MULTI_LINE_COMMENT = 2;
   /** Lexical state. */
-  int STRING_STATE = 3;
+  int ID_DOT_STATE = 3;
+  /** Lexical state. */
+  int ID_LETTER_STATE = 4;
+  /** Lexical state. */
+  int STRING_STATE = 5;
 
   /** Literal token values. */
   String[] tokenImage = {
@@ -91,6 +105,8 @@ public interface GramaticaConstants {
     "<token of kind 10>",
     "<INTEGER>",
     "<NUMERIC>",
+    "<BOOLEAN>",
+    "\"null\"",
     "\"while\"",
     "\"if\"",
     "\"else\"",
@@ -112,12 +128,20 @@ public interface GramaticaConstants {
     "\">=\"",
     "\"==\"",
     "\"!=\"",
-    "\"&&\"",
-    "\"||\"",
+    "\"&\"",
+    "\"|\"",
     "\"!\"",
-    "<IDENTIFICADOR>",
+    "\"?\"",
+    "\":\"",
+    "\".\"",
+    "<token of kind 42>",
+    "<IDENTIFICADOR_PUNTO>",
+    "<token of kind 44>",
+    "<token of kind 45>",
+    "<IDENTIFICADOR_LETRA>",
     "\"\\\"\"",
-    "<token of kind 39>",
+    "\"\\\\\\\"\"",
+    "<token of kind 49>",
     "\"\\\"\"",
   };
 
