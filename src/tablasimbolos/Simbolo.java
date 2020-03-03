@@ -5,6 +5,8 @@ public class Simbolo {
     private Tipo tipo;
     private String identificador;
     private Object valor;
+    private int fila;
+    private int columna;
 
     public Simbolo(Tipo tipo, String identificador, Object valor) {
         this.tipo = tipo;
@@ -34,5 +36,21 @@ public class Simbolo {
 
     public void setValor(Object valor) {
         this.valor = valor;
+    }
+
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    public int getFila() {
+        return this.fila;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+
+    public int getColumna() {
+        return this.columna;
     }
 }

@@ -7,9 +7,14 @@ import expresiones.Funcion;
 import expresiones.Primitivo;
 import expresiones.Identificador;
 import expresiones.ExpresionLogica;
-import expresiones.ExpresionTernaria;
 import expresiones.ExpresionLogica.OperadorLogico;
+import expresiones.ExpresionTernaria;
+import expresiones.ExpresionAritmetica;
+import expresiones.ExpresionAritmetica.OperadorAritmetico;
+import expresiones.ExpresionRelacional;
+import expresiones.ExpresionRelacional.OperadorRelacional;
 import expresiones.Retorno;
+import expresiones.Llamada;
 import instrucciones.Declaracion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tipo;
@@ -32,7 +37,7 @@ public class Gramatica implements GramaticaConstants {
       e = instruccion();
 instrucciones.add(e);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case IDENTIFICADOR_PUNTO:
+      case RETORNO:
       case IDENTIFICADOR_LETRA:{
         ;
         break;
@@ -45,6 +50,7 @@ instrucciones.add(e);
     jj_consume_token(0);
 System.out.println("END OF FILE");
     System.out.println("Instruccion " + e);
+
     {if ("" != null) return new Arbol(instrucciones);}
     throw new Error("Missing return statement in function");
 }
@@ -53,34 +59,249 @@ System.out.println("END OF FILE");
  * instruccion -> declaracion
 */
   final public AST instruccion() throws ParseException {AST e;
-    e = declaracion();
+    if (jj_2_1(3)) {
+      e = funcion();
+{if ("" != null) return e;}
+    } else if (jj_2_2(2)) {
+      e = llamada();
+{if ("" != null) return e;}
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case IDENTIFICADOR_LETRA:{
+        e = declaracion();
 System.out.println("DECLARACION -- " + e);
         {if ("" != null) return e;}
-    throw new Error("Missing return statement in function");
-}
-
-/**
-* declaracion -> ID = expresion
-*/
-  final public AST declaracion() throws ParseException {Token id; AST e = null;
-    if (jj_2_1(3)) {
-      id = jj_consume_token(IDENTIFICADOR_LETRA);
-      jj_consume_token(IGUAL);
-      e = expresion();
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case PCOMA:{
-        jj_consume_token(PCOMA);
+        break;
+        }
+      case RETORNO:{
+        e = retorno();
+{if ("" != null) return e;}
         break;
         }
       default:
         jj_la1[1] = jj_gen;
-        ;
+        jj_consume_token(-1);
+        throw new ParseException();
       }
+    }
+    throw new Error("Missing return statement in function");
+}
+
+/**
+* declaracion -> ID = expresion (;)*
+*/
+  final public AST declaracion() throws ParseException {Token id; AST e;
+    id = jj_consume_token(IDENTIFICADOR_LETRA);
+    jj_consume_token(IGUAL);
+    e = expresion();
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case PCOMA:{
+      jj_consume_token(PCOMA);
+      break;
+      }
+    default:
+      jj_la1[2] = jj_gen;
+      ;
+    }
 System.out.println("declaracion *** " + e);
         {if ("" != null) return new Declaracion(id.image.trim(), e, token.beginLine, token.beginColumn);}
-    } else if (jj_2_2(3)) {
-      id = jj_consume_token(IDENTIFICADOR_PUNTO);
+    throw new Error("Missing return statement in function");
+}
+
+/**
+* funcion -> ID = function(lista_parametros) { (instruccion)+ }
+*/
+  final public AST funcion() throws ParseException {Token id; ArrayList<AST> listaParametros, bloqueInstrucciones; AST e;
+    if (jj_2_3(3)) {
+      id = jj_consume_token(IDENTIFICADOR_LETRA);
       jj_consume_token(IGUAL);
+      jj_consume_token(FUNCION);
+      jj_consume_token(PARINI);
+System.out.println("FUNCTION -- " + id.image);
+      listaParametros = listaParametros();
+      jj_consume_token(PAREND);
+      bloqueInstrucciones = bloqueInstrucciones();
+{if ("" != null) return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn);}
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case IDENTIFICADOR_LETRA:{
+        //    LOOKAHEAD(3) id = <IDENTIFICADOR_PUNTO> <IGUAL> <FUNCION>
+        //    <PARINI> listaParametros = listaParametros() <PAREND> bloqueInstrucciones = bloqueInstrucciones()
+        //    { return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn);  }
+        //    |
+            id = jj_consume_token(IDENTIFICADOR_LETRA);
+        jj_consume_token(IGUAL);
+        jj_consume_token(PARINI);
+        listaParametros = listaParametros();
+        jj_consume_token(PAREND);
+        jj_consume_token(IGUAL);
+        jj_consume_token(MAYORQUE);
+        bloqueInstrucciones = bloqueInstrucciones();
+{if ("" != null) return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn);}
+        break;
+        }
+      default:
+        jj_la1[3] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+    throw new Error("Missing return statement in function");
+}
+
+  final public AST llamada() throws ParseException {ArrayList<AST> expresiones; Token t;
+    t = jj_consume_token(IDENTIFICADOR_LETRA);
+    jj_consume_token(PARINI);
+    expresiones = listaExpresiones();
+    jj_consume_token(PAREND);
+{if ("" != null) return new Llamada(t.image.trim(), expresiones, t.beginLine, t.beginColumn);}
+    throw new Error("Missing return statement in function");
+}
+
+  final public ArrayList<AST> listaExpresiones() throws ParseException {ArrayList<AST> lista = new ArrayList<AST>(); AST e;
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case INTEGER:
+    case NUMERIC:
+    case BOOLEAN:
+    case NULL:
+    case PARINI:
+    case MENOS:
+    case NOT:
+    case IDENTIFICADOR_LETRA:
+    case STRING:{
+      e = expresion();
+lista.add(e);
+      label_2:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case COMA:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[4] = jj_gen;
+          break label_2;
+        }
+        jj_consume_token(COMA);
+        e = expresion();
+lista.add(e);
+      }
+      break;
+      }
+    default:
+      jj_la1[5] = jj_gen;
+      ;
+    }
+{if ("" != null) return lista;}
+    throw new Error("Missing return statement in function");
+}
+
+/**
+* listaParametros -> expresion ( ',' expresion )*
+*/
+  final public ArrayList<AST> listaParametros() throws ParseException {Token id, id2; AST e, e1; ArrayList<AST> listaParametros = new ArrayList<AST>();
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case IDENTIFICADOR_LETRA:{
+      id = jj_consume_token(IDENTIFICADOR_LETRA);
+System.out.println("parametro ID");
+            e = new Identificador(id.image.trim(), token.beginLine, token.beginColumn);
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case IGUAL:{
+        jj_consume_token(IGUAL);
+        e = expresion();
+System.out.println("parametro EXPRESION");
+                e = new Declaracion(id.image.trim(), e, token.beginLine, token.beginColumn);
+        break;
+        }
+      default:
+        jj_la1[6] = jj_gen;
+        ;
+      }
+listaParametros.add(e);
+      label_3:
+      while (true) {
+        if (jj_2_4(2)) {
+          ;
+        } else {
+          break label_3;
+        }
+        jj_consume_token(COMA);
+        id2 = jj_consume_token(IDENTIFICADOR_LETRA);
+System.out.println("parametro ID");
+                e1 = new Identificador(id2.image.trim(), token.beginLine, token.beginColumn);
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case IGUAL:{
+          jj_consume_token(IGUAL);
+          e1 = expresion();
+System.out.println("parametro EXPRESION");
+                    e1 = new Declaracion(id2.image.trim(), e1, token.beginLine, token.beginColumn);
+          break;
+          }
+        default:
+          jj_la1[7] = jj_gen;
+          ;
+        }
+listaParametros.add(e1);
+      }
+      break;
+      }
+    default:
+      jj_la1[8] = jj_gen;
+      ;
+    }
+{if ("" != null) return listaParametros;}
+    throw new Error("Missing return statement in function");
+}
+
+/**
+* bloqueInstrucciones -> { (instruccion)* }
+*/
+  final public ArrayList<AST> bloqueInstrucciones() throws ParseException {ArrayList<AST> instrucciones = new ArrayList<AST>(); AST e;
+    jj_consume_token(LLAVEI);
+    label_4:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case RETORNO:
+      case IDENTIFICADOR_LETRA:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[9] = jj_gen;
+        break label_4;
+      }
+      e = instruccion();
+instrucciones.add(e);
+    }
+    jj_consume_token(LLAVED);
+{if ("" != null) return instrucciones;}
+    throw new Error("Missing return statement in function");
+}
+
+///**
+//* asignacion -> ID([expresion])+ = expresion
+//*/
+//AST asignacion() :
+//{ Token id; AST e, e1; }
+//{
+//    id =  <IDENTIFICADOR_LETRA>
+//    (
+//        <CORI> e = expresion() <CORD>
+//    )+
+//    <IGUAL> e1 = expresion() (<PCOMA>)?
+//    { return new Asignacion(id.image.trim(), e, e1, token.beginLine, token.beginColumn); }
+//    |
+//    id =  <IDENTIFICADOR_PUNTO>
+//    (
+//        <CORI> e = expresion() <CORD>
+//    )+
+//    <IGUAL> e1 = expresion() (<PCOMA>)?
+//    { return new Asignacion(id.image.trim(), e, e1, token.beginLine, token.beginColumn); }
+//}
+  final public 
+AST retorno() throws ParseException {AST e;
+    if (jj_2_5(2)) {
+      jj_consume_token(RETORNO);
       e = expresion();
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case PCOMA:{
@@ -88,14 +309,31 @@ System.out.println("declaracion *** " + e);
         break;
         }
       default:
-        jj_la1[2] = jj_gen;
+        jj_la1[10] = jj_gen;
         ;
       }
-System.out.println("declaracion *** " + e);
-        {if ("" != null) return new Declaracion(id.image.trim(), e, token.beginLine, token.beginColumn);}
+{if ("" != null) return new Retorno(e, token.beginLine, token.beginColumn);}
     } else {
-      jj_consume_token(-1);
-      throw new ParseException();
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case RETORNO:{
+        jj_consume_token(RETORNO);
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case PCOMA:{
+          jj_consume_token(PCOMA);
+          break;
+          }
+        default:
+          jj_la1[11] = jj_gen;
+          ;
+        }
+{if ("" != null) return new Retorno(token.beginLine, token.beginColumn);}
+        break;
+        }
+      default:
+        jj_la1[12] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     throw new Error("Missing return statement in function");
 }
@@ -106,27 +344,30 @@ System.out.println("declaracion *** " + e);
   final public AST expresion() throws ParseException {AST e, e1, e2;
     e = expresionOr();
 System.out.println(e);
-    label_2:
+    label_5:
     while (true) {
-      if (jj_2_3(2)) {
+      if (jj_2_6(2)) {
         ;
       } else {
-        break label_2;
+        break label_5;
       }
       jj_consume_token(QUESTION_MARK);
-      e1 = expresionOr();
+      e1 = expresion();
       jj_consume_token(DOS_PUNTOS);
-      e2 = expresionOr();
+      e2 = expresion();
 e = new ExpresionTernaria(e, e1, e2, token.beginLine, token.beginColumn);
     }
 {if ("" != null) return e;}
     throw new Error("Missing return statement in function");
 }
 
+/**
+*   expresionOr -> expresionAnd ( '|' expresionAnd )*
+*/
   final public AST expresionOr() throws ParseException {AST e, e1;
     e = expresionAnd();
 System.out.println(e);
-    label_3:
+    label_6:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case OR:{
@@ -134,8 +375,8 @@ System.out.println(e);
         break;
         }
       default:
-        jj_la1[3] = jj_gen;
-        break label_3;
+        jj_la1[13] = jj_gen;
+        break label_6;
       }
       jj_consume_token(OR);
       e1 = expresionAnd();
@@ -145,10 +386,13 @@ e = new ExpresionLogica(e, e1, OperadorLogico.OR, token.beginLine, token.beginCo
     throw new Error("Missing return statement in function");
 }
 
+/**
+*   expresionAnd -> expresionIgualdad ( '&' expresionIgualdad )*
+*/
   final public AST expresionAnd() throws ParseException {AST e, e1;
-    e = primitivo();
+    e = expresionIgualdad();
 System.out.println(e);
-    label_4:
+    label_7:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case AND:{
@@ -156,14 +400,234 @@ System.out.println(e);
         break;
         }
       default:
-        jj_la1[4] = jj_gen;
-        break label_4;
+        jj_la1[14] = jj_gen;
+        break label_7;
       }
       jj_consume_token(AND);
-      e1 = primitivo();
+      e1 = expresionIgualdad();
 e = new ExpresionLogica(e, e1, OperadorLogico.AND, token.beginLine, token.beginColumn);
     }
 {if ("" != null) return e;}
+    throw new Error("Missing return statement in function");
+}
+
+/**
+*   expresionAnd -> expresionRelacional ( '==' expresionRelacional )*
+                |   expresionRelacional ( '!=' expresionRelacional )*
+*/
+  final public AST expresionIgualdad() throws ParseException {AST e, e1;
+    e = expresionRelacional();
+    label_8:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case IGUALA:
+      case DIFERENTEDE:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[15] = jj_gen;
+        break label_8;
+      }
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case DIFERENTEDE:{
+        jj_consume_token(DIFERENTEDE);
+        e1 = expresionRelacional();
+e = new ExpresionRelacional(e, e1, OperadorRelacional.DIFERENTEDE, token.beginLine, token.beginColumn);
+        break;
+        }
+      case IGUALA:{
+        jj_consume_token(IGUALA);
+        e1 = expresionRelacional();
+e = new ExpresionRelacional(e, e1, OperadorRelacional.IGUALA, token.beginLine, token.beginColumn);
+        break;
+        }
+      default:
+        jj_la1[16] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+{if ("" != null) return e;}
+    throw new Error("Missing return statement in function");
+}
+
+/**
+*   expresionRelacional -> expresionAditiva ( '<' expresionAditiva )*
+                |   expresionAditiva ( '>' expresionAditiva )*
+                |   expresionAditiva ( '<=' expresionAditiva )*
+                |   expresionAditiva ( '>=' expresionAditiva )*
+*/
+  final public AST expresionRelacional() throws ParseException {AST e, e1;
+    e = expresionAditiva();
+    label_9:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case MENORQUE:
+      case MAYORQUE:
+      case MENORIGUAL:
+      case MAYORIGUAL:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[17] = jj_gen;
+        break label_9;
+      }
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case MENORQUE:{
+        jj_consume_token(MENORQUE);
+        e1 = expresionAditiva();
+e = new ExpresionRelacional(e, e1, OperadorRelacional.MENORQUE, token.beginLine, token.beginColumn);
+        break;
+        }
+      case MAYORQUE:{
+        jj_consume_token(MAYORQUE);
+        e1 = expresionAditiva();
+e = new ExpresionRelacional(e, e1, OperadorRelacional.MAYORQUE, token.beginLine, token.beginColumn);
+        break;
+        }
+      case MENORIGUAL:{
+        jj_consume_token(MENORIGUAL);
+        e1 = expresionAditiva();
+e = new ExpresionRelacional(e, e1, OperadorRelacional.MENORIGUAL, token.beginLine, token.beginColumn);
+        break;
+        }
+      case MAYORIGUAL:{
+        jj_consume_token(MAYORIGUAL);
+        e1 = expresionAditiva();
+e = new ExpresionRelacional(e, e1, OperadorRelacional.MAYORIGUAL, token.beginLine, token.beginColumn);
+        break;
+        }
+      default:
+        jj_la1[18] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+{if ("" != null) return e;}
+    throw new Error("Missing return statement in function");
+}
+
+/**
+*   expresionAditiva -> expresionMultiplicativa ( '+' expresionMultiplicativa )*
+                |   expresionMultiplicativa ( '-' expresionMultiplicativa )*
+*/
+  final public AST expresionAditiva() throws ParseException {AST e, e1;
+    e = expresionMultiplicativa();
+    label_10:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case MAS:
+      case MENOS:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[19] = jj_gen;
+        break label_10;
+      }
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case MAS:{
+        jj_consume_token(MAS);
+        e1 = expresionMultiplicativa();
+e = new ExpresionAritmetica(e, e1, OperadorAritmetico.SUMA, token.beginLine, token.beginColumn);
+        break;
+        }
+      case MENOS:{
+        jj_consume_token(MENOS);
+        e1 = expresionMultiplicativa();
+e = new ExpresionAritmetica(e, e1, OperadorAritmetico.RESTA, token.beginLine, token.beginColumn);
+        break;
+        }
+      default:
+        jj_la1[20] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+{if ("" != null) return e;}
+    throw new Error("Missing return statement in function");
+}
+
+/**
+*   expresionMultiplicativa -> expresionUnaria ( '*' expresionUnaria )*
+                |   expresionUnaria ( '/' expresionUnaria )*
+*/
+  final public AST expresionMultiplicativa() throws ParseException {AST e, e1;
+    e = expresionUnaria();
+    label_11:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case POR:
+      case DIV:
+      case MODULO:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[21] = jj_gen;
+        break label_11;
+      }
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case POR:{
+        jj_consume_token(POR);
+        e1 = expresionUnaria();
+e = new ExpresionAritmetica(e, e1, OperadorAritmetico.MULTIPLICACION, token.beginLine, token.beginColumn);
+        break;
+        }
+      case DIV:{
+        jj_consume_token(DIV);
+        e1 = expresionUnaria();
+e = new ExpresionAritmetica(e, e1, OperadorAritmetico.DIVISION, token.beginLine, token.beginColumn);
+        break;
+        }
+      case MODULO:{
+        jj_consume_token(MODULO);
+        e1 = expresionUnaria();
+e = new ExpresionAritmetica(e, e1, OperadorAritmetico.MODULO, token.beginLine, token.beginColumn);
+        break;
+        }
+      default:
+        jj_la1[22] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+{if ("" != null) return e;}
+    throw new Error("Missing return statement in function");
+}
+
+  final public AST expresionUnaria() throws ParseException {AST e, e1;
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case MENOS:{
+      jj_consume_token(MENOS);
+      e = expresionUnaria();
+{if ("" != null) return new ExpresionAritmetica(e, OperadorAritmetico.MENOSUNARIO, token.beginLine, token.beginColumn);}
+      break;
+      }
+    case NOT:{
+      jj_consume_token(NOT);
+      e = expresionUnaria();
+{if ("" != null) return new ExpresionLogica(e, OperadorLogico.NOT, token.beginLine, token.beginColumn);}
+      break;
+      }
+    case INTEGER:
+    case NUMERIC:
+    case BOOLEAN:
+    case NULL:
+    case PARINI:
+    case IDENTIFICADOR_LETRA:
+    case STRING:{
+      e = primitivo();
+{if ("" != null) return e;}
+      break;
+      }
+    default:
+      jj_la1[23] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     throw new Error("Missing return statement in function");
 }
 
@@ -199,29 +663,32 @@ System.out.println("STRING " + t.image);
             {if ("" != null) return new Primitivo(new Tipo(Tipos.STRING), t.image.substring(1,t.image.length()-1), token.beginLine, token.beginColumn);}
       break;
       }
-    case IDENTIFICADOR_PUNTO:{
-      t = jj_consume_token(IDENTIFICADOR_PUNTO);
-System.out.println("ID " + t.image + t.image.length());
-            {if ("" != null) return new Identificador(t.image.trim(), token.beginLine, token.beginColumn);}
-      break;
-      }
-    case IDENTIFICADOR_LETRA:{
-      t = jj_consume_token(IDENTIFICADOR_LETRA);
+    default:
+      jj_la1[24] = jj_gen;
+      if (jj_2_7(2)) {
+        e = llamada();
+{if ("" != null) return e;}
+      } else {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case IDENTIFICADOR_LETRA:{
+          t = jj_consume_token(IDENTIFICADOR_LETRA);
 System.out.println("ID " + t.image + " - " + t.image.length());
             {if ("" != null) return new Identificador(t.image.trim(), token.beginLine, token.beginColumn);}
-      break;
-      }
-    case PARINI:{
-      jj_consume_token(PARINI);
-      e = expresion();
-      jj_consume_token(PAREND);
+          break;
+          }
+        case PARINI:{
+          jj_consume_token(PARINI);
+          e = expresion();
+          jj_consume_token(PAREND);
 {if ("" != null) return e;}
-      break;
+          break;
+          }
+        default:
+          jj_la1[25] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
-    default:
-      jj_la1[5] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
     }
     throw new Error("Missing return statement in function");
 }
@@ -250,114 +717,243 @@ System.out.println("ID " + t.image + " - " + t.image.length());
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_10()
+  private boolean jj_2_4(int xla)
  {
-    if (jj_scan_token(NUMERIC)) return true;
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_4()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(3, xla); }
+  }
+
+  private boolean jj_2_5(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_5()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(4, xla); }
+  }
+
+  private boolean jj_2_6(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_6()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(5, xla); }
+  }
+
+  private boolean jj_2_7(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_7()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(6, xla); }
+  }
+
+  private boolean jj_3R_24()
+ {
+    if (jj_scan_token(NOT)) return true;
     return false;
   }
 
-  private boolean jj_3_2()
+  private boolean jj_3R_23()
  {
-    if (jj_scan_token(IDENTIFICADOR_PUNTO)) return true;
-    if (jj_scan_token(IGUAL)) return true;
-    if (jj_3R_5()) return true;
+    if (jj_scan_token(MENOS)) return true;
     return false;
   }
 
-  private boolean jj_3R_8()
+  private boolean jj_3R_22()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (!jj_3R_9()) return false;
+    if (!jj_3R_23()) return false;
     jj_scanpos = xsp;
-    if (!jj_3R_10()) return false;
+    if (!jj_3R_24()) return false;
     jj_scanpos = xsp;
-    if (!jj_3R_11()) return false;
-    jj_scanpos = xsp;
-    if (!jj_3R_12()) return false;
-    jj_scanpos = xsp;
-    if (!jj_3R_13()) return false;
-    jj_scanpos = xsp;
-    if (!jj_3R_14()) return false;
-    jj_scanpos = xsp;
-    if (!jj_3R_15()) return false;
-    jj_scanpos = xsp;
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_9()
- {
-    if (jj_scan_token(INTEGER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_6()
- {
-    if (jj_3R_7()) return true;
+    if (jj_3R_25()) return true;
     return false;
   }
 
   private boolean jj_3R_16()
  {
+    if (jj_3R_17()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_19()
+ {
+    if (jj_3R_20()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_33()
+ {
     if (jj_scan_token(PARINI)) return true;
     return false;
   }
 
-  private boolean jj_3_1()
+  private boolean jj_3R_32()
  {
     if (jj_scan_token(IDENTIFICADOR_LETRA)) return true;
-    if (jj_scan_token(IGUAL)) return true;
-    if (jj_3R_5()) return true;
+    return false;
+  }
+
+  private boolean jj_3_6()
+ {
+    if (jj_scan_token(QUESTION_MARK)) return true;
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  private boolean jj_3_7()
+ {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_21()
+ {
+    if (jj_3R_22()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_14()
+ {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_31()
+ {
+    if (jj_scan_token(STRING)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_13()
+ {
+    if (jj_scan_token(IDENTIFICADOR_LETRA)) return true;
+    if (jj_scan_token(PARINI)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_30()
+ {
+    if (jj_scan_token(NULL)) return true;
+    return false;
+  }
+
+  private boolean jj_3_4()
+ {
+    if (jj_scan_token(COMA)) return true;
+    if (jj_scan_token(IDENTIFICADOR_LETRA)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_18()
+ {
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_29()
+ {
+    if (jj_scan_token(BOOLEAN)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_28()
+ {
+    if (jj_scan_token(NUMERIC)) return true;
+    return false;
+  }
+
+  private boolean jj_3_5()
+ {
+    if (jj_scan_token(RETORNO)) return true;
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_27()
+ {
+    if (jj_scan_token(INTEGER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_26()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (!jj_3R_27()) return false;
+    jj_scanpos = xsp;
+    if (!jj_3R_28()) return false;
+    jj_scanpos = xsp;
+    if (!jj_3R_29()) return false;
+    jj_scanpos = xsp;
+    if (!jj_3R_30()) return false;
+    jj_scanpos = xsp;
+    if (!jj_3R_31()) return false;
+    jj_scanpos = xsp;
+    if (!jj_3_7()) return false;
+    jj_scanpos = xsp;
+    if (!jj_3R_32()) return false;
+    jj_scanpos = xsp;
+    if (jj_3R_33()) return true;
+    return false;
+  }
+
+  private boolean jj_3_2()
+ {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_20()
+ {
+    if (jj_3R_21()) return true;
     return false;
   }
 
   private boolean jj_3R_15()
  {
     if (jj_scan_token(IDENTIFICADOR_LETRA)) return true;
+    if (jj_scan_token(IGUAL)) return true;
+    if (jj_scan_token(PARINI)) return true;
     return false;
   }
 
-  private boolean jj_3_3()
+  private boolean jj_3_1()
  {
-    if (jj_scan_token(QUESTION_MARK)) return true;
-    if (jj_3R_6()) return true;
+    if (jj_3R_12()) return true;
     return false;
   }
 
-  private boolean jj_3R_14()
+  private boolean jj_3R_17()
  {
-    if (jj_scan_token(IDENTIFICADOR_PUNTO)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_13()
- {
-    if (jj_scan_token(STRING)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_5()
- {
-    if (jj_3R_6()) return true;
+    if (jj_3R_18()) return true;
     return false;
   }
 
   private boolean jj_3R_12()
  {
-    if (jj_scan_token(NULL)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (!jj_3_3()) return false;
+    jj_scanpos = xsp;
+    if (jj_3R_15()) return true;
     return false;
   }
 
-  private boolean jj_3R_7()
+  private boolean jj_3_3()
  {
-    if (jj_3R_8()) return true;
+    if (jj_scan_token(IDENTIFICADOR_LETRA)) return true;
+    if (jj_scan_token(IGUAL)) return true;
+    if (jj_scan_token(FUNCION)) return true;
     return false;
   }
 
-  private boolean jj_3R_11()
+  private boolean jj_3R_25()
  {
-    if (jj_scan_token(BOOLEAN)) return true;
+    if (jj_3R_26()) return true;
     return false;
   }
 
@@ -372,7 +968,7 @@ System.out.println("ID " + t.image + " - " + t.image.length());
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[6];
+  final private int[] jj_la1 = new int[26];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -380,12 +976,12 @@ System.out.println("ID " + t.image + " - " + t.image.length());
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x0,0x40000,0x40000,0x0,0x0,0x87800,};
+	   jj_la1_0 = new int[] {0x0,0x0,0x80000,0x0,0x40000,0x8107800,0x80000000,0x80000000,0x0,0x0,0x80000,0x80000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xc000000,0xc000000,0x70000000,0x70000000,0x8107800,0x7800,0x100000,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x4800,0x0,0x0,0x20,0x10,0x44800,};
+	   jj_la1_1 = new int[] {0x3000,0x3000,0x0,0x2000,0x0,0x22100,0x0,0x0,0x2000,0x3000,0x0,0x0,0x1000,0x80,0x40,0x30,0x30,0xf,0xf,0x0,0x0,0x0,0x0,0x22100,0x20000,0x2000,};
 	}
-  final private JJCalls[] jj_2_rtns = new JJCalls[3];
+  final private JJCalls[] jj_2_rtns = new JJCalls[7];
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
@@ -400,7 +996,7 @@ System.out.println("ID " + t.image + " - " + t.image.length());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -415,7 +1011,7 @@ System.out.println("ID " + t.image + " - " + t.image.length());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -426,7 +1022,7 @@ System.out.println("ID " + t.image + " - " + t.image.length());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -445,7 +1041,7 @@ System.out.println("ID " + t.image + " - " + t.image.length());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -455,7 +1051,7 @@ System.out.println("ID " + t.image + " - " + t.image.length());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -465,7 +1061,7 @@ System.out.println("ID " + t.image + " - " + t.image.length());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -596,12 +1192,12 @@ System.out.println("ID " + t.image + " - " + t.image.length());
   /** Generate ParseException. */
   public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[51];
+	 boolean[] la1tokens = new boolean[50];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 6; i++) {
+	 for (int i = 0; i < 26; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -613,7 +1209,7 @@ System.out.println("ID " + t.image + " - " + t.image.length());
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 51; i++) {
+	 for (int i = 0; i < 50; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;
@@ -647,7 +1243,7 @@ System.out.println("ID " + t.image + " - " + t.image.length());
 
   private void jj_rescan_token() {
 	 jj_rescan = true;
-	 for (int i = 0; i < 3; i++) {
+	 for (int i = 0; i < 7; i++) {
 	   try {
 		 JJCalls p = jj_2_rtns[i];
 
@@ -658,6 +1254,10 @@ System.out.println("ID " + t.image + " - " + t.image.length());
 			   case 0: jj_3_1(); break;
 			   case 1: jj_3_2(); break;
 			   case 2: jj_3_3(); break;
+			   case 3: jj_3_4(); break;
+			   case 4: jj_3_5(); break;
+			   case 5: jj_3_6(); break;
+			   case 6: jj_3_7(); break;
 			 }
 		   }
 		   p = p.next;

@@ -9,31 +9,38 @@ public class Tipo {
         STRING
     };
 
+    public static enum TipoEstructura {
+        VECTOR,
+        LISTA,
+        MATRIZ,
+        ARREGLO
+    };
+
     private Tipos tipo;
-    private String tipoObjeto;
+    private TipoEstructura tipoEstructura;
 
     public Tipo(Tipos tipo) {
         this.tipo = tipo;
     }
 
-    public Tipo(Tipos tipo, String tipoObjeto) {
+    public Tipo(Tipos tipo, TipoEstructura tipoEstructura) {
         this.tipo = tipo;
-        this.tipoObjeto = tipoObjeto;
+        this.tipoEstructura = tipoEstructura;
     }
 
     @Override
     public String toString() {
-        if (tipoObjeto == null) {
+        if (tipoEstructura == null) {
             return this.tipo + "";
         }
-        return this.tipo + ":" + this.tipoObjeto;
+        return this.tipo + ":" + this.tipoEstructura;
     }
 
     public boolean equals(Tipo obj) {
-        if (this.tipoObjeto == null && obj.tipoObjeto == null) {
+        if (this.tipoEstructura == null && obj.tipoEstructura == null) {
             return this.tipo == obj.tipo;
-        } else if (this.tipoObjeto != null && obj.tipoObjeto != null) {
-            return this.tipoObjeto.equals(obj.tipoObjeto);
+        } else if (this.tipoEstructura != null && obj.tipoEstructura != null) {
+            return this.tipoEstructura.equals(obj.tipoEstructura);
         }
         return false;
     }
@@ -46,11 +53,11 @@ public class Tipo {
         this.tipo = tipo;
     }
 
-    public String getTipoObjeto() {
-        return tipoObjeto;
+    public TipoEstructura getTipoEstructura() {
+        return tipoEstructura;
     }
 
-    public void setTipoObjeto(String tipoObjeto) {
-        this.tipoObjeto = tipoObjeto;
+    public void setTipoEstructura(TipoEstructura tipoEstructura) {
+        this.tipoEstructura = tipoEstructura;
     }
 }

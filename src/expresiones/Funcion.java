@@ -13,8 +13,7 @@ public class Funcion extends AST {
     protected ArrayList<AST> parametros;
     private ArrayList<AST> instrucciones;
 
-    public Funcion(Tipo tipo, String nombre, ArrayList<AST> parametros, ArrayList<AST> instrucciones, int fila, int columna) {
-        this.tipo = tipo;
+    public Funcion(String nombre, ArrayList<AST> parametros, ArrayList<AST> instrucciones, int fila, int columna) {
         this.nombre = nombre;
         this.parametros = parametros;
         this.instrucciones = instrucciones;
@@ -24,8 +23,8 @@ public class Funcion extends AST {
 
     @Override
     public Object interpretar(Tabla tabla, Arbol tree) {
-        for (AST ins : instrucciones) {
-            Object result = ins.interpretar(tabla, tree);
+        for (AST instruccion : instrucciones) {
+            Object result = instruccion.interpretar(tabla, tree);
             if (result instanceof Excepcion) {
                 return result;
             }

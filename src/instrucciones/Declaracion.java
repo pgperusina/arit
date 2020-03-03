@@ -29,22 +29,19 @@ public class Declaracion extends AST {
                 return value;
             }
 
-            if (!this.tipo.equals(this.valor.tipo)) {
-                Excepcion ex = new Excepcion("Semántico",
-                        "El tipo de la variable y el tipo del valor no coinciden.",
-                        fila, columna);
-                tree.getExcepciones().add(ex);
-                return ex;
-            }
+            // Definir tipo de ID basado en tipo de valor.
+            this.tipo.setTipo(this.valor.tipo.getTipo());
+            this.tipo.setTipoEstructura(this.valor.getTipo().getTipoEstructura());
+
+
         } else if (valorExplicito != null) {
             value = valorExplicito;
         }
         Simbolo simbolo = new Simbolo(this.tipo, this.identificador, value);
         Object result = tabla.setVariable(simbolo);
-        if (result != null) {
-            Excepcion ex = new Excepcion("Semántico", result.toString(), fila, columna);
-            tree.getExcepciones().add(ex);
-            return ex;
+        if (result instanceof Excepcion) {
+            tree.getExcepciones().add((Excepcion)result);
+            return result;
         }
         return null;
     }
@@ -63,5 +60,9 @@ public class Declaracion extends AST {
 
     public void setValorExplicito(Object valorExplicito) {
         this.valorExplicito = valorExplicito;
+    }
+
+    private Tipo setTipo() {
+        return null;
     }
 }

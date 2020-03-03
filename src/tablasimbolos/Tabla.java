@@ -1,5 +1,6 @@
 package tablasimbolos;
 
+import excepciones.Excepcion;
 import expresiones.Funcion;
 
 import java.util.ArrayList;
@@ -18,12 +19,13 @@ public class Tabla {
         this.funciones = new ArrayList<>();
     }
 
-    public String setVariable(Simbolo simbolo) {
+    public Object setVariable(Simbolo simbolo) {
         for (Tabla e = this; e != null; e = e.getAnterior()) {
-            Simbolo simboloEnTabla = (Simbolo) (e.getTabla().get(simbolo.getIdentificador()));
+            Simbolo simboloEnTabla = (e.getTabla().get(simbolo.getIdentificador()));
             if (simboloEnTabla != null) {
-                return "La variable con el identificador"
-                        + simbolo.getIdentificador() + " ya ha sido definida.";
+                return new Excepcion("Semántico","La variable con el identificador"
+                        + simbolo.getIdentificador() + " ya ha sido definida.",
+                        simbolo.getFila(), simbolo.getColumna());
             }
         }
         this.tabla.put(simbolo.getIdentificador(), simbolo);
@@ -32,7 +34,7 @@ public class Tabla {
 
     public Simbolo getVariable(String id) {
         for (Tabla e = this; e != null; e = e.getAnterior()) {
-            Simbolo simboloEnTabla = (Simbolo) (e.getTabla().get(id));
+            Simbolo simboloEnTabla = (e.getTabla().get(id));
             if (simboloEnTabla != null) {
                 return simboloEnTabla;
             }
@@ -40,14 +42,15 @@ public class Tabla {
         return null;
     }
 
-    public String setFuncion(Funcion f) {
-        for (Funcion i : funciones) {
-            if (f.getNombre().equalsIgnoreCase(i.getNombre())) {
-                return "La función con el identificador"
-                        + f.getNombre() + " ya ha sido definida.";
+    public Object setFuncion(Funcion funcion) {
+        for (Funcion f : funciones) {
+            if (funcion.getNombre().equalsIgnoreCase(f.getNombre())) {
+                return new Excepcion("Semántico","La función con el identificador"
+                        + funcion.getNombre() + " ya ha sido definida.",
+                        funcion.fila, funcion.columna);
             }
         }
-        this.funciones.add(f);
+        this.funciones.add(funcion);
         return null;
     }
 
