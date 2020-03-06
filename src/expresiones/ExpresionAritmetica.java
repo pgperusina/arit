@@ -5,7 +5,7 @@ import excepciones.Excepcion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
-import tablasimbolos.Tipo.Tipos;
+import tablasimbolos.Tipo.TipoDato;
 
 public class ExpresionAritmetica extends AST {
 
@@ -55,17 +55,17 @@ public class ExpresionAritmetica extends AST {
         }
 
         if (this.operador == OperadorAritmetico.SUMA) {
-            if (operando1.tipo.getTipo() == Tipo.Tipos.INTEGER
-                    && operando2.tipo.getTipo() == Tipos.INTEGER) {
-                this.tipo = new Tipo(Tipos.INTEGER);
+            if (operando1.tipo.getTipo() == TipoDato.INTEGER
+                    && operando2.tipo.getTipo() == TipoDato.INTEGER) {
+                this.tipo = new Tipo(TipoDato.INTEGER);
                 return (double) izquierdo + (double) derecho;
-            } else if (operando1.tipo.getTipo() == Tipos.STRING
-                    && operando2.tipo.getTipo() == Tipos.INTEGER
-                    || operando1.tipo.getTipo() == Tipos.INTEGER
-                    && operando2.tipo.getTipo() == Tipos.STRING
-                    || operando1.tipo.getTipo() == Tipos.STRING
-                    && operando2.tipo.getTipo() == Tipos.STRING) {
-                this.tipo = new Tipo(Tipos.STRING);
+            } else if (operando1.tipo.getTipo() == TipoDato.STRING
+                    && operando2.tipo.getTipo() == TipoDato.INTEGER
+                    || operando1.tipo.getTipo() == TipoDato.INTEGER
+                    && operando2.tipo.getTipo() == TipoDato.STRING
+                    || operando1.tipo.getTipo() == TipoDato.STRING
+                    && operando2.tipo.getTipo() == TipoDato.STRING) {
+                this.tipo = new Tipo(TipoDato.STRING);
                 return "" + izquierdo + derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador +", fila, columna);
@@ -73,9 +73,9 @@ public class ExpresionAritmetica extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorAritmetico.RESTA) {
-            if (operando1.tipo.getTipo() == Tipos.INTEGER
-                    && operando2.tipo.getTipo() == Tipos.INTEGER) {
-                this.tipo = new Tipo(Tipos.INTEGER);
+            if (operando1.tipo.getTipo() == TipoDato.INTEGER
+                    && operando2.tipo.getTipo() == TipoDato.INTEGER) {
+                this.tipo = new Tipo(TipoDato.INTEGER);
                 return (double) izquierdo - (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador -", fila, columna);
@@ -83,9 +83,9 @@ public class ExpresionAritmetica extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorAritmetico.MULTIPLICACION) {
-            if (operando1.tipo.getTipo() == Tipos.INTEGER
-                    && operando2.tipo.getTipo() == Tipos.INTEGER) {
-                this.tipo = new Tipo(Tipos.INTEGER);
+            if (operando1.tipo.getTipo() == TipoDato.INTEGER
+                    && operando2.tipo.getTipo() == TipoDato.INTEGER) {
+                this.tipo = new Tipo(TipoDato.INTEGER);
                 return (double) izquierdo * (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador *", fila, columna);
@@ -93,12 +93,12 @@ public class ExpresionAritmetica extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorAritmetico.DIVISION) {
-            if (operando1.tipo.getTipo() == Tipos.INTEGER
-                    && operando2.tipo.getTipo() == Tipos.INTEGER) {
+            if (operando1.tipo.getTipo() == TipoDato.INTEGER
+                    && operando2.tipo.getTipo() == TipoDato.INTEGER) {
                 if ((double) derecho == 0) {
                     return new Excepcion("Semántico", "Excepcion aritmetica, division por 0.", fila, columna);
                 }
-                this.tipo = new Tipo(Tipos.INTEGER);
+                this.tipo = new Tipo(TipoDato.INTEGER);
                 return (double) izquierdo / (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador /", fila, columna);
@@ -106,8 +106,8 @@ public class ExpresionAritmetica extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorAritmetico.MENOSUNARIO) {
-            if (operandoU.tipo.getTipo() == Tipos.INTEGER) {
-                this.tipo = new Tipo(Tipos.INTEGER);
+            if (operandoU.tipo.getTipo() == TipoDato.INTEGER) {
+                this.tipo = new Tipo(TipoDato.INTEGER);
                 return (double) unario * -1;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador - Unario", fila, columna);

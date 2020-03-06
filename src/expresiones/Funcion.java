@@ -2,9 +2,9 @@ package expresiones;
 
 import abstracto.AST;
 import excepciones.Excepcion;
+import instrucciones.Return;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
-import tablasimbolos.Tipo;
 
 import java.util.ArrayList;
 
@@ -28,8 +28,8 @@ public class Funcion extends AST {
             if (result instanceof Excepcion) {
                 return result;
             }
-            if (result instanceof Retorno) {
-                Retorno r = (Retorno) result;
+            if (result instanceof Return) {
+                Return r = (Return) result;
                 if (r.getExpresion() == null) {
                     return null;
                 }

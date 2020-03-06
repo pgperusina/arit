@@ -2,7 +2,7 @@ package tablasimbolos;
 
 public class Tipo {
 
-    public static enum Tipos {
+    public static enum TipoDato {
         INTEGER,
         NUMERIC,
         BOOLEAN,
@@ -16,14 +16,14 @@ public class Tipo {
         ARREGLO
     };
 
-    private Tipos tipo;
+    private TipoDato tipo;
     private TipoEstructura tipoEstructura;
 
-    public Tipo(Tipos tipo) {
+    public Tipo(TipoDato tipo) {
         this.tipo = tipo;
     }
 
-    public Tipo(Tipos tipo, TipoEstructura tipoEstructura) {
+    public Tipo(TipoDato tipo, TipoEstructura tipoEstructura) {
         this.tipo = tipo;
         this.tipoEstructura = tipoEstructura;
     }
@@ -33,7 +33,7 @@ public class Tipo {
         if (tipoEstructura == null) {
             return this.tipo + "";
         }
-        return this.tipo + ":" + this.tipoEstructura;
+        return this.tipoEstructura + ":" + this.tipo;
     }
 
     public boolean equals(Tipo obj) {
@@ -45,11 +45,11 @@ public class Tipo {
         return false;
     }
 
-    public Tipos getTipo() {
+    public TipoDato getTipo() {
         return tipo;
     }
 
-    public void setTipo(Tipos tipo) {
+    public void setTipo(TipoDato tipo) {
         this.tipo = tipo;
     }
 

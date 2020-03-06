@@ -1,19 +1,19 @@
-package expresiones;
+package instrucciones;
 
 import abstracto.AST;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
 
-public class Retorno extends AST{
+public class Return extends AST{
     private AST expresion;
 
-    public Retorno(AST expresion, int fila, int columna){
+    public Return(AST expresion, int fila, int columna){
         this.expresion = expresion;
         this.fila = fila;
         this.columna = columna;
     }
 
-    public Retorno(int fila, int columna){
+    public Return(int fila, int columna){
         this.fila = fila;
         this.columna = columna;
     }

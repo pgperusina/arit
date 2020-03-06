@@ -16,22 +16,31 @@ public class Analizar {
             Gramatica parser = new Gramatica(new BufferedReader(new FileReader("/Users/pgarcia/Documents/USAC/1erSemestre2020/compi2/lab/arit/entradaCorregida.arit")));
             Arbol arbol = parser.analizar();
             Tabla tabla = new Tabla(null);
+            arbol.setTablaGlobal(tabla);
             arbol.getInstrucciones().forEach(instruccion -> {
                 if (instruccion instanceof Funcion) {
                     tabla.setFuncion((Funcion) instruccion);
                 }
             });
 
-//            arbol.getInstrucciones().forEach(instruccion -> {
-//                if (!(instruccion instanceof Funcion)) {
-//                    Object result = instruccion.interpretar(tabla, arbol);
+//            tree.getInstrucciones().forEach(m -> {
+//            if (!(m instanceof Funcion)) {
+//                Object result = m.interpretar(tabla, tree);
 //
-//                    if (result instanceof Excepcion) {
-//                        System.out.println(((Excepcion) result).toString());
-//                    }
-//
+//                if (result instanceof Excepcion) {
+//                    ((Excepcion) result).imprimir(tree.getConsola());
 //                }
-//            });
+//                if (result instanceof Detener) {
+//                    Excepcion ex = new Excepcion("Semantico", "Sentencia break fuera de ciclo.", m.fila, m.columna);
+//                    tree.getExcepciones().add(ex);
+//                    ex.imprimir(tree.getConsola());
+//                } else if (result instanceof Retorno) {
+//                    Excepcion ex = new Excepcion("Semantico", "Sentencia retorno fuera de funcion.", m.fila, m.columna);
+//                    tree.getExcepciones().add(ex);
+//                    ex.imprimir(tree.getConsola());
+//                }
+//            }
+//        });
 
             arbol.getExcepciones().forEach(excepcion -> {
                System.out.println(excepcion.toString());

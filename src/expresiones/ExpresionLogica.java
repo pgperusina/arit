@@ -48,10 +48,10 @@ public class ExpresionLogica extends AST {
             unario = this.operandoU.interpretar(tabla, tree);
             if (unario instanceof Excepcion) return unario;
         }
-        this.tipo = new Tipo(Tipo.Tipos.BOOLEAN);
+        this.tipo = new Tipo(Tipo.TipoDato.BOOLEAN);
         if (this.operador == OperadorLogico.AND) {
-            if (operando1.tipo.getTipo() == Tipo.Tipos.BOOLEAN
-                    && operando2.tipo.getTipo() == Tipo.Tipos.BOOLEAN) {
+            if (operando1.tipo.getTipo() == Tipo.TipoDato.BOOLEAN
+                    && operando2.tipo.getTipo() == Tipo.TipoDato.BOOLEAN) {
                 return (boolean) izquierdo && (boolean) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semantico", "Error de tipos con el operador AND", fila, columna);
@@ -59,8 +59,8 @@ public class ExpresionLogica extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorLogico.OR) {
-            if (operando1.tipo.getTipo() == Tipo.Tipos.BOOLEAN
-                    && operando2.tipo.getTipo() == Tipo.Tipos.BOOLEAN) {
+            if (operando1.tipo.getTipo() == Tipo.TipoDato.BOOLEAN
+                    && operando2.tipo.getTipo() == Tipo.TipoDato.BOOLEAN) {
                 return (boolean) izquierdo || (boolean) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semantico", "Error de tipos con el operador OR", fila, columna);
@@ -68,7 +68,7 @@ public class ExpresionLogica extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorLogico.NOT) {
-            if (operandoU.tipo.getTipo() == Tipo.Tipos.BOOLEAN) {
+            if (operandoU.tipo.getTipo() == Tipo.TipoDato.BOOLEAN) {
                 return !((boolean) unario);
             } else {
                 Excepcion ex = new Excepcion("Semantico", "Error de tipos con el operador NOT", fila, columna);

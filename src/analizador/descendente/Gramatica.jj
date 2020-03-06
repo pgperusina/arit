@@ -20,12 +20,20 @@ import expresiones.ExpresionAritmetica;
 import expresiones.ExpresionAritmetica.OperadorAritmetico;
 import expresiones.ExpresionRelacional;
 import expresiones.ExpresionRelacional.OperadorRelacional;
-import expresiones.Retorno;
+import instrucciones.For;
+import instrucciones.While;
+import instrucciones.DoWhile;
+import instrucciones.If;
+import instrucciones.Return;
+import instrucciones.Break;
+import instrucciones.Continue;
 import expresiones.Llamada;
+import estructuras.Vector;
 import instrucciones.Declaracion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tipo;
-import tablasimbolos.Tipo.Tipos;
+import tablasimbolos.Tipo.TipoDato;
+import tablasimbolos.Tipo.TipoEstructura;
 import java.util.ArrayList;
 
 public class Gramatica {
@@ -68,6 +76,9 @@ TOKEN : {
     | <NUMERIC: (["0"-"9"])+"."(["0"-"9"])+>
     | <BOOLEAN: ("true"|"false")>
     | <NULL: "null">
+    | <FOR: "for">
+    | <IN: "in">
+    | <DO: "do">
     | <WHILE: "while">
     | <IF: "if">
     | <ELSE: "else">
@@ -98,6 +109,8 @@ TOKEN : {
     | <DOS_PUNTOS: ":" >
     | <FUNCION: "function" >
     | <RETORNO: "return" >
+    | <BREAK: "break" >
+    | <CONTINUE: "continue" >
     | <IDENTIFICADOR: (["a"-"z"] | "." ("." | ["a"-"z"] | "_"  )+ ) ("." | ["a"-"z"] | "_" | ["0"-"9"] )* >
 }
 
@@ -195,13 +208,28 @@ AST instruccion() :
     LOOKAHEAD(3) e = funcion()
     { return e; }
     |
-    LOOKAHEAD(2) e = llamada() { return e; }
+    LOOKAHEAD(2) e = llamada() (<PCOMA>)? { return e; }
     |
     e = declaracion()
-    { System.out.println("DECLARACION -- " + e);
-        return e; }
+    { return e; }
     |
     e = retorno() { return e; }
+    |
+    e = insBreak() { return e; }
+    |
+    e = insContinue() { return e; }
+    |
+    e = sentenciaIf()
+    { return e; }
+    |
+    e = cicloFor()
+    { return e; }
+    |
+    e = cicloWhile()
+    { return e; }
+    |
+    e = cicloDoWhile() (<PCOMA>)?
+    { return e; }
 
 
 //    |
@@ -220,10 +248,6 @@ AST declaracion() :
     id = <IDENTIFICADOR> <IGUAL> e = expresion() (<PCOMA>)?
     {   System.out.println("declaracion *** " + e);
         return new Declaracion(id.image.trim(), e, token.beginLine, token.beginColumn); }
-//    |
-//    id = <IDENTIFICADOR_PUNTO> <IGUAL> e = expresion() (<PCOMA>)?
-//    {   System.out.println("declaracion *** " + e);
-//        return new Declaracion(id.image.trim(), e, token.beginLine, token.beginColumn); }
 }
 
 /**
@@ -236,18 +260,9 @@ AST funcion() :
         listaParametros = listaParametros() <PAREND> bloqueInstrucciones = bloqueInstrucciones()
     { return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn); }
     |
-//    LOOKAHEAD(3) id = <IDENTIFICADOR_PUNTO> <IGUAL> <FUNCION>
-//    <PARINI> listaParametros = listaParametros() <PAREND> bloqueInstrucciones = bloqueInstrucciones()
-//    { return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn);  }
-//    |
     id = <IDENTIFICADOR> <IGUAL> <PARINI> listaParametros = listaParametros() <PAREND>
     <IGUAL><MAYORQUE> bloqueInstrucciones = bloqueInstrucciones()
     { return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn); }
-//    |
-//    id = <IDENTIFICADOR_PUNTO> <IGUAL> <FUNCION> <PARINI> listaParametros = listaParametros() <PAREND>
-//    <IGUAL><MAYORQUE> bloqueInstrucciones = bloqueInstrucciones()
-//    { return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn); }
-
 }
 
 AST llamada() :
@@ -300,52 +315,7 @@ ArrayList<AST> listaParametros() :
                 }
             )?
             { listaParametros.add(e1); }
-//            |
-//            <COMA> id2 = <IDENTIFICADOR_PUNTO>
-//            {
-//                e1 = new Identificador(id2.image.trim(), token.beginLine, token.beginColumn);
-//            }
-//            ( <IGUAL> e1 = expresion()
-//                {
-//                    e1 = new Declaracion(id2.image.trim(), e1, token.beginLine, token.beginColumn);
-//                }
-//            )?
-//            { listaParametros.add(e1); }
         )*
-//        |
-//        id = <IDENTIFICADOR_PUNTO>
-//        {
-//            e = new Identificador(id.image.trim(), token.beginLine, token.beginColumn);
-//        }
-//        ( <IGUAL> e = expresion()
-//            {
-//                e = new Declaracion(id.image.trim(), e, token.beginLine, token.beginColumn);
-//            }
-//        )?
-//        { listaParametros.add(e); }
-//        (
-//            LOOKAHEAD(2) <COMA> id2 = <IDENTIFICADOR_LETRA>
-//            {
-//                e1 = new Identificador(id2.image.trim(), token.beginLine, token.beginColumn);
-//            }
-//            ( <IGUAL> e1 = expresion()
-//                { e1 = new Declaracion(id2.image.trim(), e1, token.beginLine, token.beginColumn); }
-//            )?
-//            {
-//                listaParametros.add(e1);
-//            }
-//            |
-//            <COMA> id2 = <IDENTIFICADOR_PUNTO>
-//            {
-//                e1 = new Identificador(id2.image.trim(), token.beginLine, token.beginColumn);
-//            }
-//            ( <IGUAL> e1 = expresion()
-//                { e1 = new Declaracion(id2.image.trim(), e1, token.beginLine, token.beginColumn); }
-//            )?
-//            {
-//                listaParametros.add(e1);
-//            }
-//        )*
     )?
     { return listaParametros; }
 }
@@ -358,6 +328,40 @@ ArrayList<AST> bloqueInstrucciones() :
 {
     <LLAVEI> (e = instruccion() { instrucciones.add(e); } )* <LLAVED>
     { return instrucciones; }
+}
+
+AST sentenciaIf() :
+{ AST e, e1; ArrayList<AST> instruccionesIf, instruccionesElse = new ArrayList<AST>(); }{
+    <IF> <PARINI> e = expresion() <PAREND> instruccionesIf = bloqueInstrucciones()
+    (
+        LOOKAHEAD(2) <ELSE> e1 = sentenciaIf() { instruccionesElse.add(e1); }
+        |
+        <ELSE> instruccionesElse = bloqueInstrucciones()
+    )?
+    {
+        return new If(e, instruccionesIf, instruccionesElse, token.beginLine, token.beginColumn);
+    }
+}
+
+AST cicloFor() :
+{ AST e; Token id; ArrayList<AST> instrucciones; }
+{
+    <FOR> <PARINI> id = <IDENTIFICADOR> <IN> e = expresion() <PAREND> instrucciones = bloqueInstrucciones()
+    { return new For(id.image, e, instrucciones, token.beginLine, token.beginColumn); }
+}
+
+AST cicloWhile() :
+{ AST e; ArrayList<AST> instrucciones; }
+{
+    <WHILE> <PARINI> e = expresion() <PAREND> instrucciones = bloqueInstrucciones()
+    { return new While(e, instrucciones, token.beginLine, token.beginColumn); }
+}
+
+AST cicloDoWhile() :
+{ AST e; ArrayList<AST> instrucciones; }
+{
+    <DO> instrucciones = bloqueInstrucciones() <WHILE> <PARINI> e = expresion() <PAREND>
+    { return new DoWhile(e, instrucciones, token.beginLine, token.beginColumn); }
 }
 
 ///**
@@ -381,12 +385,24 @@ ArrayList<AST> bloqueInstrucciones() :
 //    { return new Asignacion(id.image.trim(), e, e1, token.beginLine, token.beginColumn); }
 //}
 
+AST insBreak() :
+{AST e;}
+{
+    <BREAK> (<PCOMA>)? { return new Break(); }
+}
+
+AST insContinue() :
+{AST e;}
+{
+    <CONTINUE> (<PCOMA>)? { return new Continue(); }
+}
+
 AST retorno() :
 {AST e;}
 {
-    LOOKAHEAD(2)<RETORNO> e=expresion() (<PCOMA>)? {return new Retorno(e, token.beginLine, token.beginColumn);}
+    LOOKAHEAD(2)<RETORNO> <PARINI> e=expresion() <PAREND> (<PCOMA>)? {return new Return(e, token.beginLine, token.beginColumn);}
     |
-    <RETORNO> (<PCOMA>)? {return new Retorno(token.beginLine, token.beginColumn);}
+    <RETORNO> (<PCOMA>)? {return new Return(token.beginLine, token.beginColumn);}
 }
 
 
@@ -518,22 +534,22 @@ AST expresionUnaria() :
 }
 
 AST primitivo() :
-{ AST e; Token t; }
+{ AST e; Token t; Vector valor;}
 {
         <INTEGER> { System.out.println("INTEGER " + token.image);
-            return new Primitivo(new Tipo(Tipos.INTEGER), Integer.parseInt(token.image), token.beginLine, token.beginColumn); }
+            return new Primitivo(new Tipo(TipoDato.INTEGER, TipoEstructura.VECTOR), Integer.parseInt(token.image), token.beginLine, token.beginColumn); }
         |
         <NUMERIC> { System.out.println("NUMERIC " + token.image);
-            return new Primitivo(new Tipo(Tipos.NUMERIC), Double.parseDouble(token.image), token.beginLine, token.beginColumn); }
+            return new Primitivo(new Tipo(TipoDato.NUMERIC, TipoEstructura.VECTOR), Double.parseDouble(token.image), token.beginLine, token.beginColumn); }
         |
         <BOOLEAN> { System.out.println("BOOLEAN " + token.image);
-            return new Primitivo(new Tipo(Tipos.BOOLEAN), Boolean.parseBoolean(token.image), token.beginLine, token.beginColumn);}
+            return new Primitivo(new Tipo(TipoDato.BOOLEAN, TipoEstructura.VECTOR), Boolean.parseBoolean(token.image), token.beginLine, token.beginColumn);}
         |
         <NULL> { System.out.println("NULL " + token.image);
-            return new Primitivo(new Tipo(Tipos.BOOLEAN), Double.parseDouble(token.image), token.beginLine, token.beginColumn);}
+            return new Primitivo(new Tipo(TipoDato.BOOLEAN, TipoEstructura.VECTOR), Double.parseDouble(token.image), token.beginLine, token.beginColumn);}
         |
         t=<STRING> { System.out.println("STRING " + t.image);
-            return new Primitivo(new Tipo(Tipos.STRING), t.image.substring(1,t.image.length()-1), token.beginLine, token.beginColumn);}
+            return new Primitivo(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), t.image.substring(1,t.image.length()-1), token.beginLine, token.beginColumn);}
 //        |
 //        t=<IDENTIFICADOR_PUNTO> { System.out.println("ID " + t.image + t.image.length());
 //            return new Identificador(t.image.trim(), token.beginLine, token.beginColumn); }
