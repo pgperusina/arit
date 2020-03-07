@@ -24,10 +24,14 @@ import instrucciones.For;
 import instrucciones.While;
 import instrucciones.DoWhile;
 import instrucciones.If;
+import instrucciones.Switch;
+import expresiones.Case;
+import expresiones.Default;
 import instrucciones.Return;
 import instrucciones.Break;
 import instrucciones.Continue;
 import expresiones.Llamada;
+import expresiones.ArgumentoDefault;
 import estructuras.Vector;
 import instrucciones.Declaracion;
 import tablasimbolos.Arbol;
@@ -80,6 +84,9 @@ TOKEN : {
     | <IN: "in">
     | <DO: "do">
     | <WHILE: "while">
+    | <SWITCH: "switch">
+    | <CASE: "case">
+    | <DEFAULT_WORD: "default">
     | <IF: "if">
     | <ELSE: "else">
     | <COMA: ",">
@@ -230,6 +237,9 @@ AST instruccion() :
     |
     e = cicloDoWhile() (<PCOMA>)?
     { return e; }
+    |
+    e = Switch()
+    { return e; }
 
 
 //    |
@@ -268,20 +278,21 @@ AST funcion() :
 AST llamada() :
 {ArrayList<AST> expresiones; Token t;}
 {
-    t=<IDENTIFICADOR> <PARINI> expresiones=listaExpresiones() <PAREND>
+    t=<IDENTIFICADOR> <PARINI> expresiones=listaArgumentos() <PAREND>
     { return new Llamada(t.image.trim(), expresiones, t.beginLine, t.beginColumn); }
 }
 
-ArrayList<AST> listaExpresiones() :
+ArrayList<AST> listaArgumentos() :
 {ArrayList<AST> lista = new ArrayList<AST>(); AST e;}
 {
     (
         e=expresion() {lista.add(e);}
         (
-            <COMA> e=expresion() {lista.add(e);}
+            LOOKAHEAD(2) <COMA> e=expresion() {lista.add(e);}
         )*
     )?
     {return lista;}
+
 }
 
 /**
@@ -364,6 +375,38 @@ AST cicloDoWhile() :
     { return new DoWhile(e, instrucciones, token.beginLine, token.beginColumn); }
 }
 
+AST Switch() :
+{ AST e; ArrayList<AST> listaCases; }
+{
+    <SWITCH> <PARINI> e = expresion() <PAREND> <LLAVEI> listaCases = bloqueCases() <LLAVED>
+    { return new Switch(e, listaCases, token.beginLine, token.beginColumn); }
+}
+
+ArrayList<AST> bloqueCases() :
+{ ArrayList<AST> bloqueCases = new ArrayList<AST>(); AST e; }
+{
+    ( e = Case() { bloqueCases.add(e); })+
+    { return bloqueCases; }
+}
+
+
+AST Case() :
+{ AST e, i; ArrayList<AST> instrucciones = new ArrayList<AST>(); Token id;}
+{
+    <CASE> e = expresion() <DOS_PUNTOS>
+        (
+            LOOKAHEAD(2) i = instruccion() { instrucciones.add(i); }
+        )*
+    (<BREAK> (<PCOMA>)? )?
+    { return new Case(e, instrucciones, token.beginLine, token.beginColumn); }
+    |
+    id = <DEFAULT_WORD> <DOS_PUNTOS>
+        (
+            LOOKAHEAD(2) i = instruccion() { instrucciones.add(i); }
+        )*
+    (<BREAK> (<PCOMA>)? )?
+    { return new Case(new Default(), instrucciones, token.beginLine, token.beginColumn); }
+}
 ///**
 //* asignacion -> ID([expresion])+ = expresion
 //*/
@@ -496,7 +539,7 @@ AST expresionAditiva() :
     (
         <MAS> e1 = expresionMultiplicativa() { e = new ExpresionAritmetica(e, e1, OperadorAritmetico.SUMA, token.beginLine, token.beginColumn); }
         |
-        <MENOS> e1 =  expresionMultiplicativa() { e = new ExpresionAritmetica(e, e1, OperadorAritmetico.RESTA, token.beginLine, token.beginColumn); }
+        LOOKAHEAD(2) <MENOS> e1 = expresionMultiplicativa() { e = new ExpresionAritmetica(e, e1, OperadorAritmetico.RESTA, token.beginLine, token.beginColumn); }
     )*
     { return e; }
 }
@@ -559,7 +602,8 @@ AST primitivo() :
         t=<IDENTIFICADOR> { System.out.println("ID " + t.image + " - " + t.image.length());
             return new Identificador(t.image.trim(), token.beginLine, token.beginColumn); }
         |
-
+        <DEFAULT_WORD> { return new ArgumentoDefault(); }
+        |
         <PARINI> e=expresion() <PAREND>
         {return e;}
 }

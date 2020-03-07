@@ -45,12 +45,12 @@ public class While extends AST {
                     if (result instanceof Return || result instanceof Excepcion) {
                         return result;
                     }
-//                    if(result instanceof Detener){
-//                        return null;
-//                    }
-//                    if(result instanceof Continue){
-//                        break;
-//                    }
+                    if(result instanceof Break){
+                        return null;
+                    }
+                    if(result instanceof Continue){
+                        break;
+                    }
                 }
             }
 
