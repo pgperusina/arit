@@ -9,7 +9,7 @@ import tablasimbolos.Tabla;
 
 import java.util.ArrayList;
 
-import static commons.Constantes.TYPEOF_PARAMETRO;
+import static utilities.Constantes.TYPEOF_PARAMETRO;
 
 public class TypeOf extends Funcion {
 

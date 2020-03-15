@@ -34,9 +34,6 @@ import expresiones.ArgumentoDefault;
 import instrucciones.AsignacionIndiceEstructura;
 import expresiones.AccesoEstructura;
 import expresiones.Valor;
-import estructuras.Lista;
-import estructuras.Matriz;
-import estructuras.Arreglo;
 import instrucciones.Declaracion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tipo;
@@ -230,21 +227,21 @@ AST funcion() :
 * asignacionIndiceEstructura -> ID([expresion])+ = expresion (;)?
 */
 AST asignacionIndiceEstructura() :
-{ ArrayList<AST> posiciones; AST valor; Token t;}
+{ LinkedList<AST> posiciones; AST valor; Token t;}
 {
     t = <IDENTIFICADOR> posiciones = indicesAcceso() <IGUAL> valor = expresion()
     { return new AsignacionIndiceEstructura(t.image, posiciones, valor, token.beginLine, token.beginColumn);}
 }
 
 AST accesoEstructura() :
-{ ArrayList<AST> posiciones; Token t;}
+{ LinkedList<AST> posiciones; Token t;}
 {
     t = <IDENTIFICADOR> posiciones = indicesAcceso()
     { return new AccesoEstructura(t.image, posiciones, token.beginLine, token.beginColumn);}
 }
 
-ArrayList<AST> indicesAcceso() :
-{ArrayList<AST> lista = new ArrayList<AST>(); AST e;}
+LinkedList<AST> indicesAcceso() :
+{LinkedList<AST> lista = new LinkedList<AST>(); AST e;}
 {
     (<CORI> e = expresion() { lista.add(e); } <CORD>)+
     {return lista; }

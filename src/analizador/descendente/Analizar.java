@@ -12,10 +12,8 @@ import tablasimbolos.Tabla;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.StringReader;
-import java.util.Arrays;
 
-import static commons.Helper.agregarFuncionesNativas;
+import static utilities.Utils.agregarFuncionesNativas;
 
 public class Analizar {
     public static void main(String[] args) throws FileNotFoundException {

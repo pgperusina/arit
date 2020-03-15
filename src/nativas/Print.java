@@ -1,7 +1,6 @@
 package nativas;
 
 import abstracto.AST;
-import estructuras.Vector;
 import excepciones.Excepcion;
 import expresiones.Funcion;
 import tablasimbolos.Arbol;
@@ -12,7 +11,7 @@ import tablasimbolos.Tipo;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static commons.Constantes.*;
+import static utilities.Constantes.*;
 
 public class Print extends Funcion {
 

@@ -10,7 +10,7 @@ import tablasimbolos.Tabla;
 
 import java.util.ArrayList;
 
-import static commons.Constantes.C_PARAMETRO;
+import static utilities.Constantes.C_PARAMETRO;
 
 public class List extends Funcion {
 

@@ -27,9 +27,6 @@ import expresiones.ArgumentoDefault;
 import instrucciones.AsignacionIndiceEstructura;
 import expresiones.AccesoEstructura;
 import expresiones.Valor;
-import estructuras.Lista;
-import estructuras.Matriz;
-import estructuras.Arreglo;
 import instrucciones.Declaracion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tipo;
@@ -233,7 +230,7 @@ System.out.println("END OF FILE");
 /**
 * asignacionIndiceEstructura -> ID([expresion])+ = expresion (;)?
 */
-  final public AST asignacionIndiceEstructura() throws ParseException {ArrayList<AST> posiciones; AST valor; Token t;
+  final public AST asignacionIndiceEstructura() throws ParseException {LinkedList<AST> posiciones; AST valor; Token t;
     t = jj_consume_token(IDENTIFICADOR);
     posiciones = indicesAcceso();
     jj_consume_token(IGUAL);
@@ -242,14 +239,14 @@ System.out.println("END OF FILE");
     throw new Error("Missing return statement in function");
 }
 
-  final public AST accesoEstructura() throws ParseException {ArrayList<AST> posiciones; Token t;
+  final public AST accesoEstructura() throws ParseException {LinkedList<AST> posiciones; Token t;
     t = jj_consume_token(IDENTIFICADOR);
     posiciones = indicesAcceso();
 {if ("" != null) return new AccesoEstructura(t.image, posiciones, token.beginLine, token.beginColumn);}
     throw new Error("Missing return statement in function");
 }
 
-  final public ArrayList<AST> indicesAcceso() throws ParseException {ArrayList<AST> lista = new ArrayList<AST>(); AST e;
+  final public LinkedList<AST> indicesAcceso() throws ParseException {LinkedList<AST> lista = new LinkedList<AST>(); AST e;
     label_2:
     while (true) {
       jj_consume_token(CORI);
@@ -1141,6 +1138,30 @@ cad = t.image.substring(1,t.image.length()-1);
     finally { jj_save(13, xla); }
   }
 
+  private boolean jj_3R_31()
+ {
+    if (jj_3R_42()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_59()
+ {
+    if (jj_scan_token(STRING)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_50()
+ {
+    if (jj_3R_54()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_30()
+ {
+    if (jj_3R_20()) return true;
+    return false;
+  }
+
   private boolean jj_3R_58()
  {
     if (jj_scan_token(NULL)) return true;
@@ -1577,30 +1598,6 @@ cad = t.image.substring(1,t.image.length()-1);
   private boolean jj_3_8()
  {
     if (jj_3R_21()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_31()
- {
-    if (jj_3R_42()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_59()
- {
-    if (jj_scan_token(STRING)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_50()
- {
-    if (jj_3R_54()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_30()
- {
-    if (jj_3R_20()) return true;
     return false;
   }
 

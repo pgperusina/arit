@@ -1,4 +1,4 @@
-package commons;
+package utilities;
 
 public final class Constantes {
 

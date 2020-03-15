@@ -14,9 +14,9 @@ import java.util.LinkedList;
 public class AccesoEstructura extends AST {
 
     private String identificador;
-    private ArrayList<AST> posiciones;
+    private LinkedList<AST> posiciones;
 
-    public AccesoEstructura(String identificador, ArrayList<AST> posiciones, int fila, int columna) {
+    public AccesoEstructura(String identificador, LinkedList<AST> posiciones, int fila, int columna) {
         this.identificador = identificador;
         this.posiciones = posiciones;
         this.fila = fila;
