@@ -21,6 +21,7 @@ public class Excepcion {
     }
 
     public void print(TextArea consola){
-        consola.setText(consola.getText() + this.toString() + "\n");
+        System.out.println(this.toString() + "\n");
+//        consola.setText(consola.getText() + this.toString() + "\n");
     }
 }
