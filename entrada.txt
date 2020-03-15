@@ -1,6 +1,16 @@
-.34
-a_f445.f
-"erase una vez"
-# comentario UL ####
-#*
-comentario ML ###  ##  * ###*
+# OLC2
+# PROYECTO 1
+# Archivo de prueba sencillo, puede contener errores :(
+
+a = "hola mundo";
+b= c("hola mundo");
+c = c("casa", 2, null);
+d = c(a, c);
+
+c[3] = d[3][1]
+
+print(c)
+a = c(true, 1, true, null);
+y = a
+
+print(y);

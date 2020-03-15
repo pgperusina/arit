@@ -6,17 +6,15 @@ import expresiones.Funcion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
-import tablasimbolos.Tipo;
 
 import java.util.ArrayList;
 
-import static commons.Constantes.PRINT_PARAMETRO;
 import static commons.Constantes.TYPEOF_PARAMETRO;
 
 public class TypeOf extends Funcion {
 
     public TypeOf(String nombre, ArrayList<AST> parametros, ArrayList<AST> instrucciones, int fila, int columna) {
-        super(nombre, parametros, instrucciones, fila, columna);
+        super(nombre, parametros, instrucciones, true, fila, columna);
     }
 
     @Override
@@ -28,12 +26,6 @@ public class TypeOf extends Funcion {
             return ex;
         }
 
-        // Todo validar que solo venga una expresion
-        if (!simbolo.getTipo().equals(new Tipo(Tipo.TipoDato.STRING))) {
-            Excepcion ex = new Excepcion("Semántico", "El tipo de los parametros no coinciden.", fila, columna);
-            tree.getExcepciones().add(ex);
-            return ex;
-        }
-        return (simbolo.getValor() + "").toUpperCase();
+        return (simbolo.getTipo().toString()).toUpperCase();
     }
 }

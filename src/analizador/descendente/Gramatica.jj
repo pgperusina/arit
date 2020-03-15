@@ -11,7 +11,6 @@ package analizador.descendente;
 
 import abstracto.AST;
 import expresiones.Funcion;
-import expresiones.Primitivo;
 import expresiones.Identificador;
 import expresiones.ExpresionLogica;
 import expresiones.ExpresionLogica.OperadorLogico;
@@ -32,13 +31,20 @@ import instrucciones.Break;
 import instrucciones.Continue;
 import expresiones.Llamada;
 import expresiones.ArgumentoDefault;
-import estructuras.Vector;
+import instrucciones.AsignacionIndiceEstructura;
+import expresiones.AccesoEstructura;
+import expresiones.Valor;
+import estructuras.Lista;
+import estructuras.Matriz;
+import estructuras.Arreglo;
 import instrucciones.Declaracion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tipo;
 import tablasimbolos.Tipo.TipoDato;
 import tablasimbolos.Tipo.TipoEstructura;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Arrays;
 
 public class Gramatica {
 }
@@ -50,14 +56,14 @@ SKIP : {
     | "\t"
     | "\r"
     | "\n"
-    | <"#*"> {System.out.println("ML comment start -- " +image);} : MULTI_LINE_COMMENT
-    | <"#"> {System.out.println("SL comment start -- " +image);} : IN_LINE_COMMENT
+    | <"#*">  : MULTI_LINE_COMMENT
+    | <"#">  : IN_LINE_COMMENT
 }
 
 /* Comments */
 <IN_LINE_COMMENT> SKIP:
 {
-   "\n" {System.out.println("SL comment end -- " +image);} : DEFAULT
+   "\n" : DEFAULT
 }
 
 <IN_LINE_COMMENT> MORE:
@@ -67,7 +73,7 @@ SKIP : {
 
 <MULTI_LINE_COMMENT> SKIP:
 {
-   "#*" {System.out.println("ML comment end -- " +image);} : DEFAULT
+   "#*" : DEFAULT
 }
 
 <MULTI_LINE_COMMENT> MORE:
@@ -121,44 +127,6 @@ TOKEN : {
     | <IDENTIFICADOR: (["a"-"z"] | "." ("." | ["a"-"z"] | "_"  )+ ) ("." | ["a"-"z"] | "_" | ["0"-"9"] )* >
 }
 
-///**
-//* ID STARTING WITH DOT
-//*/
-//MORE :
-//{
-//    "." : ID_DOT_STATE
-//}
-//
-//<ID_DOT_STATE> MORE :
-//{
-//    <("." | ["a"-"z"] | "_")+ ("." | ["a"-"z"] | "_" | ["0"-"9"])* >
-//}
-//
-//<ID_DOT_STATE> TOKEN:
-//{
-//   <IDENTIFICADOR_PUNTO: [" ","\t","\r","\n"]>
-//   { matchedToken.image = image.toString().trim(); } : DEFAULT
-//}
-//
-///**
-//* ID STARTING WITH LETTER
-//*/
-//MORE :
-//{
-//    <["a"-"z"]> : ID_LETTER_STATE
-//}
-//
-//<ID_LETTER_STATE> MORE :
-//{
-//    <("." | ["a"-"z"] | "_" | ["0"-"9"])+ >
-//}
-//
-//<ID_LETTER_STATE> TOKEN:
-//{
-//   <IDENTIFICADOR_LETRA: [" ","\t","\r","\n"]>
-//   { matchedToken.image = image.toString().trim().substring(0,image.length()-1); } : DEFAULT
-//}
-
 /**
 * STRING Tokens
 * **/
@@ -169,24 +137,12 @@ MORE :
 
 <STRING_STATE> MORE :
 {
-    <"\\\""> {
-        System.out.println("COMILLA DOBLE -- " + image);
-        int pos = image.length() - 2;
-        image.replace(pos, pos + 2, "\"");
-        System.out.println("COMILLA DOBLE DESPUES DE PROCESAR -- " + image);
-        }
-    |
     <~["\""]>
 }
 
 <STRING_STATE> TOKEN:
 {
-   <STRING:"\""> {
-                     System.out.println("TOKEN STRING_STATE -- " + image);
-                     System.out.println("TOKEN STRING_STATE MATCHED TOKEN -- " + matchedToken.image);
-                     matchedToken.image = image.toString().trim();
-
-                     } : DEFAULT
+   <STRING:"\""> { /*matchedToken.image = image.toString().trim();*/ } : DEFAULT
 }
 
 /**  FIN LEXICO **/
@@ -194,17 +150,17 @@ MORE :
 
 /************** INICIO PARSER ****************/
 
-/** Producción inicial
+/** Produccion inicial
     analizar -> (instruccion)+ EOF
 */
 Arbol analizar() :
 {ArrayList<AST> instrucciones = new ArrayList<AST>(); AST e;}
 {
   (e=instruccion() { instrucciones.add(e); } )+ <EOF>
-  { System.out.println("END OF FILE");
-    System.out.println("Instruccion " + e);
-
-    return new Arbol(instrucciones); }
+  {
+    System.out.println("END OF FILE");
+    return new Arbol(instrucciones);
+  }
 }
  /**
  * instruccion -> declaracion
@@ -212,13 +168,13 @@ Arbol analizar() :
 AST instruccion() :
 {AST e;}
 {
-    LOOKAHEAD(3) e = funcion()
-    { return e; }
+    LOOKAHEAD(3) e = funcion() { return e; }
     |
     LOOKAHEAD(2) e = llamada() (<PCOMA>)? { return e; }
     |
-    e = declaracion()
-    { return e; }
+    LOOKAHEAD(2) e = declaracion() { return e; }
+    |
+    e = asignacionIndiceEstructura() (<PCOMA>)? { return e; }
     |
     e = retorno() { return e; }
     |
@@ -226,20 +182,15 @@ AST instruccion() :
     |
     e = insContinue() { return e; }
     |
-    e = sentenciaIf()
-    { return e; }
+    e = sentenciaIf() { return e; }
     |
-    e = cicloFor()
-    { return e; }
+    e = cicloFor() { return e; }
     |
-    e = cicloWhile()
-    { return e; }
+    e = cicloWhile() { return e; }
     |
-    e = cicloDoWhile() (<PCOMA>)?
-    { return e; }
+    e = cicloDoWhile() (<PCOMA>)? { return e; }
     |
-    e = Switch()
-    { return e; }
+    e = Switch() { return e; }
 
 
 //    |
@@ -250,14 +201,14 @@ AST instruccion() :
 }
 
 /**
-* declaracion -> ID = expresion (;)*
+* declaracion -> ID = expresion (;)?
 */
 AST declaracion() :
 { Token id; AST e; }
 {
     id = <IDENTIFICADOR> <IGUAL> e = expresion() (<PCOMA>)?
-    {   System.out.println("declaracion *** " + e);
-        return new Declaracion(id.image.trim(), e, token.beginLine, token.beginColumn); }
+    { return new Declaracion(id.image.trim(), e, token.beginLine, token.beginColumn); }
+
 }
 
 /**
@@ -266,7 +217,7 @@ AST declaracion() :
 AST funcion() :
 { Token id; ArrayList<AST> listaParametros, bloqueInstrucciones; AST e; }
 {
-    LOOKAHEAD(3) id = <IDENTIFICADOR> <IGUAL>  <FUNCION> <PARINI> { System.out.println("FUNCTION -- " + id.image);}
+    LOOKAHEAD(3) id = <IDENTIFICADOR> <IGUAL>  <FUNCION> <PARINI>
         listaParametros = listaParametros() <PAREND> bloqueInstrucciones = bloqueInstrucciones()
     { return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn); }
     |
@@ -275,14 +226,38 @@ AST funcion() :
     { return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn); }
 }
 
+/**
+* asignacionIndiceEstructura -> ID([expresion])+ = expresion (;)?
+*/
+AST asignacionIndiceEstructura() :
+{ ArrayList<AST> posiciones; AST valor; Token t;}
+{
+    t = <IDENTIFICADOR> posiciones = indicesAcceso() <IGUAL> valor = expresion()
+    { return new AsignacionIndiceEstructura(t.image, posiciones, valor, token.beginLine, token.beginColumn);}
+}
+
+AST accesoEstructura() :
+{ ArrayList<AST> posiciones; Token t;}
+{
+    t = <IDENTIFICADOR> posiciones = indicesAcceso()
+    { return new AccesoEstructura(t.image, posiciones, token.beginLine, token.beginColumn);}
+}
+
+ArrayList<AST> indicesAcceso() :
+{ArrayList<AST> lista = new ArrayList<AST>(); AST e;}
+{
+    (<CORI> e = expresion() { lista.add(e); } <CORD>)+
+    {return lista; }
+}
+
 AST llamada() :
 {ArrayList<AST> expresiones; Token t;}
 {
-    t=<IDENTIFICADOR> <PARINI> expresiones=listaArgumentos() <PAREND>
+    t=<IDENTIFICADOR> <PARINI> expresiones=listaExpresiones() <PAREND>
     { return new Llamada(t.image.trim(), expresiones, t.beginLine, t.beginColumn); }
 }
 
-ArrayList<AST> listaArgumentos() :
+ArrayList<AST> listaExpresiones() :
 {ArrayList<AST> lista = new ArrayList<AST>(); AST e;}
 {
     (
@@ -304,11 +279,10 @@ ArrayList<AST> listaParametros() :
     (
         id = <IDENTIFICADOR>
         {
-            System.out.println("parametro ID");
             e = new Identificador(id.image.trim(), token.beginLine, token.beginColumn);
         }
         ( <IGUAL> e = expresion()
-            {   System.out.println("parametro EXPRESION");
+            {
                 e = new Declaracion(id.image.trim(), e, token.beginLine, token.beginColumn);
             }
         )?
@@ -316,12 +290,10 @@ ArrayList<AST> listaParametros() :
         (
             LOOKAHEAD(2) <COMA> id2 = <IDENTIFICADOR>
             {
-                System.out.println("parametro ID");
                 e1 = new Identificador(id2.image.trim(), token.beginLine, token.beginColumn);
             }
             ( <IGUAL> e1 = expresion()
                 {
-                    System.out.println("parametro EXPRESION");
                     e1 = new Declaracion(id2.image.trim(), e1, token.beginLine, token.beginColumn);
                 }
             )?
@@ -455,7 +427,7 @@ AST retorno() :
 AST expresion() :
 { AST e, e1, e2; }
 {
-    e = expresionOr() { System.out.println(e);}
+    e = expresionOr()
     (
         LOOKAHEAD(2) <QUESTION_MARK> e1 = expresion() <DOS_PUNTOS> e2 = expresion()
         { e = new ExpresionTernaria(e, e1, e2, token.beginLine, token.beginColumn); }
@@ -469,7 +441,7 @@ AST expresion() :
 AST expresionOr() :
 { AST e, e1; }
 {
-    e = expresionAnd() { System.out.println(e);}
+    e = expresionAnd()
     (
         <OR> e1 = expresionAnd() { e = new ExpresionLogica(e, e1, OperadorLogico.OR, token.beginLine, token.beginColumn); }
     )*
@@ -482,7 +454,7 @@ AST expresionOr() :
 AST expresionAnd() :
 { AST e, e1; }
 {
-    e = expresionIgualdad() { System.out.println(e);}
+    e = expresionIgualdad()
     (
         <AND> e1 = expresionIgualdad() { e = new ExpresionLogica(e, e1, OperadorLogico.AND, token.beginLine, token.beginColumn); }
     )*
@@ -569,41 +541,40 @@ AST expresionUnaria() :
     |
     <NOT> e = expresionUnaria() { return new ExpresionLogica(e, OperadorLogico.NOT, token.beginLine, token.beginColumn); }
     |
-    e = primitivo() { return e; }
-//    (
-//        <CORI> e1 = expresion() { return new } <CORD>
-//    )*
-//    { return e; }
+    e = valor() { return e; }
 }
 
-AST primitivo() :
-{ AST e; Token t; Vector valor;}
+AST valor() :
+{ AST e; Token t; ArrayList<AST> argumentos; String cad;}
 {
-        <INTEGER> { System.out.println("INTEGER " + token.image);
-            return new Primitivo(new Tipo(TipoDato.INTEGER, TipoEstructura.VECTOR), Integer.parseInt(token.image), token.beginLine, token.beginColumn); }
+        <INTEGER> {
+            return new Valor(new Tipo(TipoDato.INTEGER, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(Integer.parseInt(token.image))), token.beginLine, token.beginColumn); }
         |
-        <NUMERIC> { System.out.println("NUMERIC " + token.image);
-            return new Primitivo(new Tipo(TipoDato.NUMERIC, TipoEstructura.VECTOR), Double.parseDouble(token.image), token.beginLine, token.beginColumn); }
+        <NUMERIC> {
+            return new Valor(new Tipo(TipoDato.NUMERIC, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(Double.parseDouble(token.image))), token.beginLine, token.beginColumn); }
         |
-        <BOOLEAN> { System.out.println("BOOLEAN " + token.image);
-            return new Primitivo(new Tipo(TipoDato.BOOLEAN, TipoEstructura.VECTOR), Boolean.parseBoolean(token.image), token.beginLine, token.beginColumn);}
+        <BOOLEAN> {
+            return new Valor(new Tipo(TipoDato.BOOLEAN, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(Boolean.parseBoolean(token.image))), token.beginLine, token.beginColumn);}
         |
-        <NULL> { System.out.println("NULL " + token.image);
-            return new Primitivo(new Tipo(TipoDato.BOOLEAN, TipoEstructura.VECTOR), Double.parseDouble(token.image), token.beginLine, token.beginColumn);}
+        <NULL> {
+            return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(token.image)), token.beginLine, token.beginColumn);}
         |
-        t=<STRING> { System.out.println("STRING " + t.image);
-            return new Primitivo(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), t.image.substring(1,t.image.length()-1), token.beginLine, token.beginColumn);}
-//        |
-//        t=<IDENTIFICADOR_PUNTO> { System.out.println("ID " + t.image + t.image.length());
-//            return new Identificador(t.image.trim(), token.beginLine, token.beginColumn); }
+        t=<STRING> {
+            cad = t.image.substring(1,t.image.length()-1);
+            cad = cad.replace("\\","\\");
+            cad = cad.replace("\\n","\n");
+            cad = cad.replace("\\t","\t");
+            return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(cad)), token.beginLine, token.beginColumn);}
         |
         LOOKAHEAD(2) e = llamada() { return e; }
         |
-        t=<IDENTIFICADOR> { System.out.println("ID " + t.image + " - " + t.image.length());
-            return new Identificador(t.image.trim(), token.beginLine, token.beginColumn); }
+        LOOKAHEAD(2) e = accesoEstructura() { return e; }
         |
+        t = <IDENTIFICADOR> {
+                return new Identificador(t.image.trim(), token.beginLine, token.beginColumn); }
+        |
+
         <DEFAULT_WORD> { return new ArgumentoDefault(); }
         |
-        <PARINI> e=expresion() <PAREND>
-        {return e;}
+        <PARINI> e=expresion() <PAREND> {return e;}
 }

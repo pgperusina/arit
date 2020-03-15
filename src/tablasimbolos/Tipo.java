@@ -6,7 +6,8 @@ public class Tipo {
         INTEGER,
         NUMERIC,
         BOOLEAN,
-        STRING
+        STRING,
+        OBJETO
     };
 
     public static enum TipoEstructura {
@@ -16,41 +17,41 @@ public class Tipo {
         ARREGLO
     };
 
-    private TipoDato tipo;
+    private TipoDato tipoDato;
     private TipoEstructura tipoEstructura;
 
-    public Tipo(TipoDato tipo) {
-        this.tipo = tipo;
+    public Tipo(TipoDato tipoDato) {
+        this.tipoDato = tipoDato;
     }
 
-    public Tipo(TipoDato tipo, TipoEstructura tipoEstructura) {
-        this.tipo = tipo;
+    public Tipo(TipoDato tipoDato, TipoEstructura tipoEstructura) {
+        this.tipoDato = tipoDato;
         this.tipoEstructura = tipoEstructura;
     }
 
     @Override
     public String toString() {
         if (tipoEstructura == null) {
-            return this.tipo + "";
+            return this.tipoDato + "";
         }
-        return this.tipoEstructura + ":" + this.tipo;
+        return this.tipoEstructura + "=>" + this.tipoDato;
     }
 
     public boolean equals(Tipo obj) {
         if (this.tipoEstructura == null && obj.tipoEstructura == null) {
-            return this.tipo == obj.tipo;
+            return this.tipoDato == obj.tipoDato;
         } else if (this.tipoEstructura != null && obj.tipoEstructura != null) {
             return this.tipoEstructura.equals(obj.tipoEstructura);
         }
         return false;
     }
 
-    public TipoDato getTipo() {
-        return tipo;
+    public TipoDato getTipoDato() {
+        return tipoDato;
     }
 
-    public void setTipo(TipoDato tipo) {
-        this.tipo = tipo;
+    public void setTipoDato(TipoDato tipo) {
+        this.tipoDato = tipo;
     }
 
     public TipoEstructura getTipoEstructura() {

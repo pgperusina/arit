@@ -8,6 +8,6 @@ import java.util.ArrayList;
 public class Mode extends Funcion {
 
     public Mode(String nombre, ArrayList<AST> parametros, ArrayList<AST> instrucciones, int fila, int columna) {
-        super(nombre, parametros, instrucciones, fila, columna);
+        super(nombre, parametros, instrucciones, true, fila, columna);
     }
 }

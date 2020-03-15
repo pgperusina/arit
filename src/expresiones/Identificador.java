@@ -19,13 +19,15 @@ public class Identificador extends AST {
     public Object interpretar(Tabla tabla, Arbol tree) {
         Simbolo simbolo = tabla.getVariable(identificador);
         if (simbolo == null) {
-            Excepcion ex = new Excepcion("Semántico",
+            return new Excepcion("Semántico",
                     "No se ha encontrado la variable " + identificador + ".",
                     fila, columna);
-            tree.getExcepciones().add(ex);
-            return ex;
         }
         this.tipo = simbolo.getTipo();
         return simbolo.getValor();
+    }
+
+    public String getIdentificador() {
+        return this.identificador;
     }
 }

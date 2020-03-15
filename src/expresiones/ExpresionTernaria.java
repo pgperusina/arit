@@ -29,7 +29,7 @@ public class ExpresionTernaria extends AST {
 
         this.tipo = new Tipo(Tipo.TipoDato.BOOLEAN);
 
-        if (this.condicion.tipo.getTipo() == Tipo.TipoDato.BOOLEAN) {
+        if (this.condicion.tipo.getTipoDato() == Tipo.TipoDato.BOOLEAN) {
             return (boolean) operando1.interpretar(tabla, tree) ? operando1.interpretar(tabla, tree) : operando2.interpretar(tabla, tree);
         } else {
             Excepcion ex = new Excepcion("Semántico", "La condición del operador ternario no es de tipo Boolean.", fila, columna);

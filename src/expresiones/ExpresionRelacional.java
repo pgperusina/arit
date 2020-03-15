@@ -42,8 +42,8 @@ public class ExpresionRelacional extends AST {
 
         this.tipo = new Tipo(Tipo.TipoDato.BOOLEAN);
         if (this.operador == OperadorRelacional.MENORQUE) {
-            if (operando1.tipo.getTipo() == Tipo.TipoDato.INTEGER
-                    && operando2.tipo.getTipo() == Tipo.TipoDato.INTEGER) {
+            if (operando1.tipo.getTipoDato() == Tipo.TipoDato.INTEGER
+                    && operando2.tipo.getTipoDato() == Tipo.TipoDato.INTEGER) {
                 return (double) izquierdo < (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador <", fila, columna);
@@ -51,8 +51,8 @@ public class ExpresionRelacional extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorRelacional.MAYORQUE) {
-            if (operando1.tipo.getTipo() == Tipo.TipoDato.INTEGER
-                    && operando2.tipo.getTipo() == Tipo.TipoDato.INTEGER) {
+            if (operando1.tipo.getTipoDato() == Tipo.TipoDato.INTEGER
+                    && operando2.tipo.getTipoDato() == Tipo.TipoDato.INTEGER) {
                 return (double) izquierdo > (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador >", fila, columna);
@@ -60,8 +60,8 @@ public class ExpresionRelacional extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorRelacional.MAYORIGUAL) {
-            if (operando1.tipo.getTipo() == Tipo.TipoDato.INTEGER
-                    && operando2.tipo.getTipo() == Tipo.TipoDato.INTEGER) {
+            if (operando1.tipo.getTipoDato() == Tipo.TipoDato.INTEGER
+                    && operando2.tipo.getTipoDato() == Tipo.TipoDato.INTEGER) {
                 return (double) izquierdo >= (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador >=", fila, columna);
@@ -69,8 +69,8 @@ public class ExpresionRelacional extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorRelacional.MENORIGUAL) {
-            if (operando1.tipo.getTipo() == Tipo.TipoDato.INTEGER
-                    && operando2.tipo.getTipo() == Tipo.TipoDato.INTEGER) {
+            if (operando1.tipo.getTipoDato() == Tipo.TipoDato.INTEGER
+                    && operando2.tipo.getTipoDato() == Tipo.TipoDato.INTEGER) {
                 return (double) izquierdo <= (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador <=", fila, columna);
@@ -78,8 +78,8 @@ public class ExpresionRelacional extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorRelacional.IGUALA) {
-            if (operando1.tipo.getTipo() == Tipo.TipoDato.INTEGER
-                    && operando2.tipo.getTipo() == Tipo.TipoDato.INTEGER) {
+            if (operando1.tipo.getTipoDato() == Tipo.TipoDato.INTEGER
+                    && operando2.tipo.getTipoDato() == Tipo.TipoDato.INTEGER) {
                 return (double) izquierdo == (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador ==", fila, columna);
@@ -87,8 +87,8 @@ public class ExpresionRelacional extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorRelacional.DIFERENTEDE) {
-            if (operando1.tipo.getTipo() == Tipo.TipoDato.INTEGER
-                    && operando2.tipo.getTipo() == Tipo.TipoDato.INTEGER) {
+            if (operando1.tipo.getTipoDato() == Tipo.TipoDato.INTEGER
+                    && operando2.tipo.getTipoDato() == Tipo.TipoDato.INTEGER) {
                 return (double) izquierdo != (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador !=", fila, columna);

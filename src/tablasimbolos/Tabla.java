@@ -23,8 +23,8 @@ public class Tabla {
         for (Tabla e = this; e != null; e = e.getAnterior()) {
             Simbolo simboloEnTabla = (e.getTabla().get(simbolo.getIdentificador()));
             if (simboloEnTabla != null) {
-                return new Excepcion("Semántico","La variable con el identificador"
-                        + simbolo.getIdentificador() + " ya ha sido definida.",
+                return new Excepcion("Semántico","La variable con el identificador '"
+                        + simbolo.getIdentificador() + "' ya ha sido definida.",
                         simbolo.getFila(), simbolo.getColumna());
             }
         }
@@ -45,8 +45,8 @@ public class Tabla {
     public Object setFuncion(Funcion funcion) {
         for (Funcion f : funciones) {
             if (funcion.getNombre().equalsIgnoreCase(f.getNombre())) {
-                return new Excepcion("Semántico","La función con el identificador"
-                        + funcion.getNombre() + " ya ha sido definida.",
+                return new Excepcion("Semántico","La función con el identificador '"
+                        + funcion.getNombre() + "' ya ha sido definida.",
                         funcion.fila, funcion.columna);
             }
         }

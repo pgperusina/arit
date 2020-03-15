@@ -55,16 +55,16 @@ public class ExpresionAritmetica extends AST {
         }
 
         if (this.operador == OperadorAritmetico.SUMA) {
-            if (operando1.tipo.getTipo() == TipoDato.INTEGER
-                    && operando2.tipo.getTipo() == TipoDato.INTEGER) {
+            if (operando1.tipo.getTipoDato() == TipoDato.INTEGER
+                    && operando2.tipo.getTipoDato() == TipoDato.INTEGER) {
                 this.tipo = new Tipo(TipoDato.INTEGER);
                 return (double) izquierdo + (double) derecho;
-            } else if (operando1.tipo.getTipo() == TipoDato.STRING
-                    && operando2.tipo.getTipo() == TipoDato.INTEGER
-                    || operando1.tipo.getTipo() == TipoDato.INTEGER
-                    && operando2.tipo.getTipo() == TipoDato.STRING
-                    || operando1.tipo.getTipo() == TipoDato.STRING
-                    && operando2.tipo.getTipo() == TipoDato.STRING) {
+            } else if (operando1.tipo.getTipoDato() == TipoDato.STRING
+                    && operando2.tipo.getTipoDato() == TipoDato.INTEGER
+                    || operando1.tipo.getTipoDato() == TipoDato.INTEGER
+                    && operando2.tipo.getTipoDato() == TipoDato.STRING
+                    || operando1.tipo.getTipoDato() == TipoDato.STRING
+                    && operando2.tipo.getTipoDato() == TipoDato.STRING) {
                 this.tipo = new Tipo(TipoDato.STRING);
                 return "" + izquierdo + derecho;
             } else {
@@ -73,8 +73,8 @@ public class ExpresionAritmetica extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorAritmetico.RESTA) {
-            if (operando1.tipo.getTipo() == TipoDato.INTEGER
-                    && operando2.tipo.getTipo() == TipoDato.INTEGER) {
+            if (operando1.tipo.getTipoDato() == TipoDato.INTEGER
+                    && operando2.tipo.getTipoDato() == TipoDato.INTEGER) {
                 this.tipo = new Tipo(TipoDato.INTEGER);
                 return (double) izquierdo - (double) derecho;
             } else {
@@ -83,8 +83,8 @@ public class ExpresionAritmetica extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorAritmetico.MULTIPLICACION) {
-            if (operando1.tipo.getTipo() == TipoDato.INTEGER
-                    && operando2.tipo.getTipo() == TipoDato.INTEGER) {
+            if (operando1.tipo.getTipoDato() == TipoDato.INTEGER
+                    && operando2.tipo.getTipoDato() == TipoDato.INTEGER) {
                 this.tipo = new Tipo(TipoDato.INTEGER);
                 return (double) izquierdo * (double) derecho;
             } else {
@@ -93,8 +93,8 @@ public class ExpresionAritmetica extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorAritmetico.DIVISION) {
-            if (operando1.tipo.getTipo() == TipoDato.INTEGER
-                    && operando2.tipo.getTipo() == TipoDato.INTEGER) {
+            if (operando1.tipo.getTipoDato() == TipoDato.INTEGER
+                    && operando2.tipo.getTipoDato() == TipoDato.INTEGER) {
                 if ((double) derecho == 0) {
                     return new Excepcion("Semántico", "Excepcion aritmetica, division por 0.", fila, columna);
                 }
@@ -106,7 +106,7 @@ public class ExpresionAritmetica extends AST {
                 return ex;
             }
         } else if (this.operador == OperadorAritmetico.MENOSUNARIO) {
-            if (operandoU.tipo.getTipo() == TipoDato.INTEGER) {
+            if (operandoU.tipo.getTipoDato() == TipoDato.INTEGER) {
                 this.tipo = new Tipo(TipoDato.INTEGER);
                 return (double) unario * -1;
             } else {

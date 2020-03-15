@@ -3,7 +3,6 @@
 package analizador.descendente;
 import abstracto.AST;
 import expresiones.Funcion;
-import expresiones.Primitivo;
 import expresiones.Identificador;
 import expresiones.ExpresionLogica;
 import expresiones.ExpresionLogica.OperadorLogico;
@@ -24,13 +23,20 @@ import instrucciones.Break;
 import instrucciones.Continue;
 import expresiones.Llamada;
 import expresiones.ArgumentoDefault;
-import estructuras.Vector;
+import instrucciones.AsignacionIndiceEstructura;
+import expresiones.AccesoEstructura;
+import expresiones.Valor;
+import estructuras.Lista;
+import estructuras.Matriz;
+import estructuras.Arreglo;
 import instrucciones.Declaracion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tipo;
 import tablasimbolos.Tipo.TipoDato;
 import tablasimbolos.Tipo.TipoEstructura;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Arrays;
 
 /** Token Manager. */
 @SuppressWarnings ("unused")
@@ -709,13 +715,6 @@ private int jjMoveStringLiteralDfa1_2(long active0){
 private final int jjStopStringLiteralDfa_3(int pos, long active0){
    switch (pos)
    {
-      case 0:
-         if ((active0 & 0x80000000000000L) != 0L)
-         {
-            jjmatchedKind = 56;
-            return -1;
-         }
-         return -1;
       default :
          return -1;
    }
@@ -727,29 +726,10 @@ private int jjMoveStringLiteralDfa0_3(){
    switch(curChar)
    {
       case 34:
-         return jjStopAtPos(0, 57);
-      case 92:
-         return jjMoveStringLiteralDfa1_3(0x80000000000000L);
+         return jjStopAtPos(0, 56);
       default :
          return jjMoveNfa_3(0, 0);
    }
-}
-private int jjMoveStringLiteralDfa1_3(long active0){
-   try { curChar = input_stream.readChar(); }
-   catch(java.io.IOException e) {
-      jjStopStringLiteralDfa_3(0, active0);
-      return 1;
-   }
-   switch(curChar)
-   {
-      case 34:
-         if ((active0 & 0x80000000000000L) != 0L)
-            return jjStopAtPos(1, 55);
-         break;
-      default :
-         break;
-   }
-   return jjStartNfa_3(0, active0);
 }
 static final long[] jjbitVec0 = {
    0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL
@@ -774,7 +754,7 @@ private int jjMoveNfa_3(int startState, int curPos)
             {
                case 0:
                   if ((0xfffffffbffffffffL & l) != 0L)
-                     kind = 56;
+                     kind = 55;
                   break;
                default : break;
             }
@@ -788,7 +768,7 @@ private int jjMoveNfa_3(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 0:
-                  kind = 56;
+                  kind = 55;
                   break;
                default : break;
             }
@@ -803,8 +783,8 @@ private int jjMoveNfa_3(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 0:
-                  if ((jjbitVec0[i2] & l2) != 0L && kind > 56)
-                     kind = 56;
+                  if ((jjbitVec0[i2] & l2) != 0L && kind > 55)
+                     kind = 55;
                   break;
                default : break;
             }
@@ -830,7 +810,7 @@ public static final String[] jjstrLiteralImages = {
 null, null, null, null, null, null, null, null, null, null, null, "\54", "\73", 
 "\50", "\51", "\133", "\135", "\173", "\175", "\53", "\55", "\52", "\57", "\45", 
 "\75", "\74", "\76", "\74\75", "\76\75", "\75\75", "\41\75", "\46", "\174", "\41", 
-"\77", "\72", null, null, null, null, null, null, null, null, null, };
+"\77", "\72", null, null, null, null, null, null, null, null, };
 protected Token jjFillToken()
 {
    final Token t;
@@ -885,9 +865,6 @@ public Token getNextToken()
       matchedToken = jjFillToken();
       return matchedToken;
    }
-   image = jjimage;
-   image.setLength(0);
-   jjimageLen = 0;
 
    for (;;)
    {
@@ -934,19 +911,16 @@ public Token getNextToken()
         if ((jjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
         {
            matchedToken = jjFillToken();
-           TokenLexicalActions(matchedToken);
        if (jjnewLexState[jjmatchedKind] != -1)
          curLexState = jjnewLexState[jjmatchedKind];
            return matchedToken;
         }
         else if ((jjtoSkip[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
         {
-           SkipLexicalActions(null);
          if (jjnewLexState[jjmatchedKind] != -1)
            curLexState = jjnewLexState[jjmatchedKind];
            continue EOFLoop;
         }
-        MoreLexicalActions();
       if (jjnewLexState[jjmatchedKind] != -1)
         curLexState = jjnewLexState[jjmatchedKind];
         curPos = 0;
@@ -985,22 +959,6 @@ void SkipLexicalActions(Token matchedToken)
 {
    switch(jjmatchedKind)
    {
-      case 5 :
-         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-              System.out.println("ML comment start -- " +image);
-         break;
-      case 6 :
-         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-             System.out.println("SL comment start -- " +image);
-         break;
-      case 7 :
-         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-         System.out.println("SL comment end -- " +image);
-         break;
-      case 9 :
-         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-         System.out.println("ML comment end -- " +image);
-         break;
       default :
          break;
    }
@@ -1010,14 +968,6 @@ void MoreLexicalActions()
    jjimageLen += (lengthOfMatch = jjmatchedPos + 1);
    switch(jjmatchedKind)
    {
-      case 55 :
-         image.append(input_stream.GetSuffix(jjimageLen));
-         jjimageLen = 0;
-        System.out.println("COMILLA DOBLE -- " + image);
-        int pos = image.length() - 2;
-        image.replace(pos, pos + 2, "\"");
-        System.out.println("COMILLA DOBLE DESPUES DE PROCESAR -- " + image);
-         break;
       default :
          break;
    }
@@ -1026,12 +976,6 @@ void TokenLexicalActions(Token matchedToken)
 {
    switch(jjmatchedKind)
    {
-      case 57 :
-        image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                     System.out.println("TOKEN STRING_STATE -- " + image);
-                     System.out.println("TOKEN STRING_STATE MATCHED TOKEN -- " + matchedToken.image);
-                     matchedToken.image = image.toString().trim();
-         break;
       default :
          break;
    }
@@ -1130,10 +1074,10 @@ public static final String[] lexStateNames = {
 public static final int[] jjnewLexState = {
    -1, -1, -1, -1, -1, 2, 1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-   -1, -1, -1, -1, 3, -1, -1, 0, 
+   -1, -1, -1, -1, 3, -1, 0, 
 };
 static final long[] jjtoToken = {
-   0x23ffffffffff801L, 
+   0x13ffffffffff801L, 
 };
 static final long[] jjtoSkip = {
    0x2feL, 
@@ -1142,7 +1086,7 @@ static final long[] jjtoSpecial = {
    0x0L, 
 };
 static final long[] jjtoMore = {
-   0x1c0000000000500L, 
+   0xc0000000000500L, 
 };
     protected SimpleCharStream  input_stream;
 

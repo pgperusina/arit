@@ -97,7 +97,7 @@ public interface GramaticaConstants {
   /** RegularExpression Id. */
   int IDENTIFICADOR = 53;
   /** RegularExpression Id. */
-  int STRING = 57;
+  int STRING = 56;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -165,8 +165,7 @@ public interface GramaticaConstants {
     "\"continue\"",
     "<IDENTIFICADOR>",
     "\"\\\"\"",
-    "\"\\\\\\\"\"",
-    "<token of kind 56>",
+    "<token of kind 55>",
     "\"\\\"\"",
   };
 
