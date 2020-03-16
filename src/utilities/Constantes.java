@@ -7,6 +7,7 @@ public final class Constantes {
      */
     public static final String PRINT = "print";
     public static final String C = "c";
+    public static final String LIST = "list";
     public static final String TYPEOF = "typeof";
     public static final String LENGTH = "length";
     public static final String NCOL = "ncol";
@@ -23,6 +24,7 @@ public final class Constantes {
 
     public static final String PRINT_PARAMETRO = "print&&parametro";
     public static final String C_PARAMETRO = "c&&parametro";
+    public static final String LIST_PARAMETRO = "list&&parametro";
     public static final String TYPEOF_PARAMETRO = "typeof&&parametro";
     public static final String LENGTH_PARAMETRO = "length&&parametro";
     public static final String NCOL_PARAMETRO = "ncol&&parametro";

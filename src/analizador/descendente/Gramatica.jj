@@ -35,6 +35,7 @@ import instrucciones.AsignacionIndiceEstructura;
 import expresiones.AccesoEstructura;
 import expresiones.Valor;
 import instrucciones.Declaracion;
+import estructuras.Vector;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tipo;
 import tablasimbolos.Tipo.TipoDato;
@@ -545,23 +546,23 @@ AST valor() :
 { AST e; Token t; ArrayList<AST> argumentos; String cad;}
 {
         <INTEGER> {
-            return new Valor(new Tipo(TipoDato.INTEGER, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(Integer.parseInt(token.image))), token.beginLine, token.beginColumn); }
+            return new Valor(new Tipo(TipoDato.INTEGER, TipoEstructura.VECTOR), new Vector(Arrays.asList(Integer.parseInt(token.image))), token.beginLine, token.beginColumn); }
         |
         <NUMERIC> {
-            return new Valor(new Tipo(TipoDato.NUMERIC, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(Double.parseDouble(token.image))), token.beginLine, token.beginColumn); }
+            return new Valor(new Tipo(TipoDato.NUMERIC, TipoEstructura.VECTOR), new Vector(Arrays.asList(Double.parseDouble(token.image))), token.beginLine, token.beginColumn); }
         |
         <BOOLEAN> {
-            return new Valor(new Tipo(TipoDato.BOOLEAN, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(Boolean.parseBoolean(token.image))), token.beginLine, token.beginColumn);}
+            return new Valor(new Tipo(TipoDato.BOOLEAN, TipoEstructura.VECTOR), new Vector(Arrays.asList(Boolean.parseBoolean(token.image))), token.beginLine, token.beginColumn);}
         |
         <NULL> {
-            return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(token.image)), token.beginLine, token.beginColumn);}
+            return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new Vector(Arrays.asList(token.image)), token.beginLine, token.beginColumn);}
         |
         t=<STRING> {
             cad = t.image.substring(1,t.image.length()-1);
             cad = cad.replace("\\","\\");
             cad = cad.replace("\\n","\n");
             cad = cad.replace("\\t","\t");
-            return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(cad)), token.beginLine, token.beginColumn);}
+            return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new Vector(Arrays.asList(cad)), token.beginLine, token.beginColumn);}
         |
         LOOKAHEAD(2) e = llamada() { return e; }
         |

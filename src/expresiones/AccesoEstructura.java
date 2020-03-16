@@ -46,6 +46,7 @@ public class AccesoEstructura extends AST {
              * El índice de acceso debe ser un valor entre 1 y la cantidad de elementos del vector
              * Si el índice está fuera del rango se debe indicar un error.
              */
+            //TODO - validar que el valor de posición sea mayor a cero
             this.tipo = simbolo.getTipo();
             LinkedList valor = (LinkedList) simbolo.getValor();
             for (AST posicion : posiciones) {

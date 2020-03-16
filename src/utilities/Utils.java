@@ -28,6 +28,10 @@ public class Utils {
         Concatenar nC = new Concatenar(C, parametrosC, new ArrayList<AST>(), -1, -1);
         tabla.setFuncion(nC);
 
+        ArrayList<AST> parametrosList = new ArrayList<>();
+        List nList = new List(LIST, parametrosList, new ArrayList<AST>(), -1, -1);
+        tabla.setFuncion(nList);
+
         ArrayList<AST> parametrosTypeOf = new ArrayList<>();
         parametrosTypeOf.add(new Identificador(TYPEOF_PARAMETRO, -1, -1));
         TypeOf nTypeOf = new TypeOf(TYPEOF, parametrosTypeOf, new ArrayList<AST>(), -1, -1);

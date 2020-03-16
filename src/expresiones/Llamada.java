@@ -37,12 +37,6 @@ public class Llamada extends AST {
          */
         if (funcion.isNativa()){
             Tabla t = new Tabla(tabla);
-//            for (AST argumento : this.argumentos) {
-//                result = argumento.interpretar(t, arbol);
-//                if (result instanceof Excepcion) {
-//                    return result;
-//                }
-//            }
             result = funcion.cargarTabla(t, arbol, this.argumentos);
             if (result instanceof Excepcion) {
                 return result;

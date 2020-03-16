@@ -28,6 +28,7 @@ import instrucciones.AsignacionIndiceEstructura;
 import expresiones.AccesoEstructura;
 import expresiones.Valor;
 import instrucciones.Declaracion;
+import estructuras.Vector;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tipo;
 import tablasimbolos.Tipo.TipoDato;
@@ -962,22 +963,22 @@ e = new ExpresionAritmetica(e, e1, OperadorAritmetico.MODULO, token.beginLine, t
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case INTEGER:{
       jj_consume_token(INTEGER);
-{if ("" != null) return new Valor(new Tipo(TipoDato.INTEGER, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(Integer.parseInt(token.image))), token.beginLine, token.beginColumn);}
+{if ("" != null) return new Valor(new Tipo(TipoDato.INTEGER, TipoEstructura.VECTOR), new Vector(Arrays.asList(Integer.parseInt(token.image))), token.beginLine, token.beginColumn);}
       break;
       }
     case NUMERIC:{
       jj_consume_token(NUMERIC);
-{if ("" != null) return new Valor(new Tipo(TipoDato.NUMERIC, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(Double.parseDouble(token.image))), token.beginLine, token.beginColumn);}
+{if ("" != null) return new Valor(new Tipo(TipoDato.NUMERIC, TipoEstructura.VECTOR), new Vector(Arrays.asList(Double.parseDouble(token.image))), token.beginLine, token.beginColumn);}
       break;
       }
     case BOOLEAN:{
       jj_consume_token(BOOLEAN);
-{if ("" != null) return new Valor(new Tipo(TipoDato.BOOLEAN, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(Boolean.parseBoolean(token.image))), token.beginLine, token.beginColumn);}
+{if ("" != null) return new Valor(new Tipo(TipoDato.BOOLEAN, TipoEstructura.VECTOR), new Vector(Arrays.asList(Boolean.parseBoolean(token.image))), token.beginLine, token.beginColumn);}
       break;
       }
     case NULL:{
       jj_consume_token(NULL);
-{if ("" != null) return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(token.image)), token.beginLine, token.beginColumn);}
+{if ("" != null) return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new Vector(Arrays.asList(token.image)), token.beginLine, token.beginColumn);}
       break;
       }
     case STRING:{
@@ -986,7 +987,7 @@ cad = t.image.substring(1,t.image.length()-1);
             cad = cad.replace("\\","\\");
             cad = cad.replace("\\n","\n");
             cad = cad.replace("\\t","\t");
-            {if ("" != null) return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new LinkedList(Arrays.asList(cad)), token.beginLine, token.beginColumn);}
+            {if ("" != null) return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new Vector(Arrays.asList(cad)), token.beginLine, token.beginColumn);}
       break;
       }
     default:
@@ -1136,12 +1137,6 @@ cad = t.image.substring(1,t.image.length()-1);
     try { return (!jj_3_14()); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(13, xla); }
-  }
-
-  private boolean jj_3R_31()
- {
-    if (jj_3R_42()) return true;
-    return false;
   }
 
   private boolean jj_3R_59()
@@ -1598,6 +1593,12 @@ cad = t.image.substring(1,t.image.length()-1);
   private boolean jj_3_8()
  {
     if (jj_3R_21()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_31()
+ {
+    if (jj_3R_42()) return true;
     return false;
   }
 

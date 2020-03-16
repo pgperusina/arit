@@ -27,6 +27,7 @@ import instrucciones.AsignacionIndiceEstructura;
 import expresiones.AccesoEstructura;
 import expresiones.Valor;
 import instrucciones.Declaracion;
+import estructuras.Vector;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tipo;
 import tablasimbolos.Tipo.TipoDato;

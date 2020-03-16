@@ -3,13 +3,13 @@ package estructuras;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Vector extends LinkedList {
+public class Lista extends LinkedList {
 
-    public Vector() {
+    public Lista() {
         super();
     }
 
-    public Vector(List<Object> asList) {
+    public Lista(List<Object> asList) {
         super(asList);
     }
 }

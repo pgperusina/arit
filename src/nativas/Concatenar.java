@@ -1,6 +1,7 @@
 package nativas;
 
 import abstracto.AST;
+import estructuras.Vector;
 import excepciones.Excepcion;
 import expresiones.Funcion;
 import tablasimbolos.Arbol;
@@ -49,7 +50,7 @@ public class Concatenar extends Funcion {
             arbol.getExcepciones().add(ex);
         }
 
-        LinkedList result = new LinkedList();
+        Vector result = new Vector();
         for (Simbolo simboloParametro : parametros) {
 
             if (prioridad == 4) {
