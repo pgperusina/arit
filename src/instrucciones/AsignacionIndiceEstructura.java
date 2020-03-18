@@ -1,12 +1,16 @@
 package instrucciones;
 
 import abstracto.AST;
+import estructuras.Vector;
 import excepciones.Excepcion;
+import expresiones.IndiceTipoDos;
+import expresiones.IndiceTipoUno;
 import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import static utilities.Utils.definirPrioridadCasteo;
@@ -40,7 +44,68 @@ public class AsignacionIndiceEstructura extends AST {
         } else if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ)) {
             // todo modificación a matriz
         } else if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) {
-            // TODO modificación a lista
+            LinkedList valorSimbolo = (LinkedList) simbolo.getValor();
+            /**
+             * Recorro cada posición de los índices de asignación para llegar hasta la posición
+             * deseada y modificarla
+             */
+            for (AST posicion : posiciones) {
+                Object resultPosicion = posicion.interpretar(tabla, arbol);
+                if (resultPosicion instanceof Excepcion) {
+                    return resultPosicion;
+                }
+                /**
+                 * Verifico que el índice sea instancia de Vector
+                 */
+                if (!(resultPosicion instanceof Vector)) {
+                    return new Excepcion("Semántico", "Error modificando la lista. " +
+                            "El índice debe ser un Vector de tipo entero", posicion.fila, posicion.columna);
+                }
+                LinkedList valorPosicion = (LinkedList)resultPosicion;
+                /**
+                 * Verifico que el valor del índice tenga un solo valor
+                 */
+                if (!((Integer)valorPosicion.getFirst() > 0)) {
+                    return new Excepcion("Semántico", "La modificación de vectores vía índice " +
+                            "requiere que los índices a modificar sean mayores a '0'", posicion.fila, posicion.columna);
+                }
+                Integer indice = (Integer)valorPosicion.getFirst();
+
+                /**
+                 * Verifico el tipo de acceso, tipo 1 o tipo 2
+                 * Si es tipo 1 debo agregar solamente vectores o listas con un solo valor
+                 * Si es tipo 2 debo agregar cualquier valor, listas o vectores de cualquier tamaño
+                 */
+                LinkedList valorInterpretado = (LinkedList) valor.interpretar(tabla, arbol);
+                if (posicion instanceof IndiceTipoUno) {
+                    /**
+                     * Si el valor que se usará para modificar es mayor a uno retornar
+                     * una excepción
+                     */
+                    if (valorInterpretado.size() > 1) {
+                        return new Excepcion("Semántico", "La modificación de listas 'Tipo 1' " +
+                                "solamente acepta valores de tamaño 1.", posicion.fila, posicion.columna);
+                    }
+                    /**
+                     * Verifico si el índice a modificar es mayor al tamaño de la lista
+                     * Si es así agrego valores default
+                     */
+                    if (agregarValoresDefaultALista(valorSimbolo, indice)) {
+                        valorSimbolo.add(valorInterpretado);
+                    } else {
+                        valorSimbolo.set(indice - 1, valorInterpretado);
+                    }
+                }
+                if (posicion instanceof IndiceTipoDos) {
+                    if (agregarValoresDefaultALista(valorSimbolo, indice)) {
+                        valorSimbolo.add(valorInterpretado);
+                    } else {
+                        valorSimbolo.set(indice - 1, valorInterpretado);
+                    }
+                }
+
+            }
+
         } else {
             /**
              * MODIFICACIÓN A VECTORES
@@ -60,7 +125,7 @@ public class AsignacionIndiceEstructura extends AST {
                 return new Excepcion("Semántico", "La modificación de vectores vía índice " +
                         "requiere que los índices sean de tipo INTEGER.", fila, columna);
             }
-            if (!((Integer)valorPosicion.getFirst() > 0)) {
+            if (!( (Integer)valorPosicion.getFirst() > 0 | (Integer)valorPosicion.getFirst() < 1)) {
                 return new Excepcion("Semántico", "La modificación de vectores vía índice " +
                         "requiere que los índices a modificar sean mayores a '0'", fila, columna);
             }
@@ -138,6 +203,16 @@ public class AsignacionIndiceEstructura extends AST {
             }
         }
         return null;
+    }
+
+    private boolean agregarValoresDefaultALista(LinkedList valorSimbolo, Integer indice) {
+        if (indice > valorSimbolo.size()) {
+            for(int i = valorSimbolo.size(); i < indice - 1; i++) {
+                valorSimbolo.add(i, new Vector(Arrays.asList("NULL")));
+            }
+            return true;
+        }
+        return false;
     }
 
     private void castearVector(Simbolo simbolo, LinkedList valorSimbolo, LinkedList valorIntepretado, int prioridadCasteoValor) {
