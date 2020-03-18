@@ -46,7 +46,7 @@ public class Print extends Funcion {
         }
         if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) {
             LinkedList l = (LinkedList)simbolo.getValor();
-            System.out.println("--"+simbolo.getTipo().toString()+"--");
+            System.out.println(""+simbolo.getTipo()+"");
             System.out.println(l.toString());
         }
         return null;

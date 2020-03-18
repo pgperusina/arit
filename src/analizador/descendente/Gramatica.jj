@@ -34,6 +34,8 @@ import expresiones.ArgumentoDefault;
 import instrucciones.AsignacionIndiceEstructura;
 import expresiones.AccesoEstructura;
 import expresiones.Valor;
+import expresiones.IndiceTipoUno;
+import expresiones.IndiceTipoDos;
 import instrucciones.Declaracion;
 import estructuras.Vector;
 import tablasimbolos.Arbol;
@@ -242,9 +244,22 @@ AST accesoEstructura() :
 }
 
 LinkedList<AST> indicesAcceso() :
-{LinkedList<AST> lista = new LinkedList<AST>(); AST e;}
+{LinkedList<AST> lista = new LinkedList<AST>(); AST e, e1;}
 {
-    (<CORI> e = expresion() { lista.add(e); } <CORD>)+
+    LOOKAHEAD(2) <CORI><CORI> e = expresion() { lista.add(new IndiceTipoDos(e, token.beginLine, token.beginColumn)); } <CORD><CORD>
+    (
+        LOOKAHEAD(2) <CORI><CORI> e = expresion() { lista.add(new IndiceTipoDos(e, token.beginLine, token.beginColumn)); } <CORD><CORD>
+        |
+        <CORI> e = expresion() { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); }  <CORD>
+    )*
+    { return lista;}
+    |
+    <CORI> e = expresion()  { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); } <CORD>
+    (
+        LOOKAHEAD(2) <CORI><CORI> e = expresion() { lista.add(new IndiceTipoDos(e, token.beginLine, token.beginColumn)); }  <CORD><CORD>
+        |
+        <CORI> e = expresion() { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); } <CORD>
+    )*
     {return lista; }
 }
 

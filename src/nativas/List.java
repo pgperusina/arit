@@ -8,6 +8,7 @@ import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
+import utilities.Utils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,7 +28,7 @@ public class List extends Funcion {
         int prioridad = 0;
 
         LinkedList<Simbolo> parametros = new LinkedList<>();
-        while(tabla.getVariable(LIST_PARAMETRO + count) != null) {
+        while(tabla.getVariableLocal(LIST_PARAMETRO + count) != null) {
             parametros.add(tabla.getVariable(LIST_PARAMETRO + count));
             count++;
         }
@@ -44,18 +45,15 @@ public class List extends Funcion {
             lista.add(simboloParametro.getValor());
         }
 
-        System.out.println(lista);
-
         return new Simbolo(this.tipo, this.getNombre(), lista);
     }
 
     @Override
     public Object cargarTabla(Tabla tabla, Arbol arbol, ArrayList<AST> argumentos) {
-        Tabla t = new Tabla(tabla);
         Object result;
         int count = 1;
         for (AST argumento : argumentos) {
-            result = argumento.interpretar(t, arbol);
+            result = argumento.interpretar(tabla, arbol);
             if (result instanceof Excepcion) {
                 return result;
             }
@@ -68,7 +66,7 @@ public class List extends Funcion {
                 return ex;
             }
             Simbolo simbolo = new Simbolo(argumento.getTipo(), LIST_PARAMETRO + count++, result);
-            result = tabla.setVariable(simbolo);
+            result = tabla.setVariableLocal(simbolo);
 
             if (result != null) {
                 return result;

@@ -2,12 +2,34 @@ package tablasimbolos;
 
 public class Tipo {
 
-    public static enum TipoDato {
-        INTEGER,
-        NUMERIC,
-        BOOLEAN,
-        STRING,
-        OBJETO
+    public Tipo(String tipoDato, TipoEstructura tipoEstructura) {
+        if (tipoDato.equalsIgnoreCase(TipoDato.INTEGER.toString())) {
+            this.tipoDato = TipoDato.INTEGER;
+        } else if (tipoDato.equalsIgnoreCase(TipoDato.NUMERIC.toString())) {
+            this.tipoDato = TipoDato.NUMERIC;
+        } else if (tipoDato.equalsIgnoreCase(TipoDato.BOOLEAN.toString())) {
+            this.tipoDato = TipoDato.BOOLEAN;
+        } else if (tipoDato.equalsIgnoreCase(TipoDato.STRING.toString())) {
+            this.tipoDato = TipoDato.STRING;
+        } else if (tipoDato.equalsIgnoreCase(TipoDato.OBJETO.toString())) {
+            this.tipoDato = TipoDato.OBJETO;
+        }
+        this.tipoEstructura = tipoEstructura;
+    }
+
+    public enum TipoDato {
+        INTEGER("integer"),
+        NUMERIC("numeric"),
+        BOOLEAN("boolean"),
+        STRING("string"),
+        OBJETO("objeto");
+
+        private String tipoDato;
+
+        private TipoDato (String tipoDato) {
+            this. tipoDato = tipoDato;
+        }
+
     };
 
     public static enum TipoEstructura {

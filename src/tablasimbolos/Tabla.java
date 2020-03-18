@@ -32,12 +32,31 @@ public class Tabla {
         return null;
     }
 
+    public Object setVariableLocal(Simbolo simbolo) {
+        Simbolo simboloEnTabla = (this.getTabla().get(simbolo.getIdentificador()));
+        if (simboloEnTabla != null) {
+            return new Excepcion("Semántico","La variable con el identificador '"
+                    + simbolo.getIdentificador() + "' ya ha sido definida.",
+                    simbolo.getFila(), simbolo.getColumna());
+        }
+        this.tabla.put(simbolo.getIdentificador(), simbolo);
+        return null;
+    }
+
     public Simbolo getVariable(String id) {
         for (Tabla e = this; e != null; e = e.getAnterior()) {
             Simbolo simboloEnTabla = (e.getTabla().get(id));
             if (simboloEnTabla != null) {
                 return simboloEnTabla;
             }
+        }
+        return null;
+    }
+
+    public Simbolo getVariableLocal(String id) {
+        Simbolo simboloEnTabla = (this.getTabla().get(id));
+        if (simboloEnTabla != null) {
+            return simboloEnTabla;
         }
         return null;
     }

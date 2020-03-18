@@ -1,7 +1,10 @@
 package expresiones;
 
 import abstracto.AST;
+import estructuras.Lista;
+import estructuras.Vector;
 import excepciones.Excepcion;
+import nativas.List;
 import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
@@ -27,10 +30,8 @@ public class AccesoEstructura extends AST {
     public Object interpretar(Tabla tabla, Arbol arbol) {
         Simbolo simbolo = tabla.getVariable(this.identificador);
         if (simbolo == null) {
-            Excepcion ex = new Excepcion("Semántico", "Se está tratando acceder a una posición de una variable " +
-                    "que no ha sido definida aún. '" + simbolo.getIdentificador() + "'.", fila, columna);
-            arbol.getExcepciones().add(ex);
-            return ex;
+            return new Excepcion("Semántico", "Se está tratando acceder a una posición de una variable " +
+                    "que no ha sido definida aún. '" + this.identificador + "'.", fila, columna);
         }
 
         if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.ARREGLO)) {
@@ -38,7 +39,78 @@ public class AccesoEstructura extends AST {
         } else if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ)) {
             // todo acceso a matriz
         } else if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) {
-            // TODO acceso a lista
+            this.tipo = simbolo.getTipo();
+            LinkedList valor = (LinkedList) simbolo.getValor();
+            for (AST posicion : posiciones) {
+                Object resultPosicion = posicion.interpretar(tabla, arbol);
+                if (resultPosicion instanceof Excepcion) {
+                    return resultPosicion;
+                }
+
+                /**
+                 * Verifico que el índice sea instancia de Vector
+                 */
+                if (!(resultPosicion instanceof Vector)) {
+                    return new Excepcion("Semántico", "Error accediendo a lista. " +
+                            "El índice debe ser un Vector de tipo entero", posicion.fila, posicion.columna);
+                }
+                /**
+                 * Verifico si el vector es de una sola posición
+                 */
+                if (((Vector) resultPosicion).size() > 1) {
+                    return new Excepcion("Semántico", "El tamaño del índice de posición " +
+                            "debe ser de 1, el índice colocado es un Vector de "
+                            + ((Vector) resultPosicion).size() + " posiciones.", posicion.fila, posicion.columna);
+
+                }
+                /**
+                 * Verifico si el índice es un vector de tipo Entero
+                 */
+                Vector r = (Vector)resultPosicion;
+                if (!(r.get(0) instanceof Integer)) {
+                    return new Excepcion("Semántico", "El acceso a la posición de un vector " +
+                            "debe ser con índices de tipo INTEGER.", posicion.fila, posicion.columna);
+                }
+
+                /**
+                 * Verifico si el índice es mayor al tamaño de la lista.
+                 * Si es así, devuelvo una excepción.
+                 */
+                if ((Integer)r.getFirst() > (Integer)valor.size() |
+                        (Integer)r.getFirst() < 1) {
+                    return new Excepcion("Semántico", "Está tratando de acceder a una posición fuera " +
+                            "de rango en la lista '" + simbolo.getIdentificador() + "'.", posicion.fila, posicion.columna);
+                }
+                /**
+                 * Verifico si cada posicion es tipo 1 o 2, dependiendo de eso,
+                 * traer esa posición de la lista
+                 */
+                if (posicion instanceof IndiceTipoUno) {   /** Devuelve una lista **/
+                    /**
+                     * Devolver el valor de la lista en índice indicado envuelto en una lista
+                     */
+                    valor = new Lista(Arrays.asList(valor.get((Integer)r.getFirst()-1)));
+                }
+
+                if (posicion instanceof IndiceTipoDos) {   /** Devuelve el valor crudo de la posición **/
+                    /**
+                     * Devolver el valor crudo de la lista en el índice indicado
+                     */
+                    if (!(valor.get((Integer)r.getFirst()-1) instanceof Vector |
+                            valor.get((Integer)r.getFirst()-1) instanceof Lista)) {
+                        valor = new Vector(Arrays.asList(valor.get((Integer)r.getFirst()-1)));
+                    } else {
+                        valor = (LinkedList) valor.get((Integer)r.getFirst()-1);
+                    }
+                    /**
+                     * Cambiar el tipo del símbolo actual al tipo correspondiente al valor crudo
+                     */
+                    if (valor instanceof Vector) {
+                        this.tipo = new Tipo(valor.getFirst().getClass().getSimpleName().toString().toLowerCase(), Tipo.TipoEstructura.VECTOR);
+                    }
+                }
+            }
+            return valor;
         } else {
             /**
              * ACCESO A VECTORES
@@ -50,19 +122,29 @@ public class AccesoEstructura extends AST {
             this.tipo = simbolo.getTipo();
             LinkedList valor = (LinkedList) simbolo.getValor();
             for (AST posicion : posiciones) {
+                if (!(posicion instanceof IndiceTipoUno)) {
+                    return new Excepcion("Semántico", "Está tratando de acceder a un vector " +
+                            "usando un acceso 'tipo dos' ([[]]),  el cual solo puede usarse en listas, " +
+                            "debe usar el acceso 'tipo uno' ([]).", fila, columna);
+                }
+
                 Object resultPosicion = posicion.interpretar(tabla, arbol);
                 if (resultPosicion instanceof Excepcion) {
                     return resultPosicion;
                 }
-                LinkedList r = (LinkedList)resultPosicion;
+
+                if (!(resultPosicion instanceof Vector)) {
+                    return new Excepcion("Semántico", "Error accediendo a vector.", posicion.fila, posicion.columna);
+                }
+                Vector r = (Vector)resultPosicion;
                 if (!(r.get(0) instanceof Integer)) {
                     return new Excepcion("Semántico", "El acceso a la posición de un vector " +
-                            "debe ser con índices de tipo INTEGER.", fila, columna);
+                            "debe ser con índices de tipo INTEGER.", posicion.fila, posicion.columna);
                 }
-                if ((Integer)r.getFirst() > (Integer)valor.size() ||
+                if ((Integer)r.getFirst() > (Integer)valor.size() |
                         (Integer)r.getFirst() < 1) {
                      return new Excepcion("Semántico", "Está tratando de acceder a una posición fuera " +
-                            "de rango en el VECTOR '" + simbolo.getIdentificador() + "'.", fila, columna);
+                            "de rango en el VECTOR '" + simbolo.getIdentificador() + "'.", posicion.fila, posicion.columna);
 //
                 }
                 valor = new LinkedList(Arrays.asList(valor.get((Integer)r.getFirst()-1)));

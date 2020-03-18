@@ -104,7 +104,6 @@ public class Utils {
         int prioridad = 0;
         for (Simbolo p : parametros) {
             if (p.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) {
-                System.out.println("parametro en funcion 'c' es Lista");
                 prioridad = 4;
 
             } else if (p.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)) {
@@ -132,7 +131,6 @@ public class Utils {
     public static int definirPrioridadCasteo(Simbolo simbolo, Arbol arbol) {
         int prioridad = 0;
         if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) {
-            System.out.println("parametro en funcion 'c' es Lista");
             prioridad = 4;
 
         } else if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)) {
@@ -163,7 +161,6 @@ public class Utils {
     public static int definirPrioridadCasteo(AST valor, Arbol arbol) {
         int prioridad = 0;
         if (valor.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) {
-            System.out.println("parametro en funcion 'c' es Lista");
             prioridad = 4;
 
         } else if (valor.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)) {

@@ -6,6 +6,7 @@ import instrucciones.Declaracion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
+import utilities.Utils;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,7 @@ public class Llamada extends AST {
          */
         if (funcion.isNativa()){
             Tabla t = new Tabla(tabla);
+            Utils.agregarFuncionesNativas(t);
             result = funcion.cargarTabla(t, arbol, this.argumentos);
             if (result instanceof Excepcion) {
                 return result;
@@ -60,10 +62,9 @@ public class Llamada extends AST {
          * e interpretar función.
          */
         if (funcion.getParametros().size() == this.argumentos.size()) {
-//            Tabla t = new Tabla(arbol.getTablaGlobal());
             Tabla t = new Tabla(tabla);
             for (int i = 0; i < funcion.getParametros().size(); i++) {
-                result = this.argumentos.get(i).interpretar(tabla, arbol);
+                result = this.argumentos.get(i).interpretar(t, arbol);
                 Object parametro = funcion.getParametros().get(i);
                 if (result instanceof Excepcion) {
                     return result;
@@ -72,21 +73,31 @@ public class Llamada extends AST {
                     if (parametro instanceof Declaracion) {
                         result = ((Declaracion) parametro).interpretar(t, arbol);
                     } else {
-                        Excepcion ex = new Excepcion("Semántico", "El parámetro "
+                        return new Excepcion("Semántico", "El parámetro "
                                 + ((Identificador) parametro).getIdentificador()
-                                + " de la función no tiene valor 'default'.", fila, columna);
-                        arbol.getExcepciones().add(ex);
-                        return ex;
+                                + " de la función no tiene valor 'default'.",
+                                ((ArgumentoDefault) result).fila, ((ArgumentoDefault) result).columna);
                     }
                 } else {
                     if (parametro instanceof Declaracion) {
-                        Simbolo simbolo = new Simbolo(this.argumentos.get(i).getTipo(),
-                                ((Declaracion) parametro).getIdentificador(), result);
-                        result = t.setVariable(simbolo);
+                        /**
+                         * Si el parámetro existe en la tabla anterior, se crea localmente
+                         * Sino, se usa el valor de la variable de la tabla anterior
+                         */
+                        if (t.getVariable(((Declaracion) parametro).getIdentificador()) != null) {
+                            Simbolo simbolo = new Simbolo(this.argumentos.get(i).getTipo(),
+                                    ((Declaracion) parametro).getIdentificador(), result);
+                            result = t.setVariableLocal(simbolo);
+                        }
+
+
                     } else {
-                        Simbolo simbolo = new Simbolo(this.argumentos.get(i).getTipo(),
-                                ((Identificador) parametro).getIdentificador(), result);
-                        result = t.setVariable(simbolo);
+                        if (t.getVariable(((Identificador) parametro).getIdentificador()) != null) {
+                            Simbolo simbolo = new Simbolo(this.argumentos.get(i).getTipo(),
+                                    ((Identificador) parametro).getIdentificador(), result);
+                            result = t.setVariableLocal(simbolo);
+                        }
+
                     }
                 }
                 if (result != null) {

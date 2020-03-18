@@ -26,6 +26,8 @@ import expresiones.ArgumentoDefault;
 import instrucciones.AsignacionIndiceEstructura;
 import expresiones.AccesoEstructura;
 import expresiones.Valor;
+import expresiones.IndiceTipoUno;
+import expresiones.IndiceTipoDos;
 import instrucciones.Declaracion;
 import estructuras.Vector;
 import tablasimbolos.Arbol;

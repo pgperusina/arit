@@ -1,6 +1,7 @@
 package nativas;
 
 import abstracto.AST;
+import estructuras.Lista;
 import estructuras.Vector;
 import excepciones.Excepcion;
 import expresiones.Funcion;
@@ -8,6 +9,7 @@ import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
+import utilities.Utils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -28,7 +30,7 @@ public class Concatenar extends Funcion {
         int prioridad = 0;
 
         LinkedList<Simbolo> parametros = new LinkedList<>();
-        while(tabla.getVariable(C_PARAMETRO + count) != null) {
+        while(tabla.getVariableLocal(C_PARAMETRO + count) != null) {
             parametros.add(tabla.getVariable(C_PARAMETRO + count));
             count++;
         }
@@ -50,12 +52,15 @@ public class Concatenar extends Funcion {
             arbol.getExcepciones().add(ex);
         }
 
-        Vector result = new Vector();
+        LinkedList result = new LinkedList();
         for (Simbolo simboloParametro : parametros) {
 
             if (prioridad == 4) {
                 // todo - es cuando hay una lista en los parametros
                 // todo pasa a ser lista
+                ((LinkedList)simboloParametro.getValor()).forEach(v -> {
+                    popularLista(v, result);
+                });
             } else if(prioridad == 3) {
                 ((LinkedList)simboloParametro.getValor()).forEach(v -> {
                     result.add(String.valueOf(v));
@@ -85,7 +90,13 @@ public class Concatenar extends Funcion {
             }
         }
 
-        return new Simbolo(this.tipo, this.getNombre(), result);
+        LinkedList r;
+        if (prioridad == 4) {
+            r = new Lista(result);
+        } else {
+            r = new Vector(result);
+        }
+        return new Simbolo(this.tipo, this.getNombre(), r);
     }
 
     @Override
@@ -108,12 +119,22 @@ public class Concatenar extends Funcion {
                 return ex;
             }
             Simbolo simbolo = new Simbolo(argumento.getTipo(), C_PARAMETRO + count++, result);
-            result = tabla.setVariable(simbolo);
+            result = tabla.setVariableLocal(simbolo);
 
             if (result != null) {
                 return result;
             }
         }
         return null;
+    }
+
+    private void popularLista(Object valor, LinkedList lista) {
+        if (valor instanceof Vector | valor instanceof Lista) {
+            ((LinkedList) valor).forEach(v -> {
+                popularLista(v, lista);
+            });
+            return;
+        }
+        lista.add(valor);
     }
 }
