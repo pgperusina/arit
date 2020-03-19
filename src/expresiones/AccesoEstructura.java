@@ -2,6 +2,7 @@ package expresiones;
 
 import abstracto.AST;
 import estructuras.Lista;
+import estructuras.Matriz;
 import estructuras.Vector;
 import excepciones.Excepcion;
 import nativas.List;
@@ -36,9 +37,50 @@ public class AccesoEstructura extends AST {
 
         if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.ARREGLO)) {
             //todo acceso a arreglo
-        } else if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ)) {
-            // todo acceso a matriz
-        } else if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) {
+        } else if (simbolo.getValor() instanceof Matriz) {
+            /**
+             * Valido que las busquedas sean solo las aceptadas para
+             * las matrices
+             */
+            if (posiciones.size() > 1) {
+                return new Excepcion("Semántico", "El acceso a matrices " +
+                        "no permite mas de dos índices.", posiciones.get(1).fila, posiciones.get(1).columna);
+            }
+
+            /**
+             * Depende del tipo de acceso, accedo a la posición solicitada
+             */
+            AST indice = posiciones.get(0);
+            LinkedList valor = (Matriz) simbolo.getValor();
+            int filas = ((Matriz) simbolo.getValor()).getFilas();
+            int columnas = ((Matriz) simbolo.getValor()).getColumnas();
+            if (indice instanceof IndiceTipoUnoMatriz) {
+                Object result =  indice.interpretar(tabla, arbol);
+                if (result instanceof Excepcion) {
+                    return result;
+                }
+
+                LinkedList indices = (LinkedList) result;
+                Vector x = (Vector) indices.getFirst();
+                Vector y = (Vector) indices.get(1);
+
+                if (!(x.getFirst() instanceof Integer &
+                        y.getFirst() instanceof Integer)){
+                    return new Excepcion("Semántico", "Error accediendo a valor de matriz. " +
+                            "Los índices de un acceso a matriz tipo 1, deben de ser de tipo entero.", indice.fila, indice.columna);
+                }
+
+                int posicionBuscada = (((Integer)y.getFirst() - 1) *filas)
+                        + (Integer)x.getFirst();
+                valor = new Vector(Arrays.asList(valor.get(posicionBuscada-1)));
+            }
+            /**
+             * Defino el tipo que devolvemos
+             * y retornamos valor encontrado
+             */
+            this.tipo = new Tipo(simbolo.getTipo().getTipoDato(), Tipo.TipoEstructura.VECTOR);
+            return valor;
+        } else if (simbolo.getValor() instanceof Lista) {
             this.tipo = simbolo.getTipo();
             LinkedList valor = (LinkedList) simbolo.getValor();
             for (AST posicion : posiciones) {
@@ -106,7 +148,8 @@ public class AccesoEstructura extends AST {
                      * Cambiar el tipo del símbolo actual al tipo correspondiente al valor crudo
                      */
                     if (valor instanceof Vector) {
-                        this.tipo = new Tipo(valor.getFirst().getClass().getSimpleName().toString().toLowerCase(), Tipo.TipoEstructura.VECTOR);
+                        this.tipo = new Tipo(valor.getFirst().getClass().getSimpleName().toLowerCase(),
+                                Tipo.TipoEstructura.VECTOR);
                     }
                 }
             }
@@ -147,7 +190,7 @@ public class AccesoEstructura extends AST {
                             "de rango en el VECTOR '" + simbolo.getIdentificador() + "'.", posicion.fila, posicion.columna);
 //
                 }
-                valor = new LinkedList(Arrays.asList(valor.get((Integer)r.getFirst()-1)));
+                valor = new Vector(Arrays.asList(valor.get((Integer)r.getFirst()-1)));
             }
             return valor;
         }

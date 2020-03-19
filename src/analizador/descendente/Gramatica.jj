@@ -36,6 +36,9 @@ import expresiones.AccesoEstructura;
 import expresiones.Valor;
 import expresiones.IndiceTipoUno;
 import expresiones.IndiceTipoDos;
+import expresiones.IndiceTipoUnoMatriz;
+import expresiones.IndiceTipoDosMatriz;
+import expresiones.IndiceTipoTresMatriz;
 import instrucciones.Declaracion;
 import estructuras.Vector;
 import tablasimbolos.Arbol;
@@ -244,23 +247,47 @@ AST accesoEstructura() :
 }
 
 LinkedList<AST> indicesAcceso() :
-{LinkedList<AST> lista = new LinkedList<AST>(); AST e, e1;}
+{LinkedList<AST> lista = new LinkedList<AST>(); AST e, e1, r;}
 {
-    LOOKAHEAD(2) <CORI><CORI> e = expresion() { lista.add(new IndiceTipoDos(e, token.beginLine, token.beginColumn)); } <CORD><CORD>
+    LOOKAHEAD(3) <CORI> e = expresion() <COMA>
+    { r = new IndiceTipoDosMatriz(e, token.beginLine, token.beginColumn); }
     (
-        LOOKAHEAD(2) <CORI><CORI> e = expresion() { lista.add(new IndiceTipoDos(e, token.beginLine, token.beginColumn)); } <CORD><CORD>
+        e1 = expresion()
+        { r = new IndiceTipoUnoMatriz(e, e1, token.beginLine, token.beginColumn); }
+    )?
+    <CORD>
+    {
+        lista.add(r);
+        return lista;
+    }
+    |
+    LOOKAHEAD(2) <CORI><CORI> e = expresion() <CORD><CORD>
+    { lista.add(new IndiceTipoDos(e, token.beginLine, token.beginColumn)); }
+    (
+        LOOKAHEAD(2) <CORI><CORI> e = expresion()  <CORD><CORD>
+        { lista.add(new IndiceTipoDos(e, token.beginLine, token.beginColumn)); }
         |
-        <CORI> e = expresion() { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); }  <CORD>
+        <CORI> e = expresion() <CORD>
+        { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); }
     )*
     { return lista;}
     |
-    <CORI> e = expresion()  { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); } <CORD>
+    LOOKAHEAD(2) <CORI> e = expresion() <CORD>
+    { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); }
     (
-        LOOKAHEAD(2) <CORI><CORI> e = expresion() { lista.add(new IndiceTipoDos(e, token.beginLine, token.beginColumn)); }  <CORD><CORD>
+        LOOKAHEAD(2) <CORI><CORI> e = expresion() <CORD><CORD>
+        { lista.add(new IndiceTipoDos(e, token.beginLine, token.beginColumn)); }
         |
-        <CORI> e = expresion() { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); } <CORD>
+        <CORI> e = expresion() <CORD>
+        { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); }
     )*
     {return lista; }
+    |
+    LOOKAHEAD(2) <CORI> <COMA> e = expresion() <CORD>
+    {
+        lista.add(new IndiceTipoTresMatriz(e, token.beginLine, token.beginColumn));
+        return lista;
+    }
 }
 
 AST llamada() :
