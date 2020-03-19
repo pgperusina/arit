@@ -98,6 +98,13 @@ public class Utils {
         Mode nMode = new Mode(MODE, parametrosMode, new ArrayList<>(), -1, -1);
         tabla.setFuncion(nMode);
 
+        ArrayList<AST> parametrosMatrix = new ArrayList<>();
+        parametrosMatrix.add(new Identificador(MATRIX_PARAMETRO + 1, -1, -1));
+        parametrosMatrix.add(new Identificador(MATRIX_PARAMETRO + 2, -1, -1));
+        parametrosMatrix.add(new Identificador(MATRIX_PARAMETRO + 3, -1, -1));
+        Matrix nMatrix = new Matrix(MATRIX, parametrosMatrix, new ArrayList<>(), -1, -1);
+        tabla.setFuncion(nMatrix);
+
     }
 
     public static int definirPrioridadCasteo(LinkedList<Simbolo> parametros, Arbol arbol) {

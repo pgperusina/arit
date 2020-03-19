@@ -26,9 +26,7 @@ public class Llamada extends AST {
     public Object interpretar(Tabla tabla, Arbol arbol) {
         Object result = tabla.getFuncion(nombre);
         if (result == null) {
-            Excepcion ex = new Excepcion("Semántico", "No se ha encontrado la función '" + this.nombre +"'", fila, columna);
-            arbol.getExcepciones().add(ex);
-            return ex;
+            return new Excepcion("Semántico", "No se ha encontrado la función '" + this.nombre +"'", fila, columna);
         }
 
         Funcion funcion = (Funcion) result;
@@ -49,9 +47,7 @@ public class Llamada extends AST {
                     this.tipo = ((Simbolo) o).getTipo();
                     return ((Simbolo) o).getValor();
                 } else {
-                    Excepcion ex = new Excepcion("Semántico", "Error ejecutando la función 'C'.", fila, columna);
-                    arbol.getExcepciones().add(ex);
-                    return ex;
+                    return new Excepcion("Semántico", "Error ejecutando la función '" + funcion.getNombre() +"'.", fila, columna);
                 }
             }
             return funcion.interpretar(t, arbol);

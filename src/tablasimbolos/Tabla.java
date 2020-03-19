@@ -33,7 +33,7 @@ public class Tabla {
     }
 
     public Object setVariableLocal(Simbolo simbolo) {
-        Simbolo simboloEnTabla = (this.getTabla().get(simbolo.getIdentificador()));
+        Simbolo simboloEnTabla = this.getTabla().get(simbolo.getIdentificador());
         if (simboloEnTabla != null) {
             return new Excepcion("Semántico","La variable con el identificador '"
                     + simbolo.getIdentificador() + "' ya ha sido definida.",
@@ -54,7 +54,7 @@ public class Tabla {
     }
 
     public Simbolo getVariableLocal(String id) {
-        Simbolo simboloEnTabla = (this.getTabla().get(id));
+        Simbolo simboloEnTabla = this.getTabla().get(id);
         if (simboloEnTabla != null) {
             return simboloEnTabla;
         }

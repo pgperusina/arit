@@ -1,12 +1,14 @@
 package nativas;
 
 import abstracto.AST;
+import estructuras.Lista;
+import estructuras.Matriz;
+import estructuras.Vector;
 import excepciones.Excepcion;
 import expresiones.Funcion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
-import tablasimbolos.Tipo;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -35,7 +37,16 @@ public class Print extends Funcion {
 //            tree.getExcepciones().add(ex);
 //            return ex;
 //        }
-        if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)) {
+        if (simbolo.getValor() instanceof Matriz) {
+            Matriz m = (Matriz) simbolo.getValor();
+            if (m.size() == 0) {
+                System.out.println("Matriz vacía");
+            }
+            System.out.println(""+simbolo.getTipo()+"");
+            System.out.println(m.toString());
+            return null;
+        }
+        if (simbolo.getValor() instanceof Vector) {
             LinkedList l = (LinkedList)simbolo.getValor();
             if (l.size() == 0) {
                 System.out.println(""+simbolo.getTipo()+"");
@@ -44,13 +55,12 @@ public class Print extends Funcion {
             System.out.println(""+simbolo.getTipo()+"");
             System.out.println(l.toString());
         }
-        if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) {
+        if (simbolo.getValor() instanceof Lista) {
             LinkedList l = (LinkedList)simbolo.getValor();
             System.out.println(""+simbolo.getTipo()+"");
             System.out.println(l.toString());
         }
         return null;
-//        return (simbolo.getValor() + "").toUpperCase();
     }
 
     @Override

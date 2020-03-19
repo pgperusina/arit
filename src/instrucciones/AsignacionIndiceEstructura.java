@@ -34,10 +34,8 @@ public class AsignacionIndiceEstructura extends AST {
 
         Simbolo simbolo = tabla.getVariable(this.identificador);
         if (simbolo == null) {
-            Excepcion ex = new Excepcion("Semántico", "Se está tratando de modificar una posición de una variable " +
-                    "que no ha sido definida aún. '" + simbolo.getIdentificador() + "'.", fila, columna);
-            arbol.getExcepciones().add(ex);
-            return ex;
+            return new Excepcion("Semántico", "Se está tratando de modificar una posición de una variable " +
+                    "que no ha sido definida aún. '" + this.identificador + "'.", fila, columna);
         }
         if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.ARREGLO)) {
             //todo modificación a arreglo
@@ -103,9 +101,8 @@ public class AsignacionIndiceEstructura extends AST {
                         valorSimbolo.set(indice - 1, valorInterpretado);
                     }
                 }
-
             }
-
+            return null;
         } else {
             /**
              * MODIFICACIÓN A VECTORES

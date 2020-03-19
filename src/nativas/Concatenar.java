@@ -29,6 +29,9 @@ public class Concatenar extends Funcion {
         int count = 1;
         int prioridad = 0;
 
+        /**
+         * Verifico que los parametros no existan
+         */
         LinkedList<Simbolo> parametros = new LinkedList<>();
         while(tabla.getVariableLocal(C_PARAMETRO + count) != null) {
             parametros.add(tabla.getVariable(C_PARAMETRO + count));
@@ -109,14 +112,11 @@ public class Concatenar extends Funcion {
                 return result;
             }
 
-            // Todo - validar que argumentos tambien pueden ser listas
             if (!((argumento.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR))
                     || (argumento.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)))) {
-                Excepcion ex = new Excepcion("Semántico","La función 'C' solamente acepta" +
+                return new Excepcion("Semántico","La función 'C' solamente acepta" +
                         " argumentos de tipo LISTA, VECTOR o PRIMITIVOS.",
                         argumento.fila, argumento.columna);
-                arbol.getExcepciones().add(ex);
-                return ex;
             }
             Simbolo simbolo = new Simbolo(argumento.getTipo(), C_PARAMETRO + count++, result);
             result = tabla.setVariableLocal(simbolo);
