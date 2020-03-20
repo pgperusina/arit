@@ -48,38 +48,115 @@ public class AccesoEstructura extends AST {
             }
 
             /**
-             * Depende del tipo de acceso, accedo a la posición solicitada
+             * Dependiendo del tipo de acceso, accedo a la posición solicitada
              */
             AST indice = posiciones.get(0);
             LinkedList valor = (Matriz) simbolo.getValor();
-            int filas = ((Matriz) simbolo.getValor()).getFilas();
-            int columnas = ((Matriz) simbolo.getValor()).getColumnas();
+            /**
+             * resultado que retornaremos
+             */
+            Vector result = new Vector();
+            int filasMatriz = ((Matriz) simbolo.getValor()).getFilas();
+            int columnasMatriz = ((Matriz) simbolo.getValor()).getColumnas();
+
             if (indice instanceof IndiceTipoUnoMatriz) {
-                Object result =  indice.interpretar(tabla, arbol);
-                if (result instanceof Excepcion) {
-                    return result;
+                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                if (indiceInterpretado instanceof Excepcion) {
+                    return indiceInterpretado;
                 }
 
-                LinkedList indices = (LinkedList) result;
-                Vector x = (Vector) indices.getFirst();
-                Vector y = (Vector) indices.get(1);
+                LinkedList indices = (LinkedList) indiceInterpretado;
+                Vector indiceFila = (Vector) indices.getFirst();
+                Vector indiceColumna = (Vector) indices.get(1);
 
-                if (!(x.getFirst() instanceof Integer &
-                        y.getFirst() instanceof Integer)){
+                if (!(indiceFila.getFirst() instanceof Integer &
+                        indiceColumna.getFirst() instanceof Integer)){
                     return new Excepcion("Semántico", "Error accediendo a valor de matriz. " +
                             "Los índices de un acceso a matriz tipo 1, deben de ser de tipo entero.", indice.fila, indice.columna);
                 }
+                if ( (Integer)indiceFila.getFirst() > filasMatriz
+                        | (Integer)indiceColumna.getFirst() > columnasMatriz
+                        | (Integer)indiceFila.getFirst() < 1
+                        | (Integer)indiceColumna.getFirst() < 1) {
+                    return new Excepcion("Semántico", "Error accediendo a valor de matriz. " +
+                            "El índice debe de estar dentro del rango de filas y columnas de la matriz. ", indice.fila, indice.columna);
+                }
 
-                int posicionBuscada = (((Integer)y.getFirst() - 1) *filas)
-                        + (Integer)x.getFirst();
-                valor = new Vector(Arrays.asList(valor.get(posicionBuscada-1)));
+                int posicionBuscada = (((Integer)indiceColumna.getFirst() - 1) * filasMatriz)
+                        + (Integer)indiceFila.getFirst();
+
+                result.addAll(Arrays.asList(valor.get(posicionBuscada-1)));
+
+            } else if (indice instanceof IndiceTipoDosMatriz) {
+                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                if (indiceInterpretado instanceof Excepcion) {
+                    return indiceInterpretado;
+                }
+                LinkedList valorIndice = (LinkedList) indiceInterpretado;
+
+                if (!((Integer) valorIndice.getFirst() instanceof Integer)) {
+                    return new Excepcion("Semántico", "Error accediendo a valor de matriz. " +
+                            "El índice de un acceso a matriz tipo 2, debe de ser de tipo entero.", indice.fila, indice.columna);
+                }
+                if ( (Integer)valorIndice.getFirst() > filasMatriz |
+                        (Integer)valorIndice.getFirst() < 1) {
+                    return new Excepcion("Semántico", "Error accediendo a valor de matriz. " +
+                            "El índice debe de estar dentro del rango de filas de la matriz. ", indice.fila, indice.columna);
+                }
+                LinkedList filaBuscada = new LinkedList();
+                for (int i = ((Integer) valorIndice.getFirst()) - 1; i <= valor.size() - 1; i += filasMatriz) {
+                    filaBuscada.add(valor.get(i));
+                }
+                result.addAll(filaBuscada);
+
+            } else if (indice instanceof IndiceTipoTresMatriz) {
+                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                if (indiceInterpretado instanceof Excepcion) {
+                    return indiceInterpretado;
+                }
+                LinkedList valorIndice = (LinkedList) indiceInterpretado;
+
+                if (!((Integer) valorIndice.getFirst() instanceof Integer)) {
+                    return new Excepcion("Semántico", "Error accediendo a valor de matriz. " +
+                            "El índice de un acceso a matriz tipo 2, debe de ser de tipo entero.", indice.fila, indice.columna);
+                }
+                if ( (Integer)valorIndice.getFirst() > columnasMatriz |
+                        (Integer)valorIndice.getFirst() < 1) {
+                    return new Excepcion("Semántico", "Error accediendo a valor de matriz. " +
+                            "El índice debe de estar dentro del rango de filas de la matriz. ", indice.fila, indice.columna);
+                }
+                LinkedList columnaBuscada = new LinkedList();
+                int inicioColumna = (((Integer)valorIndice.getFirst() - 1) * filasMatriz);
+                for (int i = inicioColumna; i <= (inicioColumna + filasMatriz) - 1; i++) {
+                    columnaBuscada.add(valor.get(i));
+                }
+                result.addAll(columnaBuscada);
+            } else if (indice instanceof IndiceTipoUno) {
+                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                if (indiceInterpretado instanceof Excepcion) {
+                    return indiceInterpretado;
+                }
+                LinkedList valorIndice = (LinkedList) indiceInterpretado;
+
+                if (!((Integer) valorIndice.getFirst() instanceof Integer)) {
+                    return new Excepcion("Semántico", "Error accediendo a valor de matriz. " +
+                            "El índice de un acceso a matriz tipo 4, debe de ser de tipo entero.", indice.fila, indice.columna);
+                }
+                if ( (Integer)valorIndice.getFirst() > valor.size() |
+                        (Integer)valorIndice.getFirst() < 1) {
+                    return new Excepcion("Semántico", "Error accediendo a valor de matriz. " +
+                            "El índice debe de estar dentro la cantidad de posiciones de la matriz. ", indice.fila, indice.columna);
+                }
+
+                result.add(valor.get((Integer) valorIndice.getFirst() -1));
             }
+
             /**
              * Defino el tipo que devolvemos
              * y retornamos valor encontrado
              */
             this.tipo = new Tipo(simbolo.getTipo().getTipoDato(), Tipo.TipoEstructura.VECTOR);
-            return valor;
+            return result;
         } else if (simbolo.getValor() instanceof Lista) {
             this.tipo = simbolo.getTipo();
             LinkedList valor = (LinkedList) simbolo.getValor();

@@ -1,6 +1,8 @@
 package utilities;
 
 import abstracto.AST;
+import estructuras.Matriz;
+import estructuras.Vector;
 import excepciones.Excepcion;
 import expresiones.Identificador;
 import nativas.*;
@@ -140,21 +142,21 @@ public class Utils {
         if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) {
             prioridad = 4;
 
-        } else if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)) {
+        } else if (simbolo.getValor() instanceof Vector | simbolo.getValor() instanceof Matriz) {
             if (prioridad < 4) {
                 if (simbolo.getTipo().getTipoDato().equals(Tipo.TipoDato.STRING)) {
                     prioridad = 3;
                 } else if (simbolo.getTipo().getTipoDato().equals(Tipo.TipoDato.NUMERIC)) {
                     if (prioridad < 3) {
                         prioridad = 2;
-                    } else if (simbolo.getTipo().getTipoDato().equals(Tipo.TipoDato.INTEGER)) {
-                        if (prioridad < 2) {
-                            prioridad = 1;
-                        } else if (simbolo.getTipo().getTipoDato().equals(Tipo.TipoDato.BOOLEAN)) {
-                            if (prioridad < 1) {
-                                prioridad = 0;
-                            }
-                        }
+                    }
+                } else if (simbolo.getTipo().getTipoDato().equals(Tipo.TipoDato.INTEGER)) {
+                    if (prioridad < 2) {
+                        prioridad = 1;
+                    }
+                } else if (simbolo.getTipo().getTipoDato().equals(Tipo.TipoDato.BOOLEAN)) {
+                    if (prioridad < 1) {
+                        prioridad = 0;
                     }
                 }
             }
