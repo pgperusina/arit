@@ -118,12 +118,12 @@ public class AccesoEstructura extends AST {
 
                 if (!((Integer) valorIndice.getFirst() instanceof Integer)) {
                     return new Excepcion("Semántico", "Error accediendo a valor de matriz. " +
-                            "El índice de un acceso a matriz tipo 2, debe de ser de tipo entero.", indice.fila, indice.columna);
+                            "El índice de un acceso a matriz tipo 3, debe de ser de tipo entero.", indice.fila, indice.columna);
                 }
                 if ( (Integer)valorIndice.getFirst() > columnasMatriz |
                         (Integer)valorIndice.getFirst() < 1) {
                     return new Excepcion("Semántico", "Error accediendo a valor de matriz. " +
-                            "El índice debe de estar dentro del rango de filas de la matriz. ", indice.fila, indice.columna);
+                            "El índice debe de estar dentro del rango de columnas de la matriz. ", indice.fila, indice.columna);
                 }
                 LinkedList columnaBuscada = new LinkedList();
                 int inicioColumna = (((Integer)valorIndice.getFirst() - 1) * filasMatriz);

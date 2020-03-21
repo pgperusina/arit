@@ -5,10 +5,7 @@ import estructuras.Lista;
 import estructuras.Matriz;
 import estructuras.Vector;
 import excepciones.Excepcion;
-import expresiones.IndiceTipoDos;
-import expresiones.IndiceTipoDosMatriz;
-import expresiones.IndiceTipoUno;
-import expresiones.IndiceTipoUnoMatriz;
+import expresiones.*;
 import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
@@ -197,11 +194,74 @@ public class AsignacionIndiceEstructura extends AST {
                 LinkedList valorSimbolo = (LinkedList) simbolo.getValor();
                 LinkedList valorInterpretado = (LinkedList) resultValor;
                 if (prioridadCasteoMatriz >= prioridadCasteoNuevoValor) {
-                    castearEstructura(valorInterpretado, prioridadCasteoMatriz);
+                    castearEstructura(simbolo, valorInterpretado, prioridadCasteoMatriz);
                     modificarMatrizIndiceTipoDos(filasMatriz, valorIndice, valorSimbolo, valorInterpretado);
                 } else {
-                    castearEstructura(valorSimbolo, prioridadCasteoNuevoValor);
+                    castearEstructura(simbolo, valorSimbolo, prioridadCasteoNuevoValor);
                     modificarMatrizIndiceTipoDos(filasMatriz, valorIndice, valorSimbolo, valorInterpretado);
+                }
+                return null;
+            } else if (indice instanceof IndiceTipoTresMatriz) {
+                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                if (indiceInterpretado instanceof Excepcion) {
+                    return indiceInterpretado;
+                }
+                LinkedList valorIndice = (LinkedList) indiceInterpretado;
+
+                /**
+                 * Verifico que el índice sea de tipo entero
+                 */
+                if (!((Integer) valorIndice.getFirst() instanceof Integer)) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() + "'. El índice de una modificación a matriz tipo 3, " +
+                            "debe de ser de tipo entero.",
+                            indice.fila, indice.columna);
+                }
+                /**
+                 * Verifico que el índice esté dentro del rango de columnas.
+                 */
+                if ( (Integer)valorIndice.getFirst() > columnasMatriz |
+                        (Integer)valorIndice.getFirst() < 1) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() + "'. El índice debe de estar dentro del " +
+                            "rango de columnas de la matriz. ",
+                            indice.fila, indice.columna);
+                }
+                /**
+                 * Obtengo al valor que deseo colocar en la posición de la matriz
+                 */
+                Object resultValor =  valor.interpretar(tabla, arbol);
+                /**
+                 * Si el valor no es un vector, retornar excepción
+                 */
+                if (!(resultValor instanceof Vector)) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() +"'. " +
+                            "El valor para modificar la matriz debe de ser un Vector. ",
+                            valor.fila, valor.columna);
+                }
+                /**
+                 * Calcular prioridades de casteo para la matriz y para el nuevo valor
+                 */
+                int prioridadCasteoNuevoValor = Utils.definirPrioridadCasteo(valor, arbol);
+                int prioridadCasteoMatriz = Utils.definirPrioridadCasteo(simbolo, arbol);
+
+                /**
+                 * Si la prioridad de casteo de la matriz es mayor a la del nuevo valor
+                 * se castea el nuevo valor al tipo de la matriz y se inserta en la matriz,
+                 * de lo contrario, se castea la matriz y luego se inserta el nuevo valor.
+                 */
+                LinkedList valorSimbolo = (LinkedList) simbolo.getValor();
+                LinkedList valorInterpretado = (LinkedList) resultValor;
+                int inicioColumna = (((Integer)valorIndice.getFirst() - 1) * filasMatriz);
+                if (prioridadCasteoMatriz >= prioridadCasteoNuevoValor) {
+                    castearEstructura(simbolo, valorInterpretado, prioridadCasteoMatriz);
+                    modificarMatrizIndiceTipoTres(inicioColumna, filasMatriz,
+                            valorIndice, valorSimbolo, valorInterpretado);
+                } else {
+                    castearEstructura(simbolo, valorSimbolo, prioridadCasteoNuevoValor);
+                    modificarMatrizIndiceTipoTres(inicioColumna, filasMatriz,
+                            valorIndice, valorSimbolo, valorInterpretado);
                 }
                 return null;
             }
@@ -285,22 +345,25 @@ public class AsignacionIndiceEstructura extends AST {
             LinkedList valorPosicion = (LinkedList)resultPosicion;
             if (!(valorPosicion.getFirst() instanceof Integer)) {
                 return new Excepcion("Semántico", "La modificación de vectores vía índice " +
-                        "requiere que los índices sean de tipo INTEGER.", fila, columna);
+                        "requiere que los índices sean de tipo INTEGER.",
+                        posiciones.get(0).fila, posiciones.get(0).columna);
             }
-            if (!( (Integer)valorPosicion.getFirst() > 0 | (Integer)valorPosicion.getFirst() < 1)) {
+            if (!( (Integer)valorPosicion.getFirst() > 0 )) {
                 return new Excepcion("Semántico", "La modificación de vectores vía índice " +
-                        "requiere que los índices a modificar sean mayores a '0'", fila, columna);
+                        "requiere que los índices a modificar sean mayores a '0'",
+                        posiciones.get(0).fila, posiciones.get(0).columna);
             }
             Object result = valor.interpretar(tabla, arbol);
 
             if (!(result instanceof LinkedList)) {
                 return new Excepcion("Semántico", "Error modificando posición '" + (Integer)valorPosicion.getFirst()
-                        + "' de Vector.", fila, columna);
+                        + "' de Vector.", posiciones.get(0).fila, posiciones.get(0).columna);
             }
             LinkedList valorIntepretado = (LinkedList)valor.interpretar(tabla, arbol);
             if (valorIntepretado.size() > 1 ) {
                 return new Excepcion("Semántico", "La modificación de vectores vía índice " +
-                        "requiere que el nuevo valor sea de tamaño 1.", fila, columna);
+                        "requiere que el nuevo valor sea de tamaño 1.",
+                        posiciones.get(0).fila, posiciones.get(0).columna);
             }
 
             //todo convertir todos los elementos del vector al tipo del elemento que se esta asignando basado en reglas de casteo
@@ -387,6 +450,19 @@ public class AsignacionIndiceEstructura extends AST {
         }
     }
 
+    private void modificarMatrizIndiceTipoTres(int inicioColumna, int filasMatriz, LinkedList valorIndice,
+                                              LinkedList valorSimbolo, LinkedList valorInterpretado) {
+        int posicionValor = 0;
+        for (int i = inicioColumna; i <= (inicioColumna + filasMatriz) - 1; i++) {
+            if (posicionValor <= valorInterpretado.size() - 1) {
+                valorSimbolo.set(i, valorInterpretado.get(posicionValor++));
+            } else {
+                posicionValor = 0;
+                valorSimbolo.set(i, valorInterpretado.get(posicionValor++));
+            }
+        }
+    }
+
     private boolean agregarValoresDefaultALista(LinkedList valorSimbolo, Integer indice) {
         if (indice > valorSimbolo.size()) {
             for(int i = valorSimbolo.size(); i < indice - 1; i++) {
@@ -413,7 +489,7 @@ public class AsignacionIndiceEstructura extends AST {
                 if (temp instanceof  Boolean) {
                     valorSimbolo.set(i, temp == Boolean.TRUE ? "1.0" : "0.0");
                 } else if (temp instanceof Integer){
-                    valorSimbolo.set(i, Integer.valueOf(temp.toString()));
+                    valorSimbolo.set(i, Double.valueOf(temp.toString()));
                 } else {
                     valorSimbolo.set(i, valorIntepretado.getFirst());
                 }
@@ -437,25 +513,28 @@ public class AsignacionIndiceEstructura extends AST {
         }
     }
 
-    private void castearEstructura(LinkedList estructura, int prioridadCasteo) {
+    private void castearEstructura(Simbolo simbolo, LinkedList estructura, int prioridadCasteo) {
         Object temp;
         if (prioridadCasteo == 3) {
+            simbolo.setTipo(new Tipo(Tipo.TipoDato.STRING, simbolo.getTipo().getTipoEstructura()));
             for (int i = 0; i < estructura.size(); i++) {
                 temp = estructura.get(i);
                 estructura.set(i, String.valueOf(temp));
             }
         } else if (prioridadCasteo == 2) {
+            simbolo.setTipo(new Tipo(Tipo.TipoDato.NUMERIC, simbolo.getTipo().getTipoEstructura()));
             for (int i = 0; i < estructura.size(); i++) {
                 temp = estructura.get(i);
                 if (temp instanceof  Boolean) {
                     estructura.set(i, temp == Boolean.TRUE ? "1.0" : "0.0");
                 } else if (temp instanceof Integer){
-                    estructura.set(i, Integer.valueOf(temp.toString()));
+                    estructura.set(i, Double.valueOf(temp.toString()));
                 } else {
                     estructura.set(i, temp);
                 }
             }
         } else if (prioridadCasteo == 1) {
+            simbolo.setTipo(new Tipo(Tipo.TipoDato.INTEGER, simbolo.getTipo().getTipoEstructura()));
             for (int i = 0; i < estructura.size(); i++) {
                 temp = estructura.get(i);
                 if (temp instanceof  Boolean) {
@@ -465,6 +544,7 @@ public class AsignacionIndiceEstructura extends AST {
                 }
             }
         } else {
+            simbolo.setTipo(new Tipo(Tipo.TipoDato.BOOLEAN, simbolo.getTipo().getTipoEstructura()));
             for (int i = 0; i < estructura.size(); i++) {
                 temp = estructura.get(i);
                 estructura.set(i, temp);
