@@ -145,7 +145,65 @@ public class AsignacionIndiceEstructura extends AST {
                 }
                 return null;
             } else if (indice instanceof IndiceTipoDosMatriz) {
+                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                if (indiceInterpretado instanceof Excepcion) {
+                    return indiceInterpretado;
+                }
+                LinkedList valorIndice = (LinkedList) indiceInterpretado;
 
+                /**
+                 * Verifico que el índice sea de tipo entero
+                 */
+                if (!((Integer) valorIndice.getFirst() instanceof Integer)) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() + "'. El índice de una modificación a matriz tipo 2, " +
+                            "debe de ser de tipo entero.",
+                            indice.fila, indice.columna);
+                }
+                /**
+                 * Verifico que el índice esté dentro del rango de filas.
+                 */
+                if ( (Integer)valorIndice.getFirst() > filasMatriz |
+                        (Integer)valorIndice.getFirst() < 1) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() + "'. El índice debe de estar dentro del " +
+                            "rango de filas de la matriz. ",
+                            indice.fila, indice.columna);
+                }
+                /**
+                 * Obtengo al valor que deseo colocar en la posición de la matriz
+                 */
+                Object resultValor =  valor.interpretar(tabla, arbol);
+                /**
+                 * Si el valor no es un vector, retornar excepción
+                 */
+                if (!(resultValor instanceof Vector)) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() +"'. " +
+                            "El valor para modificar la matriz debe de ser un Vector. ",
+                            valor.fila, valor.columna);
+                }
+                /**
+                 * Calcular prioridades de casteo para la matriz y para el nuevo valor
+                 */
+                int prioridadCasteoNuevoValor = Utils.definirPrioridadCasteo(valor, arbol);
+                int prioridadCasteoMatriz = Utils.definirPrioridadCasteo(simbolo, arbol);
+
+                /**
+                 * Si la prioridad de casteo de la matriz es mayor a la del nuevo valor
+                 * se castea el nuevo valor al tipo de la matriz y se inserta en la matriz,
+                 * de lo contrario, se castea la matriz y luego se inserta el nuevo valor.
+                 */
+                LinkedList valorSimbolo = (LinkedList) simbolo.getValor();
+                LinkedList valorInterpretado = (LinkedList) resultValor;
+                if (prioridadCasteoMatriz >= prioridadCasteoNuevoValor) {
+                    castearEstructura(valorInterpretado, prioridadCasteoMatriz);
+                    modificarMatrizIndiceTipoDos(filasMatriz, valorIndice, valorSimbolo, valorInterpretado);
+                } else {
+                    castearEstructura(valorSimbolo, prioridadCasteoNuevoValor);
+                    modificarMatrizIndiceTipoDos(filasMatriz, valorIndice, valorSimbolo, valorInterpretado);
+                }
+                return null;
             }
             return null;
         } else if (simbolo.getValor() instanceof Lista) {
@@ -309,6 +367,26 @@ public class AsignacionIndiceEstructura extends AST {
         return null;
     }
 
+    private void modificarMatrizIndiceTipoDos(int filasMatriz, LinkedList valorIndice,
+                                              LinkedList valorSimbolo, LinkedList valorInterpretado) {
+        int posicionValor = 0;
+        for (int i = ((Integer) valorIndice.getFirst()) - 1;
+             i <= valorSimbolo.size() - 1;
+             i += filasMatriz) {
+            /**
+             * Si la posicion actual es menor o igual al tamaño
+             * del nuevo valor, sigo jalando datos, cuando llegue al
+             * tamaño del valor, reinicio posicionValor a 0
+             */
+            if (posicionValor <= valorInterpretado.size() - 1) {
+                valorSimbolo.set(i, valorInterpretado.get(posicionValor++));
+            } else {
+                posicionValor = 0;
+                valorSimbolo.set(i, valorInterpretado.get(posicionValor++));
+            }
+        }
+    }
+
     private boolean agregarValoresDefaultALista(LinkedList valorSimbolo, Integer indice) {
         if (indice > valorSimbolo.size()) {
             for(int i = valorSimbolo.size(); i < indice - 1; i++) {
@@ -355,6 +433,41 @@ public class AsignacionIndiceEstructura extends AST {
             for (int i = 0; i < valorSimbolo.size(); i++) {
                 temp = valorSimbolo.get(i);
                 valorSimbolo.set(i, temp);
+            }
+        }
+    }
+
+    private void castearEstructura(LinkedList estructura, int prioridadCasteo) {
+        Object temp;
+        if (prioridadCasteo == 3) {
+            for (int i = 0; i < estructura.size(); i++) {
+                temp = estructura.get(i);
+                estructura.set(i, String.valueOf(temp));
+            }
+        } else if (prioridadCasteo == 2) {
+            for (int i = 0; i < estructura.size(); i++) {
+                temp = estructura.get(i);
+                if (temp instanceof  Boolean) {
+                    estructura.set(i, temp == Boolean.TRUE ? "1.0" : "0.0");
+                } else if (temp instanceof Integer){
+                    estructura.set(i, Integer.valueOf(temp.toString()));
+                } else {
+                    estructura.set(i, temp);
+                }
+            }
+        } else if (prioridadCasteo == 1) {
+            for (int i = 0; i < estructura.size(); i++) {
+                temp = estructura.get(i);
+                if (temp instanceof  Boolean) {
+                    estructura.set(i, temp == Boolean.TRUE ? "1" : "0");
+                } else {
+                    estructura.set(i, temp);
+                }
+            }
+        } else {
+            for (int i = 0; i < estructura.size(); i++) {
+                temp = estructura.get(i);
+                estructura.set(i, temp);
             }
         }
     }
