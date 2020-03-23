@@ -181,6 +181,18 @@ public class AsignacionIndiceEstructura extends AST {
                             valor.fila, valor.columna);
                 }
                 /**
+                 * Si el valor no tiene una sola posición o exactamente la cantidad de posiciones
+                 * que la matriz de columnas, retorno excepción
+                 */
+                if ( !( ((Vector) resultValor).size() == 1 |
+                        ((Vector) resultValor).size() == columnasMatriz )) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() +"'. " +
+                            "Modificación tipo dos, el valor para modificar la matriz debe de ser de tamaño " +
+                            "1 o del tamaño de la cantidad de columnas de la matriz.",
+                            valor.fila, valor.columna);
+                }
+                /**
                  * Calcular prioridades de casteo para la matriz y para el nuevo valor
                  */
                 int prioridadCasteoNuevoValor = Utils.definirPrioridadCasteo(valor, arbol);
@@ -241,6 +253,18 @@ public class AsignacionIndiceEstructura extends AST {
                             valor.fila, valor.columna);
                 }
                 /**
+                 * Si el valor no tiene una sola posición o exactamente la cantidad de posiciones
+                 * que la matriz de filas, retorno excepción
+                 */
+                if ( !( ((Vector) resultValor).size() == 1 |
+                        ((Vector) resultValor).size() == filasMatriz )) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() +"'. " +
+                            "Modificación tipo tres, el valor para modificar la matriz debe de ser de tamaño " +
+                            "1 o del tamaño de la cantidad de filas de la matriz.",
+                            valor.fila, valor.columna);
+                }
+                /**
                  * Calcular prioridades de casteo para la matriz y para el nuevo valor
                  */
                 int prioridadCasteoNuevoValor = Utils.definirPrioridadCasteo(valor, arbol);
@@ -256,13 +280,83 @@ public class AsignacionIndiceEstructura extends AST {
                 int inicioColumna = (((Integer)valorIndice.getFirst() - 1) * filasMatriz);
                 if (prioridadCasteoMatriz >= prioridadCasteoNuevoValor) {
                     castearEstructura(simbolo, valorInterpretado, prioridadCasteoMatriz);
-                    modificarMatrizIndiceTipoTres(inicioColumna, filasMatriz,
-                            valorIndice, valorSimbolo, valorInterpretado);
                 } else {
                     castearEstructura(simbolo, valorSimbolo, prioridadCasteoNuevoValor);
-                    modificarMatrizIndiceTipoTres(inicioColumna, filasMatriz,
-                            valorIndice, valorSimbolo, valorInterpretado);
                 }
+                modificarMatrizIndiceTipoTres(inicioColumna, filasMatriz,
+                        valorIndice, valorSimbolo, valorInterpretado);
+                return null;
+            } else if (indice instanceof IndiceTipoUno) {
+
+                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                if (indiceInterpretado instanceof Excepcion) {
+                    return indiceInterpretado;
+                }
+                LinkedList valorIndice = (LinkedList) indiceInterpretado;
+
+                /**
+                 * Verifico que el índice sea de tipo entero
+                 */
+                if (!((Integer) valorIndice.getFirst() instanceof Integer)) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() + "'. El índice de una modificación a matriz tipo 4, " +
+                            "debe de ser de tipo entero.",
+                            indice.fila, indice.columna);
+                }
+                /**
+                 * Verifico que el índice esté dentro del rango de la matriz.
+                 */
+                if ( (Integer)valorIndice.getFirst() > ((Matriz) simbolo.getValor()).size() |
+                        (Integer)valorIndice.getFirst() < 1) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() + "'. El índice debe de estar dentro del " +
+                            "rango de la matriz. ",
+                            indice.fila, indice.columna);
+                }
+                /**
+                 * Obtengo al valor que deseo colocar en la posición de la matriz
+                 */
+                Object resultValor =  valor.interpretar(tabla, arbol);
+                /**
+                 * Si el valor no es un vector, retornar excepción
+                 */
+                if (!(resultValor instanceof Vector)) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() +"'. " +
+                            "El valor para modificar la matriz debe de ser un Vector. ",
+                            valor.fila, valor.columna);
+                }
+                /**
+                 * Si el valor no es un vector de una sola posición
+                 * retorno una excepción
+                 */
+                if (((Vector) resultValor).size() > 1) {
+                    return new Excepcion("Semántico", "Error modificando la matriz. " +
+                            "'" + simbolo.getIdentificador() +"'. " +
+                            "El valor para modificar la matriz debe ser de un solo elemento.",
+                            valor.fila, valor.columna);
+                }
+
+                /**
+                 * Calcular prioridades de casteo para la matriz y para el nuevo valor
+                 */
+                int prioridadCasteoNuevoValor = Utils.definirPrioridadCasteo(valor, arbol);
+                int prioridadCasteoMatriz = Utils.definirPrioridadCasteo(simbolo, arbol);
+
+                /**
+                 * Si la prioridad de casteo de la matriz es mayor a la del nuevo valor
+                 * se castea el nuevo valor al tipo de la matriz y se inserta en la matriz,
+                 * de lo contrario, se castea la matriz y luego se inserta el nuevo valor.
+                 */
+                LinkedList valorSimbolo = (LinkedList) simbolo.getValor();
+                LinkedList valorInterpretado = (LinkedList) resultValor;
+                if (prioridadCasteoMatriz >= prioridadCasteoNuevoValor) {
+                    castearEstructura(simbolo, valorInterpretado, prioridadCasteoMatriz);
+                } else {
+                    castearEstructura(simbolo, valorSimbolo, prioridadCasteoNuevoValor);
+                }
+
+                valorSimbolo.set((Integer)valorIndice.getFirst()-1, valorInterpretado.getFirst());
                 return null;
             }
             return null;
@@ -366,7 +460,6 @@ public class AsignacionIndiceEstructura extends AST {
                         posiciones.get(0).fila, posiciones.get(0).columna);
             }
 
-            //todo convertir todos los elementos del vector al tipo del elemento que se esta asignando basado en reglas de casteo
             int prioridadCasteoSimbolo = definirPrioridadCasteo(simbolo, arbol);
             int prioridadCasteoValor = definirPrioridadCasteo(valor, arbol);
 

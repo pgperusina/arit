@@ -3,15 +3,23 @@ package tablasimbolos;
 public class Tipo {
 
     public Tipo(String tipoDato, TipoEstructura tipoEstructura) {
-        if (tipoDato.equalsIgnoreCase(TipoDato.INTEGER.toString())) {
+        if (tipoDato.equalsIgnoreCase(TipoDato.INTEGER.tipoDato)) {
             this.tipoDato = TipoDato.INTEGER;
-        } else if (tipoDato.equalsIgnoreCase(TipoDato.NUMERIC.toString())) {
+        } else if (tipoDato.equalsIgnoreCase(TipoDato.NUMERIC.tipoDato)) {
             this.tipoDato = TipoDato.NUMERIC;
-        } else if (tipoDato.equalsIgnoreCase(TipoDato.BOOLEAN.toString())) {
+        } else if (tipoDato.equalsIgnoreCase(TipoDato.BOOLEAN.tipoDato)) {
             this.tipoDato = TipoDato.BOOLEAN;
-        } else if (tipoDato.equalsIgnoreCase(TipoDato.STRING.toString())) {
+        } else if (tipoDato.equalsIgnoreCase(TipoDato.STRING.tipoDato)) {
             this.tipoDato = TipoDato.STRING;
-        } else if (tipoDato.equalsIgnoreCase(TipoDato.OBJETO.toString())) {
+        } else if (tipoDato.equalsIgnoreCase(TipoDato.OBJETO.tipoDato)) {
+            this.tipoDato = TipoDato.OBJETO;
+        } else if (tipoDato.equalsIgnoreCase(TipoEstructura.ARREGLO.tipoEstructura)) {
+            this.tipoDato = TipoDato.OBJETO;
+        }else if (tipoDato.equalsIgnoreCase(TipoEstructura.MATRIZ.tipoEstructura)) {
+            this.tipoDato = TipoDato.OBJETO;
+        }else if (tipoDato.equalsIgnoreCase(TipoEstructura.LISTA.tipoEstructura)) {
+            this.tipoDato = TipoDato.OBJETO;
+        } else if (tipoDato.equalsIgnoreCase(TipoEstructura.VECTOR.tipoEstructura)) {
             this.tipoDato = TipoDato.OBJETO;
         }
         this.tipoEstructura = tipoEstructura;
@@ -19,25 +27,33 @@ public class Tipo {
 
     public enum TipoDato {
         INTEGER("integer"),
-        NUMERIC("numeric"),
+        NUMERIC("double"),
         BOOLEAN("boolean"),
         STRING("string"),
-        OBJETO("objeto");
+        OBJETO("object");
+
+        TipoDato(String tipoDato) {
+            this.tipoDato = tipoDato;
+        }
 
         private String tipoDato;
 
-        private TipoDato (String tipoDato) {
-            this. tipoDato = tipoDato;
+
+    }
+
+    public enum TipoEstructura {
+        VECTOR("vector"),
+        LISTA("lista"),
+        MATRIZ("matriz"),
+        ARREGLO("arreglo");
+
+        private String tipoEstructura;
+
+        TipoEstructura(String tipoEstructura) {
+            this. tipoEstructura = tipoEstructura;
         }
 
-    };
-
-    public static enum TipoEstructura {
-        VECTOR,
-        LISTA,
-        MATRIZ,
-        ARREGLO
-    };
+    }
 
     private TipoDato tipoDato;
     private TipoEstructura tipoEstructura;

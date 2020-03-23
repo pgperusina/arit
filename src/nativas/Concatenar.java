@@ -73,7 +73,7 @@ public class Concatenar extends Funcion {
                     if (v instanceof  Boolean) {
                         result.add(v == Boolean.TRUE ? "1.0" : "0.0");
                     } else if (v instanceof Integer){
-                        result.add(Integer.valueOf(v.toString()));
+                        result.add(Double.valueOf(v.toString()));
                     } else {
                         result.add(v);
                     }

@@ -1,6 +1,7 @@
 package nativas;
 
 import abstracto.AST;
+import estructuras.Arreglo;
 import estructuras.Lista;
 import estructuras.Matriz;
 import estructuras.Vector;
@@ -9,6 +10,7 @@ import expresiones.Funcion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
+import tablasimbolos.Tipo;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -37,6 +39,19 @@ public class Print extends Funcion {
 //            tree.getExcepciones().add(ex);
 //            return ex;
 //        }
+        if (simbolo.getValor() instanceof Arreglo) {
+            Arreglo m = (Arreglo) simbolo.getValor();
+            if (m.size() == 0) {
+                System.out.println("Arreglo vacío");
+            }
+            if (simbolo.getTipo().getTipoDato().equals(Tipo.TipoDato.OBJETO)) {
+                System.out.println("" + simbolo.getTipo().getTipoEstructura() + "=>" + "LISTA");
+            } else {
+                System.out.println(""+simbolo.getTipo()+"");
+            }
+            System.out.println(m.toString());
+            return null;
+        }
         if (simbolo.getValor() instanceof Matriz) {
             Matriz m = (Matriz) simbolo.getValor();
             if (m.size() == 0) {

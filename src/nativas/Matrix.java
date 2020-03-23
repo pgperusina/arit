@@ -79,7 +79,7 @@ public class Matrix extends Funcion {
         if (!(argumentos.size() == 3)) {
             return new Excepcion("Semántico","La función 'Matrix' debe recibir " +
                     " 3 argumentos.",
-                    fila, columna);
+                    argumentos.get(0).fila, argumentos.get(0).columna);
         }
         for (AST argumento : argumentos) {
             result = argumento.interpretar(tabla, arbol);

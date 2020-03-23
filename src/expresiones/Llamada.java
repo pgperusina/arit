@@ -50,6 +50,7 @@ public class Llamada extends AST {
                     return new Excepcion("Semántico", "Error ejecutando la función '" + funcion.getNombre() +"'.", fila, columna);
                 }
             }
+
             return funcion.interpretar(t, arbol);
         }
 
@@ -80,19 +81,19 @@ public class Llamada extends AST {
                          * Si el parámetro existe en la tabla anterior, se crea localmente
                          * Sino, se usa el valor de la variable de la tabla anterior
                          */
-                        if (t.getVariable(((Declaracion) parametro).getIdentificador()) != null) {
+//                        if (t.getVariable(((Declaracion) parametro).getIdentificador()) != null) {
                             Simbolo simbolo = new Simbolo(this.argumentos.get(i).getTipo(),
                                     ((Declaracion) parametro).getIdentificador(), result);
                             result = t.setVariableLocal(simbolo);
-                        }
+//                        }
 
 
                     } else {
-                        if (t.getVariable(((Identificador) parametro).getIdentificador()) != null) {
+//                        if (t.getVariable(((Identificador) parametro).getIdentificador()) != null) {
                             Simbolo simbolo = new Simbolo(this.argumentos.get(i).getTipo(),
                                     ((Identificador) parametro).getIdentificador(), result);
                             result = t.setVariableLocal(simbolo);
-                        }
+//                        }
 
                     }
                 }
@@ -120,7 +121,16 @@ public class Llamada extends AST {
 //                }
 
             }
-            return funcion.interpretar(t, arbol);
+//            Object o = funcion.interpretar(t, arbol);
+//            if (o instanceof Simbolo) {
+//                this.tipo = ((Simbolo) o).getTipo();
+//                return ((Simbolo) o).getValor();
+//            } else {
+//                return new Excepcion("Semántico", "Error ejecutando la función '" + funcion.getNombre() +"'.", fila, columna);
+//            }
+            Object o = funcion.interpretar(t, arbol);
+            this.tipo = funcion.getTipo();
+            return o;
         } else {
             Excepcion ex = new Excepcion("Semántico", "La cantidad de argumentos "
                     + "enviados (" + this.argumentos.size() + ") no coincide con la cantidad de parámetros "

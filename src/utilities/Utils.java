@@ -107,6 +107,12 @@ public class Utils {
         Matrix nMatrix = new Matrix(MATRIX, parametrosMatrix, new ArrayList<>(), -1, -1);
         tabla.setFuncion(nMatrix);
 
+        ArrayList<AST> parametrosArray = new ArrayList<>();
+        parametrosArray.add(new Identificador(ARRAY_PARAMETRO + 1, -1, -1));
+        parametrosArray.add(new Identificador(ARRAY_PARAMETRO + 2, -1, -1));
+        Array nArray = new Array(ARRAY, parametrosArray, new ArrayList<>(), -1, -1);
+        tabla.setFuncion(nArray);
+
     }
 
     public static int definirPrioridadCasteo(LinkedList<Simbolo> parametros, Arbol arbol) {

@@ -1,6 +1,7 @@
 package expresiones;
 
 import abstracto.AST;
+import estructuras.Arreglo;
 import estructuras.Lista;
 import estructuras.Matriz;
 import estructuras.Vector;
@@ -35,7 +36,7 @@ public class AccesoEstructura extends AST {
                     "que no ha sido definida aún. '" + this.identificador + "'.", fila, columna);
         }
 
-        if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.ARREGLO)) {
+        if (simbolo.getValor() instanceof Arreglo) {
             //todo acceso a arreglo
         } else if (simbolo.getValor() instanceof Matriz) {
             /**

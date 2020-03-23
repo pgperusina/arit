@@ -44,7 +44,7 @@ public class Matriz extends LinkedList {
 
         sb.append("    ");
         /**
-         * Imprimo el encabezado de la matriz (número de columna)
+         * Imprimo el encabezado del arreglo (número de columna)
          */
         for (int i = 1; i <= columnas; i++) {
             indice = i;

@@ -22,6 +22,7 @@ public final class Constantes {
     public static final String MEDIAN = "median";
     public static final String MODE = "mode";
     public static final String MATRIX = "matrix";
+    public static final String ARRAY = "array";
 
     public static final String PRINT_PARAMETRO = "print&&parametro";
     public static final String C_PARAMETRO = "c&&parametro";
@@ -41,4 +42,5 @@ public final class Constantes {
     public static final String MEDIAN_PARAMETRO = "median&&parametro";
     public static final String MODE_PARAMETRO = "mode&&parametro";
     public static final String MATRIX_PARAMETRO = "matrix&&parametro";
+    public static final String ARRAY_PARAMETRO = "array&&parametro";
 }
