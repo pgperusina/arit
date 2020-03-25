@@ -119,7 +119,7 @@ public interface GramaticaConstants {
     "\"#\"",
     "\"\\n\"",
     "<token of kind 8>",
-    "\"#*\"",
+    "\"*#\"",
     "<token of kind 10>",
     "<INTEGER>",
     "<NUMERIC>",

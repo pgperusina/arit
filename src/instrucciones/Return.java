@@ -19,7 +19,7 @@ public class Return extends AST{
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol tree) {
+    public Object ejecutar(Tabla tabla, Arbol tree) {
 //        Object result = expresion.interpretar(tabla, tree);
         this.tipo = expresion.getTipo();
         return this;

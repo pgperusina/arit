@@ -21,10 +21,10 @@ public class Declaracion extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol tree) {
+    public Object ejecutar(Tabla tabla, Arbol tree) {
         Object value = null;
 //        if (valor != null) {
-        value = this.valor.interpretar(tabla, tree);
+        value = this.valor.ejecutar(tabla, tree);
         if (value instanceof Excepcion) {
             return value;
         }
@@ -49,6 +49,8 @@ public class Declaracion extends AST {
          * crear nuevo símbolo y agregarlo a la tabla
          */
         Simbolo nuevoSimbolo = new Simbolo(this.tipo, this.identificador, value);
+        nuevoSimbolo.setFila(this.fila);
+        nuevoSimbolo.setColumna(this.columna);
         Object result = tabla.setVariable(nuevoSimbolo);
         if (result instanceof Excepcion) {
             tree.getExcepciones().add((Excepcion)result);

@@ -19,11 +19,11 @@ public class DoWhile extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         Object valorCondicion;
         do {
             Tabla childTable = new Tabla(tabla);
-            valorCondicion = this.condicion.interpretar(childTable, arbol);
+            valorCondicion = this.condicion.ejecutar(childTable, arbol);
 
             if (valorCondicion instanceof Excepcion) {
                 return valorCondicion;
@@ -32,7 +32,7 @@ public class DoWhile extends AST {
             Object result;
             if ((Boolean) valorCondicion) {
                 for (AST instruccion : instrucciones) {
-                    result = instruccion.interpretar(childTable, arbol);
+                    result = instruccion.ejecutar(childTable, arbol);
                     if (result instanceof Return || result instanceof Excepcion) {
                         return result;
                     }

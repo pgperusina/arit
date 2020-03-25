@@ -22,11 +22,11 @@ public class If extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         Object valorCondicion;
 
         Tabla childTable = new Tabla(tabla);
-        valorCondicion = condicion.interpretar(childTable, arbol);
+        valorCondicion = condicion.ejecutar(childTable, arbol);
 
         if (valorCondicion instanceof Excepcion) {
             return valorCondicion;
@@ -41,7 +41,7 @@ public class If extends AST {
         Object result;
         if ((Boolean) valorCondicion) {
             for (AST m : instruccionesIf) {
-                result = m.interpretar(childTable, arbol);
+                result = m.ejecutar(childTable, arbol);
                 if (result instanceof Return || result instanceof Excepcion
                         || result instanceof Break || result instanceof Continue) {
                     return result;
@@ -49,7 +49,7 @@ public class If extends AST {
             }
         } else {
             for (AST m : instruccionesElse) {
-                result = m.interpretar(childTable, arbol);
+                result = m.ejecutar(childTable, arbol);
                 if (result instanceof Return || result instanceof Excepcion
                         || result instanceof Break || result instanceof Continue) {
                     return result;

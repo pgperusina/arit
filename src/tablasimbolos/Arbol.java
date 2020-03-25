@@ -40,7 +40,7 @@ public class Arbol {
         return consola;
     }
 
-    public void setConsola(TextArea consola) {
+    public void setOutput(TextArea consola) {
         this.consola = consola;
     }
 

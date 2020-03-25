@@ -35,17 +35,17 @@ public class ExpresionLogica extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol tree) {
+    public Object ejecutar(Tabla tabla, Arbol tree) {
         Object izquierdo = null, derecho = null, unario = null;
 
         if (this.operandoU == null) {
-            izquierdo = this.operando1.interpretar(tabla, tree);
+            izquierdo = this.operando1.ejecutar(tabla, tree);
             if (izquierdo instanceof Excepcion) return izquierdo;
 
-            derecho = this.operando2.interpretar(tabla, tree);
+            derecho = this.operando2.ejecutar(tabla, tree);
             if (derecho instanceof Excepcion) return derecho;
         } else {
-            unario = this.operandoU.interpretar(tabla, tree);
+            unario = this.operandoU.ejecutar(tabla, tree);
             if (unario instanceof Excepcion) return unario;
         }
         this.tipo = new Tipo(Tipo.TipoDato.BOOLEAN);

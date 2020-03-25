@@ -1,6 +1,7 @@
 package instrucciones;
 
 import abstracto.AST;
+import estructuras.Arreglo;
 import estructuras.Lista;
 import estructuras.Matriz;
 import estructuras.Vector;
@@ -32,7 +33,7 @@ public class AsignacionIndiceEstructura extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
 
         Simbolo simbolo = tabla.getVariable(this.identificador);
         if (simbolo == null) {
@@ -40,7 +41,78 @@ public class AsignacionIndiceEstructura extends AST {
                     "que no ha sido definida aún. '" + this.identificador + "'.", fila, columna);
         }
         if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.ARREGLO)) {
-            //todo modificación a arreglo
+            Arreglo arreglo = (Arreglo) simbolo.getValor();
+            int filasArreglo = (Integer) arreglo.getDimensiones().getFirst();
+            int columnasArreglo = (Integer) arreglo.getDimensiones().get(1);
+            /**
+             * Valido que se esté accediendo a todas las dimensiones del arreglo
+             */
+            if (posiciones.size() != arreglo.getDimensiones().size()) {
+                return new Excepcion("Semántico", "Para modificar un arreglo debe de definir " +
+                        "un valor para cada dimensión del arreglo.",
+                        posiciones.get(1).fila, posiciones.get(1).columna);
+            }
+            /**
+             * Valido que cada índice sea solo de tipo 1 ([]),
+             * que esté dentro del rango de cada dimensión del arreglo
+             * y que sean de tipo entero
+             */
+            for (int i = 0; i < posiciones.size(); i++) {
+                if (!(posiciones.get(i) instanceof IndiceTipoUno)) {
+                    return new Excepcion("Semántico", "La modificación a arreglos solo " +
+                            "acepta el uso de índices de tipo 1 ([]).",
+                            posiciones.get(i).fila, posiciones.get(i).columna);
+                }
+                Object resultPosicion = posiciones.get(i).ejecutar(tabla, arbol);
+                if (!(resultPosicion instanceof Vector)) {
+                    return new Excepcion("Semántico", "Los índices de la modificación " +
+                            "de arreglos deben ser de tipo Vector.",
+                            posiciones.get(i).fila, posiciones.get(i).columna);
+                }
+                if (((Vector) resultPosicion).size() > 1) {
+                    return new Excepcion("Semántico", "Los índices de la modificación de arreglos " +
+                            "deben de ser de una sola posición.",
+                            posiciones.get(i).fila, posiciones.get(i).columna);
+                }
+                if (!(((Vector) resultPosicion).getFirst() instanceof Integer)) {
+                    return new Excepcion("Semántico", "Los índices de la modificación de arreglos " +
+                            "deben de ser de tipo entero.",
+                            posiciones.get(i).fila, posiciones.get(i).columna);
+                }
+                Integer posicionInt = (Integer) ((Vector) resultPosicion).getFirst();
+                if(posicionInt > (Integer)arreglo.getDimensiones().get(i) ||
+                        posicionInt < 1) {
+                    return new Excepcion("Semántico", "Los índices de la modificación de arreglos " +
+                            "deben de estar dentro del rango de posiciones de cada dimensión.",
+                            posiciones.get(i).fila, posiciones.get(i).columna);
+                }
+            }
+
+            /**
+             * Calculo la posición a modificar
+             */
+            int indiceFilas = (Integer)((Vector)posiciones.get(0).ejecutar(tabla, arbol)).getFirst();
+            int indiceColumnas = (Integer)((Vector)posiciones.get(1).ejecutar(tabla, arbol)).getFirst();
+            int indiceAModificar = ((indiceColumnas - 1) * filasArreglo)
+                    + indiceFilas;
+
+            for (int i = 2; i < posiciones.size(); i++) {
+                indiceAModificar = indiceAModificar *
+                        (Integer) ((Vector)posiciones.get(i).ejecutar(tabla, arbol)).getFirst();
+            }
+
+            Object result = valor.ejecutar(tabla, arbol);
+            if (result instanceof Excepcion) {
+                return result;
+            }
+            if (!(result instanceof Lista | result instanceof Vector)) {
+                return new Excepcion("Semántico", "La modificación de arreglos " +
+                        " solo permite valores de tipo Vector o Lista.", posiciones.get(1).fila, posiciones.get(1).columna);
+            }
+
+            arreglo.set(indiceAModificar - 1, result);
+            return null;
+
         } else if (simbolo.getValor() instanceof Matriz) {
             /**
              * Valido que las modificaciones sean solo las aceptadas para
@@ -62,7 +134,7 @@ public class AsignacionIndiceEstructura extends AST {
              * Dependiendo del tipo de acceso, accedo a la posición solicitada
              */
             if (indice instanceof IndiceTipoUnoMatriz) {
-                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                Object indiceInterpretado =  indice.ejecutar(tabla, arbol);
                 if (indiceInterpretado instanceof Excepcion) {
                     return indiceInterpretado;
                 }
@@ -94,7 +166,7 @@ public class AsignacionIndiceEstructura extends AST {
                 /**
                  * Obtengo al valor que deseo colocar en la posición de la matriz
                  */
-                Object valorInterpretado =  valor.interpretar(tabla, arbol);
+                Object valorInterpretado =  valor.ejecutar(tabla, arbol);
                 /**
                  * Si el valor no es un vector, retornar excepción
                  */
@@ -142,7 +214,7 @@ public class AsignacionIndiceEstructura extends AST {
                 }
                 return null;
             } else if (indice instanceof IndiceTipoDosMatriz) {
-                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                Object indiceInterpretado =  indice.ejecutar(tabla, arbol);
                 if (indiceInterpretado instanceof Excepcion) {
                     return indiceInterpretado;
                 }
@@ -170,7 +242,7 @@ public class AsignacionIndiceEstructura extends AST {
                 /**
                  * Obtengo al valor que deseo colocar en la posición de la matriz
                  */
-                Object resultValor =  valor.interpretar(tabla, arbol);
+                Object resultValor =  valor.ejecutar(tabla, arbol);
                 /**
                  * Si el valor no es un vector, retornar excepción
                  */
@@ -214,7 +286,7 @@ public class AsignacionIndiceEstructura extends AST {
                 }
                 return null;
             } else if (indice instanceof IndiceTipoTresMatriz) {
-                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                Object indiceInterpretado =  indice.ejecutar(tabla, arbol);
                 if (indiceInterpretado instanceof Excepcion) {
                     return indiceInterpretado;
                 }
@@ -242,7 +314,7 @@ public class AsignacionIndiceEstructura extends AST {
                 /**
                  * Obtengo al valor que deseo colocar en la posición de la matriz
                  */
-                Object resultValor =  valor.interpretar(tabla, arbol);
+                Object resultValor =  valor.ejecutar(tabla, arbol);
                 /**
                  * Si el valor no es un vector, retornar excepción
                  */
@@ -288,7 +360,7 @@ public class AsignacionIndiceEstructura extends AST {
                 return null;
             } else if (indice instanceof IndiceTipoUno) {
 
-                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                Object indiceInterpretado =  indice.ejecutar(tabla, arbol);
                 if (indiceInterpretado instanceof Excepcion) {
                     return indiceInterpretado;
                 }
@@ -316,7 +388,7 @@ public class AsignacionIndiceEstructura extends AST {
                 /**
                  * Obtengo al valor que deseo colocar en la posición de la matriz
                  */
-                Object resultValor =  valor.interpretar(tabla, arbol);
+                Object resultValor =  valor.ejecutar(tabla, arbol);
                 /**
                  * Si el valor no es un vector, retornar excepción
                  */
@@ -367,7 +439,7 @@ public class AsignacionIndiceEstructura extends AST {
              * deseada y modificarla
              */
             for (AST posicion : posiciones) {
-                Object resultPosicion = posicion.interpretar(tabla, arbol);
+                Object resultPosicion = posicion.ejecutar(tabla, arbol);
                 if (resultPosicion instanceof Excepcion) {
                     return resultPosicion;
                 }
@@ -393,7 +465,7 @@ public class AsignacionIndiceEstructura extends AST {
                  * Si es tipo 1 debo agregar solamente vectores o listas con un solo valor
                  * Si es tipo 2 debo agregar cualquier valor, listas o vectores de cualquier tamaño
                  */
-                LinkedList valorInterpretado = (LinkedList) valor.interpretar(tabla, arbol);
+                LinkedList valorInterpretado = (LinkedList) valor.ejecutar(tabla, arbol);
                 if (posicion instanceof IndiceTipoUno) {
                     /**
                      * Si el valor que se usará para modificar es mayor a uno retornar
@@ -432,7 +504,7 @@ public class AsignacionIndiceEstructura extends AST {
                         "a un índice.", fila, columna);
             }
             LinkedList valorSimbolo = (LinkedList) simbolo.getValor();
-            Object resultPosicion = posiciones.getFirst().interpretar(tabla, arbol);
+            Object resultPosicion = posiciones.getFirst().ejecutar(tabla, arbol);
             if (resultPosicion instanceof Excepcion) {
                 return resultPosicion;
             }
@@ -447,13 +519,13 @@ public class AsignacionIndiceEstructura extends AST {
                         "requiere que los índices a modificar sean mayores a '0'",
                         posiciones.get(0).fila, posiciones.get(0).columna);
             }
-            Object result = valor.interpretar(tabla, arbol);
+            Object result = valor.ejecutar(tabla, arbol);
 
             if (!(result instanceof LinkedList)) {
                 return new Excepcion("Semántico", "Error modificando posición '" + (Integer)valorPosicion.getFirst()
                         + "' de Vector.", posiciones.get(0).fila, posiciones.get(0).columna);
             }
-            LinkedList valorIntepretado = (LinkedList)valor.interpretar(tabla, arbol);
+            LinkedList valorIntepretado = (LinkedList)valor.ejecutar(tabla, arbol);
             if (valorIntepretado.size() > 1 ) {
                 return new Excepcion("Semántico", "La modificación de vectores vía índice " +
                         "requiere que el nuevo valor sea de tamaño 1.",
@@ -520,7 +592,6 @@ public class AsignacionIndiceEstructura extends AST {
                 return null;
             }
         }
-        return null;
     }
 
     private void modificarMatrizIndiceTipoDos(int filasMatriz, LinkedList valorIndice,

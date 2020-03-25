@@ -19,12 +19,13 @@ public class Analizar {
     public static void main(String[] args) throws FileNotFoundException {
         try {
             Gramatica parser = new Gramatica(new BufferedReader(new FileReader("/Users/pgarcia/Documents/USAC/1erSemestre2020/compi2/lab/arit/entrada.txt")));
+//            Gramatica parser = new Gramatica(new BufferedReader(new FileReader("/Users/pgarcia/Documents/USAC/1erSemestre2020/compi2/lab/arit/entradaFinal.txt")));
             Arbol arbol = parser.analizar();
             Tabla tabla = new Tabla(null);
             // Se agregan las funciones nativas a la tabla de símbolos
             agregarFuncionesNativas(tabla);
             arbol.setTablaGlobal(tabla);
-            // Segundo recorrido para agregar funciones a la TS
+            // Primer recorrido para agregar funciones a la TS
             for (AST instruccion : arbol.getInstrucciones()) {
                 if (instruccion instanceof Funcion) {
                     Object result = tabla.setFuncion((Funcion) instruccion);
@@ -39,7 +40,7 @@ public class Analizar {
 
             for (AST m : arbol.getInstrucciones()) {
                 if (!(m instanceof Funcion)) {
-                    Object result = m.interpretar(tabla, arbol);
+                    Object result = m.ejecutar(tabla, arbol);
 
                     if (result instanceof Excepcion) {
                         arbol.getExcepciones().add((Excepcion) result);
@@ -60,12 +61,12 @@ public class Analizar {
                 }
             }
 
-            System.out.println("******* EXCEPCIONES ******");
-            arbol.getExcepciones().forEach(excepcion -> {
-                System.out.println(excepcion.toString());
-            });
-            System.out.print(arbol);
-            System.out.print(arbol);
+            if (arbol.getExcepciones().size() != 0) {
+                System.out.println("******* EXCEPCIONES ******");
+                arbol.getExcepciones().forEach(excepcion -> {
+                    System.out.println(excepcion.toString());
+                });
+            }
         } catch (ParseException e) {
             System.err.println(e.getMessage());
         } catch (TokenMgrError e) {

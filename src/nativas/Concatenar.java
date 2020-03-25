@@ -9,7 +9,6 @@ import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
-import utilities.Utils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -25,7 +24,7 @@ public class Concatenar extends Funcion {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         int count = 1;
         int prioridad = 0;
 
@@ -107,7 +106,7 @@ public class Concatenar extends Funcion {
         Object result;
         int count = 1;
         for (AST argumento : argumentos) {
-            result = argumento.interpretar(tabla, arbol);
+            result = argumento.ejecutar(tabla, arbol);
             if (result instanceof Excepcion) {
                 return result;
             }

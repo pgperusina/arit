@@ -18,7 +18,7 @@ public class TypeOf extends Funcion {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         Simbolo simbolo = tabla.getVariable(TYPEOF_PARAMETRO);
         if (simbolo == null) {
             Excepcion ex = new Excepcion("Semántico", "El argumento enviado a la funcion TypeOf no es válido. " + this.nombre + ".", fila, columna);

@@ -3,7 +3,6 @@ package expresiones;
 import abstracto.AST;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
-import tablasimbolos.Tipo;
 
 /**
  * Indice para acceder a listas, el cual devolverá el valor crudo de la posición definida
@@ -21,7 +20,7 @@ public class IndiceTipoDos extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
-        return this.valor.interpretar(tabla, arbol);
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
+        return this.valor.ejecutar(tabla, arbol);
     }
 }

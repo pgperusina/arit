@@ -6,13 +6,11 @@ import estructuras.Lista;
 import estructuras.Matriz;
 import estructuras.Vector;
 import excepciones.Excepcion;
-import nativas.List;
 import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -29,7 +27,7 @@ public class AccesoEstructura extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         Simbolo simbolo = tabla.getVariable(this.identificador);
         if (simbolo == null) {
             return new Excepcion("Semántico", "Se está tratando acceder a una posición de una variable " +
@@ -37,7 +35,88 @@ public class AccesoEstructura extends AST {
         }
 
         if (simbolo.getValor() instanceof Arreglo) {
-            //todo acceso a arreglo
+
+            Arreglo arreglo = (Arreglo) simbolo.getValor();
+            int filasArreglo = (Integer) arreglo.getDimensiones().getFirst();
+            int columnasArreglo = (Integer) arreglo.getDimensiones().get(1);
+            /**
+             * Valido que se esté accediendo a todas las dimensiones del arreglo
+             */
+            if (posiciones.size() != arreglo.getDimensiones().size()) {
+                return new Excepcion("Semántico", "Para acceder a un arreglo debe de definir " +
+                        "un valor para cada dimensión del arreglo.",
+                        posiciones.get(1).fila, posiciones.get(1).columna);
+            }
+            /**
+             * Valido que cada índice sea solo de tipo 1 ([]),
+             * que esté dentro del rango de cada dimensión del arreglo
+             * y que sean de tipo entero
+             */
+            int indiceValor = 1;
+            for (int i = 0; i < posiciones.size(); i++) {
+                if (!(posiciones.get(i) instanceof IndiceTipoUno)) {
+                    return new Excepcion("Semántico", "El acceso a arreglos solo acepta el uso " +
+                            "de índices de tipo 1 ([]).",
+                            posiciones.get(i).fila, posiciones.get(i).columna);
+                }
+                Object resultPosicion = posiciones.get(i).ejecutar(tabla, arbol);
+                if (!(resultPosicion instanceof Vector)) {
+                    return new Excepcion("Semántico", "Los índices del acceso a arreglos " +
+                            "deben de ser de tipo Vector.",
+                            posiciones.get(i).fila, posiciones.get(i).columna);
+                }
+                if (((Vector) resultPosicion).size() > 1) {
+                    return new Excepcion("Semántico", "Los índices del acceso a arreglos " +
+                            "deben de ser de una sola posición.",
+                            posiciones.get(i).fila, posiciones.get(i).columna);
+                }
+                if (!(((Vector) resultPosicion).getFirst() instanceof Integer)) {
+                    return new Excepcion("Semántico", "Los índices del acceso a arreglos " +
+                            "deben de ser de tipo entero.",
+                            posiciones.get(i).fila, posiciones.get(i).columna);
+                }
+                Integer posicionInt = (Integer) ((Vector) resultPosicion).getFirst();
+                if(posicionInt > (Integer)arreglo.getDimensiones().get(i) ||
+                        posicionInt < 1) {
+                    return new Excepcion("Semántico", "Los índices del acceso a arreglos " +
+                            "deben de estar dentro del rango de posiciones de cada dimensión.",
+                            posiciones.get(i).fila, posiciones.get(i).columna);
+                }
+                /**
+                 * Calculo el índice en el que se encuentra el valor buscado
+                 */
+                indiceValor = indiceValor * posicionInt ;
+            }
+            /**
+             * Calculo la posición a modificar
+             */
+            int indiceFilas = (Integer)((Vector)posiciones.get(0).ejecutar(tabla, arbol)).getFirst();
+            int indiceColumnas = (Integer)((Vector)posiciones.get(1).ejecutar(tabla, arbol)).getFirst();
+            int indiceAModificar = ((indiceColumnas - 1) * filasArreglo)
+                    + indiceFilas;
+            int tamañoMatriz = filasArreglo * columnasArreglo;
+
+//            int tamanoPosicionAnterior = 0;
+//            int tamanoPosicionActual;
+//            for (int i = 2; i < posiciones.size(); i++) {
+//                tamanoPosicionActual = (Integer)arreglo.getDimensiones().get(i);
+//                int posicionActual = (Integer) ((Vector)posiciones.get(i).interpretar(tabla, arbol)).getFirst();
+//                if ()
+//                indiceAModificar = indiceAModificar *
+//                        (Integer) ((Vector)posiciones.get(i).interpretar(tabla, arbol)).getFirst();
+//
+//                tamanoPosicionAnterior = tamanoPosicionActual;
+//            }
+
+            Object result = arreglo.get(indiceValor - 1);
+
+            /**
+             * Defino el tipo que devolvemos
+             * y retornamos valor encontrado
+             */
+            this.tipo = new Tipo(simbolo.getTipo().getTipoDato(), Tipo.TipoEstructura.VECTOR);
+            return result;
+
         } else if (simbolo.getValor() instanceof Matriz) {
             /**
              * Valido que las busquedas sean solo las aceptadas para
@@ -61,7 +140,7 @@ public class AccesoEstructura extends AST {
             int columnasMatriz = ((Matriz) simbolo.getValor()).getColumnas();
 
             if (indice instanceof IndiceTipoUnoMatriz) {
-                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                Object indiceInterpretado =  indice.ejecutar(tabla, arbol);
                 if (indiceInterpretado instanceof Excepcion) {
                     return indiceInterpretado;
                 }
@@ -89,7 +168,7 @@ public class AccesoEstructura extends AST {
                 result.addAll(Arrays.asList(valor.get(posicionBuscada-1)));
 
             } else if (indice instanceof IndiceTipoDosMatriz) {
-                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                Object indiceInterpretado =  indice.ejecutar(tabla, arbol);
                 if (indiceInterpretado instanceof Excepcion) {
                     return indiceInterpretado;
                 }
@@ -111,7 +190,7 @@ public class AccesoEstructura extends AST {
                 result.addAll(filaBuscada);
 
             } else if (indice instanceof IndiceTipoTresMatriz) {
-                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                Object indiceInterpretado =  indice.ejecutar(tabla, arbol);
                 if (indiceInterpretado instanceof Excepcion) {
                     return indiceInterpretado;
                 }
@@ -133,7 +212,7 @@ public class AccesoEstructura extends AST {
                 }
                 result.addAll(columnaBuscada);
             } else if (indice instanceof IndiceTipoUno) {
-                Object indiceInterpretado =  indice.interpretar(tabla, arbol);
+                Object indiceInterpretado =  indice.ejecutar(tabla, arbol);
                 if (indiceInterpretado instanceof Excepcion) {
                     return indiceInterpretado;
                 }
@@ -162,7 +241,7 @@ public class AccesoEstructura extends AST {
             this.tipo = simbolo.getTipo();
             LinkedList valor = (LinkedList) simbolo.getValor();
             for (AST posicion : posiciones) {
-                Object resultPosicion = posicion.interpretar(tabla, arbol);
+                Object resultPosicion = posicion.ejecutar(tabla, arbol);
                 if (resultPosicion instanceof Excepcion) {
                     return resultPosicion;
                 }
@@ -249,7 +328,7 @@ public class AccesoEstructura extends AST {
                             "debe usar el acceso 'tipo uno' ([]).", fila, columna);
                 }
 
-                Object resultPosicion = posicion.interpretar(tabla, arbol);
+                Object resultPosicion = posicion.ejecutar(tabla, arbol);
                 if (resultPosicion instanceof Excepcion) {
                     return resultPosicion;
                 }
@@ -272,6 +351,5 @@ public class AccesoEstructura extends AST {
             }
             return valor;
         }
-        return null;
     }
 }

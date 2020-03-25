@@ -14,8 +14,8 @@ public class IndiceTipoDosMatriz extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
 
-        return this.valor.interpretar(tabla, arbol);
+        return this.valor.ejecutar(tabla, arbol);
     }
 }

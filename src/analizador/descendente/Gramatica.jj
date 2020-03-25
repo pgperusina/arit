@@ -59,7 +59,7 @@ SKIP : {
     | "\t"
     | "\r"
     | "\n"
-    | <"#*">  : MULTI_LINE_COMMENT
+    | <"#*"> : MULTI_LINE_COMMENT
     | <"#">  : IN_LINE_COMMENT
 }
 
@@ -76,7 +76,7 @@ SKIP : {
 
 <MULTI_LINE_COMMENT> SKIP:
 {
-   "#*" : DEFAULT
+   "*#" : DEFAULT
 }
 
 <MULTI_LINE_COMMENT> MORE:

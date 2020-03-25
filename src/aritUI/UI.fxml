@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.fxmisc.richtext.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="502.0" prefWidth="732.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aritUI.Controller">
+<AnchorPane id="AnchorPane" prefHeight="735" prefWidth="1180" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aritUI.Controller">
     <children>
-        <Label layoutX="300.0" layoutY="14.0" text="Entrada">
-            <font>
-                <Font size="39.0" />
-            </font>
-        </Label>
-        <TextArea fx:id="entrada" layoutX="14.0" layoutY="69.0" prefHeight="394.0" prefWidth="393.0" style="-fx-font-weight: bold; -fx-font-size: 14;" wrapText="true" />
-        <Button fx:id="btnEjecutar" layoutX="182.0" layoutY="470.0" mnemonicParsing="false" onAction="#Ejecutar" style="-fx-background-color: #0bff81;" text="Ejecutar" ></Button>
-        <TextArea fx:id="consola" editable="false" layoutX="420.0" layoutY="70.0" prefHeight="394.0" prefWidth="306.0" style="-fx-control-inner-background: black; -fx-text-fill: #0bff81; -fx-font-size: 14;" text="" wrapText="true" />
+      <VBox layoutX="13.0" layoutY="6.0" prefHeight="703.0" prefWidth="1155.0">
+         <MenuBar>
+           <menus>
+             <Menu mnemonicParsing="false" text="Archivo">
+               <items>
+                 <MenuItem fx:id="menuAbrir" mnemonicParsing="false" text="Abrir" />
+                 <MenuItem fx:id="menuGuardar" mnemonicParsing="false" text="Guardar" />
+                 <MenuItem fx:id="menuGuardarComo" mnemonicParsing="false" text="Guardar Como" />
+               </items>
+             </Menu>
+             <Menu mnemonicParsing="false" text="Ayuda">
+               <items>
+                 <MenuItem fx:id="menuCodigoFuente" mnemonicParsing="false" onAction="#abrirGitHub" text="Acerca De">
+                 </MenuItem>
+               </items>
+             </Menu>
+           </menus>
+         </MenuBar>
+         <HBox fillHeight="true" prefHeight="100.0" prefWidth="200.0" spacing="10">
+            <children>
+               <Button fx:id="botonEjecutar" mnemonicParsing="false" onAction="#Ejecutar" prefHeight="100.0" prefWidth="228" text="Ejecutar Archivo" />
+               <Button mnemonicParsing="false" onAction="#reporteErrores" prefHeight="100.0" prefWidth="228" text="Reporte de Errores" />
+               <Button mnemonicParsing="false" onAction="#reporteTS" prefHeight="100.0" prefWidth="228" text="Reporte de Tabla de Símbolos" />
+               <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="228" text="Reporte de AST" />
+               <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="228" text="Mostrar Gráficas" />
+            </children></HBox>
+          <HBox fillHeight="true" layoutX="22.0" layoutY="84.0" prefHeight="620.0" prefWidth="1137.0" spacing="30">
+              <CodeArea fx:id="archivo" lineHighlighterOn="true" prefHeight="620.0" prefWidth="580.0" wrapText="true" />
+              <TextArea fx:id="consola" editable="false" layoutX="620.0" layoutY="113.0" prefHeight="620.0" prefWidth="576.0" style="-fx-font-weight: bold; -fx-text-fill:white; -fx-font-size: 14; -fx-control-inner-background: black;" wrapText="true" />
+          </HBox>
+      </VBox>
     </children>
 </AnchorPane>

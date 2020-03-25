@@ -3,9 +3,11 @@ package instrucciones;
 import abstracto.AST;
 import excepciones.Excepcion;
 import tablasimbolos.Arbol;
+import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class For extends AST {
 
@@ -22,35 +24,37 @@ public class For extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol tree) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         Object valorExpresion;
 
-        Tabla childTable = new Tabla(tabla);
-        valorExpresion = expresion.interpretar(childTable, tree);
+        Tabla t = new Tabla(tabla);
+        valorExpresion = expresion.ejecutar(t, arbol);
 
         if (valorExpresion instanceof Excepcion) {
             return valorExpresion;
         }
 
-        Object result;
+        Object result = tabla.getVariable(this.identificador);
 
-        if ((Boolean) valorExpresion) {
-            for (AST i : instrucciones) {
-                result = i.interpretar(childTable, tree);
-                if (result instanceof Excepcion) {
-                    return result;
-                }
-                if (result instanceof Return || result instanceof Excepcion) {
-                    return result;
-                }
-                if(result instanceof Break){
-                    return null;
-                }
-                if(result instanceof Continue){
-                    break;
-                }
+        if (result == null) {
+            t.setVariable(new Simbolo(expresion.getTipo(), this.identificador, new LinkedList<>()));
+        }
+
+        LinkedList linkedList = (LinkedList) valorExpresion;
+        for (int i = 0; i < linkedList.size(); i++) {
+            Object o = linkedList.get(i);
+            result = instrucciones.get(i).ejecutar(t, arbol);
+            if (result instanceof Return || result instanceof Excepcion) {
+                return result;
+            }
+            if(result instanceof Break){
+                return null;
+            }
+            if(result instanceof Continue){
+                break;
             }
         }
+
         return null;
     }
 }

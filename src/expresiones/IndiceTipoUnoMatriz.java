@@ -18,10 +18,10 @@ public class IndiceTipoUnoMatriz extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         LinkedList valores = new LinkedList();
-        valores.add(valorFila.interpretar(tabla, arbol));
-        valores.add(valorColumna.interpretar(tabla, arbol));
+        valores.add(valorFila.ejecutar(tabla, arbol));
+        valores.add(valorColumna.ejecutar(tabla, arbol));
         return valores;
     }
 }

@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import org.fxmisc.richtext.LineNumberFactory;
 
 public class AritSoftware extends Application {
 
@@ -12,7 +14,8 @@ public class AritSoftware extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("UI.fxml"));
         primaryStage.setTitle("Arit Software");
-        primaryStage.setScene(new Scene(root, 732, 502));
+        primaryStage.setResizable(true);
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 

@@ -13,7 +13,6 @@ import tablasimbolos.Tipo;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static utilities.Constantes.C_PARAMETRO;
 import static utilities.Constantes.MATRIX_PARAMETRO;
 
 public class Matrix extends Funcion {
@@ -22,7 +21,7 @@ public class Matrix extends Funcion {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         int count = 1;
         LinkedList<Simbolo> parametros = new LinkedList<>();
         while(tabla.getVariableLocal(MATRIX_PARAMETRO + count) != null) {
@@ -82,7 +81,7 @@ public class Matrix extends Funcion {
                     argumentos.get(0).fila, argumentos.get(0).columna);
         }
         for (AST argumento : argumentos) {
-            result = argumento.interpretar(tabla, arbol);
+            result = argumento.ejecutar(tabla, arbol);
             if (result instanceof Excepcion) {
                 return result;
             }

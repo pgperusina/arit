@@ -693,7 +693,7 @@ private int jjMoveStringLiteralDfa0_1(){
 private int jjMoveStringLiteralDfa0_2(){
    switch(curChar)
    {
-      case 35:
+      case 42:
          return jjMoveStringLiteralDfa1_2(0x200L);
       default :
          return 1;
@@ -706,7 +706,7 @@ private int jjMoveStringLiteralDfa1_2(long active0){
    }
    switch(curChar)
    {
-      case 42:
+      case 35:
          if ((active0 & 0x200L) != 0L)
             return jjStopAtPos(1, 9);
          break;

@@ -19,7 +19,7 @@ public class Valor extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         return this.valor;
     }
 

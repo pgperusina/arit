@@ -12,6 +12,7 @@ import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import static utilities.Constantes.*;
@@ -22,7 +23,7 @@ public class Array extends Funcion {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         int count = 1;
         LinkedList<Simbolo> parametros = new LinkedList<>();
         while(tabla.getVariableLocal(ARRAY_PARAMETRO + count) != null) {
@@ -62,10 +63,24 @@ public class Array extends Funcion {
              * llegue al tamaño, reinicio posicionData a 0
              */
             if (posicionData <= valorData.size()-1) {
-                result.add(valorData.get(posicionData++));
+                if (valorData.get(posicionData) instanceof Integer ||
+                        valorData.get(posicionData) instanceof String ||
+                        valorData.get(posicionData) instanceof Double ||
+                        valorData.get(posicionData) instanceof Boolean) {
+                    result.add(new Vector(Arrays.asList(valorData.get(posicionData++))));
+                } else {
+                    result.add(valorData.get(posicionData++));
+                }
             } else {
                 posicionData = 0;
-                result.add(valorData.get(posicionData++));
+                if (valorData.get(posicionData) instanceof Integer ||
+                        valorData.get(posicionData) instanceof String ||
+                        valorData.get(posicionData) instanceof Double ||
+                        valorData.get(posicionData) instanceof Boolean) {
+                    result.add(new Vector(Arrays.asList(valorData.get(posicionData++))));
+                } else {
+                    result.add(valorData.get(posicionData++));
+                }
             }
         }
 
@@ -94,7 +109,7 @@ public class Array extends Funcion {
          * Verifico que el primer argumento sea un vector o una lista
          * de lo contrario retorno una excepción
          */
-        result = argumentos.get(0).interpretar(tabla, arbol);
+        result = argumentos.get(0).ejecutar(tabla, arbol);
         if (result instanceof Excepcion) {
             return result;
         }
@@ -108,7 +123,7 @@ public class Array extends Funcion {
          * Verifico que el seguno argumento sea un vector
          * de lo contrario retorno una excepción
          */
-        result = argumentos.get(1).interpretar(tabla, arbol);
+        result = argumentos.get(1).ejecutar(tabla, arbol);
         if (result instanceof Excepcion) {
             return result;
         }
@@ -133,7 +148,7 @@ public class Array extends Funcion {
          * Cargo los argumentos a la tabla de símbolos
          */
         for (AST argumento : argumentos) {
-            result = argumento.interpretar(tabla, arbol);
+            result = argumento.ejecutar(tabla, arbol);
             Simbolo simbolo = new Simbolo(argumento.getTipo(), ARRAY_PARAMETRO + count++, result);
             result = tabla.setVariableLocal(simbolo);
 

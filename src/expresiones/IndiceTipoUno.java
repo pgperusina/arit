@@ -3,9 +3,6 @@ package expresiones;
 import abstracto.AST;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
-import tablasimbolos.Tipo;
-
-import java.util.LinkedList;
 
 /**
  * Indice para acceder a listas, el cual devolverá una nueva lista
@@ -22,8 +19,8 @@ public class IndiceTipoUno extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
 
-        return this.valor.interpretar(tabla, arbol);
+        return this.valor.ejecutar(tabla, arbol);
     }
 }

@@ -8,7 +8,6 @@ import estructuras.Vector;
 
 public class Arreglo extends LinkedList {
 
-    private int suma = 0;
 
     private Vector dimensiones;
 
@@ -132,6 +131,8 @@ public class Arreglo extends LinkedList {
         int indice;
         int nextPos = 0;
         Arreglo copy = new Arreglo(this);
+        String nombreEstructura;
+        int cantidadElementosEstructura;
 
         for (LinkedList<Integer> encabezado : encabezados) {
             /**
@@ -148,7 +149,7 @@ public class Arreglo extends LinkedList {
              */
             for (int i = 1; i <= columnas; i++) {
                 indice = i;
-                sb.append("[," + indice + "]  ");
+                sb.append("[," + indice + "]    ");
             }
             sb.append("\n");
             /**
@@ -170,11 +171,26 @@ public class Arreglo extends LinkedList {
                     /**
                      * Imprimo la posición indicada para la columna actual
                      */
-                    sb.append(copy.get(row + nextPos) + "     ");
+                    Object val = copy.get(row + nextPos);
+                    if (val instanceof Lista) {
+                        Lista l = (Lista)val;
+                        sb.append("List,"+l.size());
+                    } else if( val instanceof Vector) {
+                        Vector v = (Vector) val;
+                        if (((Vector) val).size() > 1) {
+                            sb.append(v.getFirst().getClass().getSimpleName() + "," + v.size());
+                        } else {
+                            sb.append(v.getFirst());
+                        }
+                    } else {
+                        sb.append(val+"  ");
+                    }
+                    sb.append("    ");
                     nextPos += filas;
                 }
                 sb.append("\n");
             }
+            sb.append("\n");
             copy.removeRange(0, nextPos);
         }
     }

@@ -8,7 +8,7 @@ public class AST {
     public int fila;
     public int columna;
 
-    public Object interpretar(Tabla tabla, Arbol tree) {
+    public Object ejecutar(Tabla tabla, Arbol tree) {
         return null;
     }
 

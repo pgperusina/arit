@@ -38,9 +38,9 @@ public class Funcion extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         for (AST instruccion : instrucciones) {
-            Object result = instruccion.interpretar(tabla, arbol);
+            Object result = instruccion.ejecutar(tabla, arbol);
             if (result instanceof Excepcion) {
                 return result;
             }
@@ -49,7 +49,10 @@ public class Funcion extends AST {
                 if (r.getExpresion() == null) {
                     return null;
                 }
-                result = r.getExpresion().interpretar(tabla, arbol);
+                result = r.getExpresion().ejecutar(tabla, arbol);
+                if (result instanceof Excepcion) {
+                    return result;
+                }
                 String tipoDatoExpresion = ((LinkedList)result).getFirst().getClass()
                         .getSimpleName().toLowerCase();
                 Tipo.TipoEstructura tipoEstructuraExpresion = getTipoEstructura(result, arbol);

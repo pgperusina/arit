@@ -23,7 +23,7 @@ public class Llamada extends AST {
     }
 
     @Override
-    public Object interpretar(Tabla tabla, Arbol arbol) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         Object result = tabla.getFuncion(nombre);
         if (result == null) {
             return new Excepcion("Semántico", "No se ha encontrado la función '" + this.nombre +"'", fila, columna);
@@ -42,7 +42,7 @@ public class Llamada extends AST {
                 return result;
             }
             if (!(funcion.getNombre().equalsIgnoreCase("print"))) {
-                Object o = funcion.interpretar(t, arbol);
+                Object o = funcion.ejecutar(t, arbol);
                 if (o instanceof Simbolo) {
                     this.tipo = ((Simbolo) o).getTipo();
                     return ((Simbolo) o).getValor();
@@ -51,7 +51,7 @@ public class Llamada extends AST {
                 }
             }
 
-            return funcion.interpretar(t, arbol);
+            return funcion.ejecutar(t, arbol);
         }
 
         /**
@@ -61,14 +61,14 @@ public class Llamada extends AST {
         if (funcion.getParametros().size() == this.argumentos.size()) {
             Tabla t = new Tabla(tabla);
             for (int i = 0; i < funcion.getParametros().size(); i++) {
-                result = this.argumentos.get(i).interpretar(t, arbol);
+                result = this.argumentos.get(i).ejecutar(t, arbol);
                 Object parametro = funcion.getParametros().get(i);
                 if (result instanceof Excepcion) {
                     return result;
                 }
                 if (result instanceof ArgumentoDefault) {
                     if (parametro instanceof Declaracion) {
-                        result = ((Declaracion) parametro).interpretar(t, arbol);
+                        result = ((Declaracion) parametro).ejecutar(t, arbol);
                     } else {
                         return new Excepcion("Semántico", "El parámetro "
                                 + ((Identificador) parametro).getIdentificador()
@@ -128,7 +128,7 @@ public class Llamada extends AST {
 //            } else {
 //                return new Excepcion("Semántico", "Error ejecutando la función '" + funcion.getNombre() +"'.", fila, columna);
 //            }
-            Object o = funcion.interpretar(t, arbol);
+            Object o = funcion.ejecutar(t, arbol);
             this.tipo = funcion.getTipo();
             return o;
         } else {
