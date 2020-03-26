@@ -31,13 +31,13 @@ public class ExpresionRelacional extends AST {
     }
 
     @Override
-    public Object ejecutar(Tabla tabla, Arbol tree) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         Object izquierdo = null, derecho = null;
 
-        izquierdo = this.operando1.ejecutar(tabla, tree);
+        izquierdo = this.operando1.ejecutar(tabla, arbol);
         if (izquierdo instanceof Excepcion) return izquierdo;
 
-        derecho = this.operando2.ejecutar(tabla, tree);
+        derecho = this.operando2.ejecutar(tabla, arbol);
         if (derecho instanceof Excepcion) return derecho;
 
         this.tipo = new Tipo(Tipo.TipoDato.BOOLEAN);
@@ -47,7 +47,7 @@ public class ExpresionRelacional extends AST {
                 return (double) izquierdo < (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador <", fila, columna);
-                tree.getExcepciones().add(ex);
+                arbol.getExcepciones().add(ex);
                 return ex;
             }
         } else if (this.operador == OperadorRelacional.MAYORQUE) {
@@ -56,7 +56,7 @@ public class ExpresionRelacional extends AST {
                 return (double) izquierdo > (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador >", fila, columna);
-                tree.getExcepciones().add(ex);
+                arbol.getExcepciones().add(ex);
                 return ex;
             }
         } else if (this.operador == OperadorRelacional.MAYORIGUAL) {
@@ -65,7 +65,7 @@ public class ExpresionRelacional extends AST {
                 return (double) izquierdo >= (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador >=", fila, columna);
-                tree.getExcepciones().add(ex);
+                arbol.getExcepciones().add(ex);
                 return ex;
             }
         } else if (this.operador == OperadorRelacional.MENORIGUAL) {
@@ -74,7 +74,7 @@ public class ExpresionRelacional extends AST {
                 return (double) izquierdo <= (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador <=", fila, columna);
-                tree.getExcepciones().add(ex);
+                arbol.getExcepciones().add(ex);
                 return ex;
             }
         } else if (this.operador == OperadorRelacional.IGUALA) {
@@ -83,7 +83,7 @@ public class ExpresionRelacional extends AST {
                 return (double) izquierdo == (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador ==", fila, columna);
-                tree.getExcepciones().add(ex);
+                arbol.getExcepciones().add(ex);
                 return ex;
             }
         } else if (this.operador == OperadorRelacional.DIFERENTEDE) {
@@ -92,7 +92,7 @@ public class ExpresionRelacional extends AST {
                 return (double) izquierdo != (double) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador !=", fila, columna);
-                tree.getExcepciones().add(ex);
+                arbol.getExcepciones().add(ex);
                 return ex;
             }
         }

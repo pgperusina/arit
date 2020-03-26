@@ -23,7 +23,7 @@ public class Asignacion extends AST {
     }
 
     @Override
-    public Object ejecutar(Tabla tabla, Arbol tree) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         Simbolo id;
         Object acceso;
         if (tabla.getVariable(identificador) == null) {
@@ -33,7 +33,7 @@ public class Asignacion extends AST {
         }
 
         if (expresionAcceso != null) {
-            acceso = expresionAcceso.ejecutar(tabla, tree);
+            acceso = expresionAcceso.ejecutar(tabla, arbol);
             if (acceso instanceof Excepcion) {
                 return acceso;
             }

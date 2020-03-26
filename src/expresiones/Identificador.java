@@ -16,7 +16,7 @@ public class Identificador extends AST {
     }
 
     @Override
-    public Object ejecutar(Tabla tabla, Arbol tree) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         Simbolo simbolo = tabla.getVariable(identificador);
         if (simbolo == null) {
             return new Excepcion("Semántico",

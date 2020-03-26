@@ -35,17 +35,17 @@ public class ExpresionLogica extends AST {
     }
 
     @Override
-    public Object ejecutar(Tabla tabla, Arbol tree) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         Object izquierdo = null, derecho = null, unario = null;
 
         if (this.operandoU == null) {
-            izquierdo = this.operando1.ejecutar(tabla, tree);
+            izquierdo = this.operando1.ejecutar(tabla, arbol);
             if (izquierdo instanceof Excepcion) return izquierdo;
 
-            derecho = this.operando2.ejecutar(tabla, tree);
+            derecho = this.operando2.ejecutar(tabla, arbol);
             if (derecho instanceof Excepcion) return derecho;
         } else {
-            unario = this.operandoU.ejecutar(tabla, tree);
+            unario = this.operandoU.ejecutar(tabla, arbol);
             if (unario instanceof Excepcion) return unario;
         }
         this.tipo = new Tipo(Tipo.TipoDato.BOOLEAN);
@@ -55,7 +55,7 @@ public class ExpresionLogica extends AST {
                 return (boolean) izquierdo && (boolean) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semantico", "Error de tipos con el operador AND", fila, columna);
-                tree.getExcepciones().add(ex);
+                arbol.getExcepciones().add(ex);
                 return ex;
             }
         } else if (this.operador == OperadorLogico.OR) {
@@ -64,7 +64,7 @@ public class ExpresionLogica extends AST {
                 return (boolean) izquierdo || (boolean) derecho;
             } else {
                 Excepcion ex = new Excepcion("Semantico", "Error de tipos con el operador OR", fila, columna);
-                tree.getExcepciones().add(ex);
+                arbol.getExcepciones().add(ex);
                 return ex;
             }
         } else if (this.operador == OperadorLogico.NOT) {
@@ -72,7 +72,7 @@ public class ExpresionLogica extends AST {
                 return !((boolean) unario);
             } else {
                 Excepcion ex = new Excepcion("Semantico", "Error de tipos con el operador NOT", fila, columna);
-                tree.getExcepciones().add(ex);
+                arbol.getExcepciones().add(ex);
                 return ex;
             }
         }

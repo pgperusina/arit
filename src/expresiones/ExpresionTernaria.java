@@ -21,19 +21,19 @@ public class ExpresionTernaria extends AST {
     }
 
     @Override
-    public Object ejecutar(Tabla tabla, Arbol tree) {
+    public Object ejecutar(Tabla tabla, Arbol arbol) {
         Object condicion;
 
-        condicion = this.condicion.ejecutar(tabla, tree);
+        condicion = this.condicion.ejecutar(tabla, arbol);
         if (condicion instanceof Excepcion) return condicion;
 
         this.tipo = new Tipo(Tipo.TipoDato.BOOLEAN);
 
         if (this.condicion.tipo.getTipoDato() == Tipo.TipoDato.BOOLEAN) {
-            return (boolean) operando1.ejecutar(tabla, tree) ? operando1.ejecutar(tabla, tree) : operando2.ejecutar(tabla, tree);
+            return (boolean) operando1.ejecutar(tabla, arbol) ? operando1.ejecutar(tabla, arbol) : operando2.ejecutar(tabla, arbol);
         } else {
             Excepcion ex = new Excepcion("Semántico", "La condición del operador ternario no es de tipo Boolean.", fila, columna);
-            tree.getExcepciones().add(ex);
+            arbol.getExcepciones().add(ex);
             return ex;
         }
     }
