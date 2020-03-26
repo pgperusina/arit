@@ -43,17 +43,17 @@ public class Print extends Funcion {
             Arreglo m = (Arreglo) simbolo.getValor();
             if (m.size() == 0) {
                 System.out.println("Arreglo vacío");
-                arbol.getConsola().setText(arbol.getConsola().getText() + "Arreglo vacío" + "\n");
+                printLineaConsola(arbol, "Arreglo vacío");
             }
             if (simbolo.getTipo().getTipoDato().equals(Tipo.TipoDato.OBJETO)) {
-                arbol.getConsola().setText(arbol.getConsola().getText() +
-                        simbolo.getTipo().getTipoEstructura().toString() +"=>LISTA" + "\n");
+                printLineaConsola(arbol,
+                        simbolo.getTipo().getTipoEstructura().toString() +"=>LISTA");
                 System.out.println("" + simbolo.getTipo().getTipoEstructura() + "=>" + "LISTA");
             } else {
-                arbol.getConsola().setText(arbol.getConsola().getText() + simbolo.getTipo().toString() + "\n\n");
+                printLineaConsola(arbol, simbolo.getTipo().toString() + "\n");
                 System.out.println(""+simbolo.getTipo()+"");
             }
-            arbol.getConsola().setText(arbol.getConsola().getText() +m.toString() + "\n\n");
+            printLineaConsola(arbol, m.toString() + "\n");
             System.out.println(m.toString());
             return null;
         }
@@ -62,8 +62,8 @@ public class Print extends Funcion {
             if (m.size() == 0) {
                 System.out.println("Matriz vacía");
             }
-            arbol.getConsola().setText(arbol.getConsola().getText() + simbolo.getTipo().toString() + "\n");
-            arbol.getConsola().setText(arbol.getConsola().getText() +m.toString() + "\n\n");
+            printLineaConsola(arbol, simbolo.getTipo().toString());
+            printLineaConsola(arbol, m.toString() + "\n");
             System.out.println(""+simbolo.getTipo()+"");
             System.out.println(m.toString());
             return null;
@@ -71,21 +71,21 @@ public class Print extends Funcion {
         if (simbolo.getValor() instanceof Vector) {
             LinkedList l = (LinkedList)simbolo.getValor();
             if (l.size() == 0) {
-                arbol.getConsola().setText(arbol.getConsola().getText() + simbolo.getTipo().toString() + "\n");
-                arbol.getConsola().setText(arbol.getConsola().getText() + "[] \n\n");
+                printLineaConsola(arbol, simbolo.getTipo().toString());
+                printLineaConsola(arbol, "[] \n");
                 System.out.println(""+simbolo.getTipo()+"");
                 System.out.println("[]");
             }
-            arbol.getConsola().setText(arbol.getConsola().getText() + simbolo.getTipo().toString() + "\n");
-            arbol.getConsola().setText(arbol.getConsola().getText() +l.toString() + "\n\n");
+            printLineaConsola(arbol, simbolo.getTipo().toString() + "\n");
+            printLineaConsola(arbol, l.toString() + "\n");
 
             System.out.println(""+simbolo.getTipo()+"");
             System.out.println(l.toString());
         }
         if (simbolo.getValor() instanceof Lista) {
             LinkedList l = (LinkedList)simbolo.getValor();
-            arbol.getConsola().setText(arbol.getConsola().getText() + simbolo.getTipo().toString() + "\n");
-            arbol.getConsola().setText(arbol.getConsola().getText() +l.toString() + "\n\n");
+            printLineaConsola(arbol, simbolo.getTipo().toString() + "\n");
+            printLineaConsola(arbol, l.toString() + "\n");
             System.out.println(""+simbolo.getTipo()+"");
             System.out.println(l.toString());
         }
@@ -115,5 +115,13 @@ public class Print extends Funcion {
             }
         }
         return null;
+    }
+
+    public void printLineaConsola(Arbol arbol, String s) {
+//        arbol.getConsola().setText(arbol.getConsola().getText() + s + "\n");
+    }
+
+    public void printConsola(Arbol arbol, String s) {
+//        arbol.getConsola().setText(arbol.getConsola().getText() + s );
     }
 }
