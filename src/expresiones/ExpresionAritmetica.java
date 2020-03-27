@@ -49,7 +49,7 @@ public class ExpresionAritmetica extends AST {
         Object izquierdo = null, derecho = null, unario = null;
 
         /**
-         * Verificamos si la ejecución de los operadores es una excepción
+         * Verificamos si la ejecución de los operandos es una excepción
          */
         if (this.operandoU == null) {
             izquierdo = this.operando1.ejecutar(tabla, arbol);
@@ -643,7 +643,6 @@ public class ExpresionAritmetica extends AST {
                 this.tipo.setTipoEstructura(Tipo.TipoEstructura.VECTOR);
                 return new Vector(result);
             }
-
 
         }
 
