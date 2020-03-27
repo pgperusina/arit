@@ -110,7 +110,8 @@ TOKEN : {
     | <MENOS: "-">
     | <POR: "*">
     | <DIV: "/">
-    | <MODULO: "%">
+    | <POTENCIA: "^">
+    | <MODULO: "%%">
     | <IGUAL: "=">
     | <MENORQUE: "<">
     | <MAYORQUE: ">">
@@ -568,6 +569,8 @@ AST expresionMultiplicativa() :
         <POR> e1 = expresionUnaria() { e = new ExpresionAritmetica(e, e1, OperadorAritmetico.MULTIPLICACION, token.beginLine, token.beginColumn); }
         |
         <DIV> e1 = expresionUnaria() { e = new ExpresionAritmetica(e, e1, OperadorAritmetico.DIVISION, token.beginLine, token.beginColumn); }
+        |
+        <POTENCIA> e1 = expresionUnaria() { e = new ExpresionAritmetica(e, e1, OperadorAritmetico.POTENCIA, token.beginLine, token.beginColumn); }
         |
         <MODULO> e1 = expresionUnaria() { e = new ExpresionAritmetica(e, e1, OperadorAritmetico.MODULO, token.beginLine, token.beginColumn); }
     )*

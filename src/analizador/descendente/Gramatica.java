@@ -996,6 +996,7 @@ e = new ExpresionAritmetica(e, e1, OperadorAritmetico.RESTA, token.beginLine, to
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case POR:
       case DIV:
+      case POTENCIA:
       case MODULO:{
         ;
         break;
@@ -1015,6 +1016,12 @@ e = new ExpresionAritmetica(e, e1, OperadorAritmetico.MULTIPLICACION, token.begi
         jj_consume_token(DIV);
         e1 = expresionUnaria();
 e = new ExpresionAritmetica(e, e1, OperadorAritmetico.DIVISION, token.beginLine, token.beginColumn);
+        break;
+        }
+      case POTENCIA:{
+        jj_consume_token(POTENCIA);
+        e1 = expresionUnaria();
+e = new ExpresionAritmetica(e, e1, OperadorAritmetico.POTENCIA, token.beginLine, token.beginColumn);
         break;
         }
       case MODULO:{
@@ -1037,13 +1044,13 @@ e = new ExpresionAritmetica(e, e1, OperadorAritmetico.MODULO, token.beginLine, t
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case MENOS:{
       jj_consume_token(MENOS);
-      e = expresionUnaria();
+      e = valor();
 {if ("" != null) return new ExpresionAritmetica(e, OperadorAritmetico.MENOSUNARIO, token.beginLine, token.beginColumn);}
       break;
       }
     case NOT:{
       jj_consume_token(NOT);
-      e = expresionUnaria();
+      e = valor();
 {if ("" != null) return new ExpresionLogica(e, OperadorLogico.NOT, token.beginLine, token.beginColumn);}
       break;
       }
@@ -1295,6 +1302,12 @@ cad = t.image.substring(1,t.image.length()-1);
     finally { jj_save(19, xla); }
   }
 
+  private boolean jj_3R_29()
+ {
+    if (jj_3R_42()) return true;
+    return false;
+  }
+
   private boolean jj_3R_23()
  {
     if (jj_3R_36()) return true;
@@ -1303,12 +1316,6 @@ cad = t.image.substring(1,t.image.length()-1);
       xsp = jj_scanpos;
       if (jj_3R_75()) { jj_scanpos = xsp; break; }
     }
-    return false;
-  }
-
-  private boolean jj_3R_29()
- {
-    if (jj_3R_42()) return true;
     return false;
   }
 
@@ -1722,15 +1729,15 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
-  private boolean jj_3_15()
- {
-    if (jj_3R_22()) return true;
-    return false;
-  }
-
   private boolean jj_3_20()
  {
     if (jj_3R_24()) return true;
+    return false;
+  }
+
+  private boolean jj_3_15()
+ {
+    if (jj_3R_22()) return true;
     return false;
   }
 
@@ -1796,13 +1803,6 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
-  private boolean jj_3R_19()
- {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_scan_token(IGUAL)) return true;
-    return false;
-  }
-
   private boolean jj_3R_55()
  {
     Token xsp;
@@ -1835,10 +1835,10 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
-  private boolean jj_3R_47()
+  private boolean jj_3R_19()
  {
-    if (jj_scan_token(SWITCH)) return true;
-    if (jj_scan_token(PARINI)) return true;
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(IGUAL)) return true;
     return false;
   }
 
@@ -1848,10 +1848,17 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
+  private boolean jj_3R_47()
+ {
+    if (jj_scan_token(SWITCH)) return true;
+    if (jj_scan_token(PARINI)) return true;
+    return false;
+  }
+
   private boolean jj_3R_49()
  {
     if (jj_scan_token(NOT)) return true;
-    if (jj_3R_36()) return true;
+    if (jj_3R_55()) return true;
     return false;
   }
 
@@ -1870,7 +1877,13 @@ cad = t.image.substring(1,t.image.length()-1);
   private boolean jj_3R_48()
  {
     if (jj_scan_token(MENOS)) return true;
-    if (jj_3R_36()) return true;
+    if (jj_3R_55()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_80()
+ {
+    if (jj_scan_token(MODULO)) return true;
     return false;
   }
 
@@ -1889,7 +1902,7 @@ cad = t.image.substring(1,t.image.length()-1);
 
   private boolean jj_3R_79()
  {
-    if (jj_scan_token(MODULO)) return true;
+    if (jj_scan_token(POTENCIA)) return true;
     return false;
   }
 
@@ -1925,7 +1938,9 @@ cad = t.image.substring(1,t.image.length()-1);
     jj_scanpos = xsp;
     if (!jj_3R_78()) return false;
     jj_scanpos = xsp;
-    if (jj_3R_79()) return true;
+    if (!jj_3R_79()) return false;
+    jj_scanpos = xsp;
+    if (jj_3R_80()) return true;
     return false;
   }
 
@@ -1976,7 +1991,7 @@ cad = t.image.substring(1,t.image.length()-1);
 	   jj_la1_0 = new int[] {0x4e8000,0x2000000,0x2000000,0x2000000,0x4e8000,0x2000000,0x0,0x4207800,0x10000000,0x10000000,0x10000000,0x10000000,0x4207800,0x0,0x0,0x0,0x4e8000,0x800000,0x800000,0x300000,0x2000000,0x0,0x2000000,0x0,0x300000,0x2000000,0x2000000,0x2000000,0x2000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4207800,0x7800,0x4200000,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x3c0000,0x0,0x0,0x0,0x3c0000,0x0,0x200000,0x1204002,0x0,0x0,0x0,0x0,0x1204002,0x20,0x20,0x200000,0x3c0000,0x0,0x0,0x0,0x0,0x80000,0x0,0x80000,0x0,0x0,0x0,0x0,0x0,0x40000,0x2000,0x1000,0xc00,0xc00,0x3c0,0x3c0,0x3,0x1,0x1c,0x1c,0x1204002,0x1000000,0x200000,};
+	   jj_la1_1 = new int[] {0x780000,0x0,0x0,0x0,0x780000,0x0,0x400000,0x2408002,0x0,0x0,0x0,0x0,0x2408002,0x40,0x40,0x400000,0x780000,0x0,0x0,0x0,0x0,0x100000,0x0,0x100000,0x0,0x0,0x0,0x0,0x0,0x80000,0x4000,0x2000,0x1800,0x1800,0x780,0x780,0x3,0x1,0x3c,0x3c,0x2408002,0x2000000,0x400000,};
 	}
   final private JJCalls[] jj_2_rtns = new JJCalls[20];
   private boolean jj_rescan = false;
@@ -2189,7 +2204,7 @@ cad = t.image.substring(1,t.image.length()-1);
   /** Generate ParseException. */
   public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[57];
+	 boolean[] la1tokens = new boolean[58];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
@@ -2206,7 +2221,7 @@ cad = t.image.substring(1,t.image.length()-1);
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 57; i++) {
+	 for (int i = 0; i < 58; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;
