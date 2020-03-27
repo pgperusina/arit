@@ -577,9 +577,9 @@ AST expresionMultiplicativa() :
 AST expresionUnaria() :
 { AST e, e1; }
 {
-    <MENOS> e = expresionUnaria() { return new ExpresionAritmetica(e, OperadorAritmetico.MENOSUNARIO, token.beginLine, token.beginColumn); }
+    <MENOS> e = valor() { return new ExpresionAritmetica(e, OperadorAritmetico.MENOSUNARIO, token.beginLine, token.beginColumn); }
     |
-    <NOT> e = expresionUnaria() { return new ExpresionLogica(e, OperadorLogico.NOT, token.beginLine, token.beginColumn); }
+    <NOT> e = valor() { return new ExpresionLogica(e, OperadorLogico.NOT, token.beginLine, token.beginColumn); }
     |
     e = valor() { return e; }
 }
