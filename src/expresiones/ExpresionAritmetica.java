@@ -61,15 +61,14 @@ public class ExpresionAritmetica extends AST {
             if (unario instanceof Excepcion) return unario;
         }
 
-        Tipo.TipoEstructura operando1TipoEstructura = operando1.getTipo().getTipoEstructura();
-        Tipo.TipoEstructura operando2TipoEstructura = operando2.getTipo().getTipoEstructura();
-        TipoDato operando1TipoDato = operando1.getTipo().getTipoDato();
-        TipoDato operando2TipoDato = operando2.getTipo().getTipoDato();
-
         if (this.operador == OperadorAritmetico.SUMA) {
             /**
              * Si el operando 1 y el 2 son vectores o matrices
              */
+            Tipo.TipoEstructura operando1TipoEstructura = operando1.getTipo().getTipoEstructura();
+            Tipo.TipoEstructura operando2TipoEstructura = operando2.getTipo().getTipoEstructura();
+            TipoDato operando1TipoDato = operando1.getTipo().getTipoDato();
+            TipoDato operando2TipoDato = operando2.getTipo().getTipoDato();
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
@@ -169,6 +168,10 @@ public class ExpresionAritmetica extends AST {
             /**
              * Si el operando 1 y el 2 son vectores o matrices
              */
+            Tipo.TipoEstructura operando1TipoEstructura = operando1.getTipo().getTipoEstructura();
+            Tipo.TipoEstructura operando2TipoEstructura = operando2.getTipo().getTipoEstructura();
+            TipoDato operando1TipoDato = operando1.getTipo().getTipoDato();
+            TipoDato operando2TipoDato = operando2.getTipo().getTipoDato();
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
@@ -244,6 +247,10 @@ public class ExpresionAritmetica extends AST {
             /**
              * Si el operando 1 y el 2 son vectores o matrices
              */
+            Tipo.TipoEstructura operando1TipoEstructura = operando1.getTipo().getTipoEstructura();
+            Tipo.TipoEstructura operando2TipoEstructura = operando2.getTipo().getTipoEstructura();
+            TipoDato operando1TipoDato = operando1.getTipo().getTipoDato();
+            TipoDato operando2TipoDato = operando2.getTipo().getTipoDato();
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
@@ -320,6 +327,10 @@ public class ExpresionAritmetica extends AST {
             /**
              * Si el operando 1 y el 2 son vectores o matrices
              */
+            Tipo.TipoEstructura operando1TipoEstructura = operando1.getTipo().getTipoEstructura();
+            Tipo.TipoEstructura operando2TipoEstructura = operando2.getTipo().getTipoEstructura();
+            TipoDato operando1TipoDato = operando1.getTipo().getTipoDato();
+            TipoDato operando2TipoDato = operando2.getTipo().getTipoDato();
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
@@ -420,6 +431,10 @@ public class ExpresionAritmetica extends AST {
             /**
              * Si el operando 1 y el 2 son vectores o matrices
              */
+            Tipo.TipoEstructura operando1TipoEstructura = operando1.getTipo().getTipoEstructura();
+            Tipo.TipoEstructura operando2TipoEstructura = operando2.getTipo().getTipoEstructura();
+            TipoDato operando1TipoDato = operando1.getTipo().getTipoDato();
+            TipoDato operando2TipoDato = operando2.getTipo().getTipoDato();
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
@@ -496,6 +511,10 @@ public class ExpresionAritmetica extends AST {
             /**
              * Si el operando 1 y el 2 son vectores o matrices
              */
+            Tipo.TipoEstructura operando1TipoEstructura = operando1.getTipo().getTipoEstructura();
+            Tipo.TipoEstructura operando2TipoEstructura = operando2.getTipo().getTipoEstructura();
+            TipoDato operando1TipoDato = operando1.getTipo().getTipoDato();
+            TipoDato operando2TipoDato = operando2.getTipo().getTipoDato();
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
@@ -592,69 +611,42 @@ public class ExpresionAritmetica extends AST {
                 return new Excepcion("Semántico", "Error de tipos en módulo, ambos operadores deben " +
                         " tener el mismo tipo de estructura. +", fila, columna);
             }
+        } else if (this.operador == OperadorAritmetico.MENOSUNARIO) {
+            /**
+             * Si el operando 1 y el 2 son vectores o matrices
+             */
+            Tipo.TipoEstructura operandoUnarioTipoEstructura = operandoU.getTipo().getTipoEstructura();
+            TipoDato operandoUnarioTipoDato = operandoU.getTipo().getTipoDato();
+            LinkedList operandoUnarioValor = (LinkedList) operandoU.ejecutar(tabla, arbol);
+
+            LinkedList result = new LinkedList();
+            if (operandoUnarioTipoDato.equals(TipoDato.INTEGER)) {
+                this.tipo = new Tipo(TipoDato.INTEGER);
+                for (int i = 0; i < operandoUnarioValor.size(); i++) {
+                    result.add(Integer.valueOf(operandoUnarioValor.get(i).toString()) * -1);
+                }
+            } else if ( operandoUnarioTipoDato.equals(TipoDato.NUMERIC) ) {
+                this.tipo = new Tipo(TipoDato.NUMERIC);
+                for (int i = 0; i < operandoUnarioValor.size(); i++) {
+                    result.add(Double.valueOf(operandoUnarioValor.get(i).toString()) * -1);
+                }
+            } else {
+                return new Excepcion("Semántico", "El operador unario es solo aplicable " +
+                        " a enteros y numericos.", fila, columna);
+            }
+
+            if (operandoUnarioTipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                this.tipo.setTipoEstructura(Tipo.TipoEstructura.MATRIZ);
+                return new Matriz(result, ((Matriz)operandoU.ejecutar(tabla, arbol)).getFilas(),
+                        ((Matriz)operandoU.ejecutar(tabla, arbol)).getColumnas());
+            } else {
+                this.tipo.setTipoEstructura(Tipo.TipoEstructura.VECTOR);
+                return new Vector(result);
+            }
+
+
         }
 
-//            if (operando1.tipo.getTipoDato() == TipoDato.INTEGER
-//                    && operando2.tipo.getTipoDato() == TipoDato.INTEGER) {
-//                this.tipo = new Tipo(TipoDato.INTEGER);
-//                return (double) izquierdo + (double) derecho;
-//            } else if (operando1.tipo.getTipoDato() == TipoDato.STRING
-//                    && operando2.tipo.getTipoDato() == TipoDato.INTEGER
-//                    || operando1.tipo.getTipoDato() == TipoDato.INTEGER
-//                    && operando2.tipo.getTipoDato() == TipoDato.STRING
-//                    || operando1.tipo.getTipoDato() == TipoDato.STRING
-//                    && operando2.tipo.getTipoDato() == TipoDato.STRING) {
-//                this.tipo = new Tipo(TipoDato.STRING);
-//                return "" + izquierdo + derecho;
-//            } else {
-//                Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador +", fila, columna);
-//                arbol.getExcepciones().add(ex);
-//                return ex;
-//            }
-//        } else if (this.operador == OperadorAritmetico.RESTA) {
-//            if (operando1.tipo.getTipoDato() == TipoDato.INTEGER
-//                    && operando2.tipo.getTipoDato() == TipoDato.INTEGER) {
-//                this.tipo = new Tipo(TipoDato.INTEGER);
-//                return (double) izquierdo - (double) derecho;
-//            } else {
-//                Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador -", fila, columna);
-//                arbol.getExcepciones().add(ex);
-//                return ex;
-//            }
-//        } else if (this.operador == OperadorAritmetico.MULTIPLICACION) {
-//            if (operando1.tipo.getTipoDato() == TipoDato.INTEGER
-//                    && operando2.tipo.getTipoDato() == TipoDato.INTEGER) {
-//                this.tipo = new Tipo(TipoDato.INTEGER);
-//                return (double) izquierdo * (double) derecho;
-//            } else {
-//                Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador *", fila, columna);
-//                arbol.getExcepciones().add(ex);
-//                return ex;
-//            }
-//        } else if (this.operador == OperadorAritmetico.DIVISION) {
-//            if (operando1.tipo.getTipoDato() == TipoDato.INTEGER
-//                    && operando2.tipo.getTipoDato() == TipoDato.INTEGER) {
-//                if ((double) derecho == 0) {
-//                    return new Excepcion("Semántico", "Excepcion aritmetica, division por 0.", fila, columna);
-//                }
-//                this.tipo = new Tipo(TipoDato.INTEGER);
-//                return (double) izquierdo / (double) derecho;
-//            } else {
-//                Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador /", fila, columna);
-//                arbol.getExcepciones().add(ex);
-//                return ex;
-//            }
-//        } else if (this.operador == OperadorAritmetico.MENOSUNARIO) {
-//            if (operandoU.tipo.getTipoDato() == TipoDato.INTEGER) {
-//                this.tipo = new Tipo(TipoDato.INTEGER);
-//                return (double) unario * -1;
-//            } else {
-//                Excepcion ex = new Excepcion("Semántico", "Error de tipos con el operador - Unario", fila, columna);
-//                arbol.getExcepciones().add(ex);
-//                return ex;
-//            }
-//        }
-//        return null;
         return null;
     }
 }
