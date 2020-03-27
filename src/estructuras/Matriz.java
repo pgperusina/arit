@@ -41,6 +41,7 @@ public class Matriz extends LinkedList {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int indice;
+        double tempDouble;
 
         sb.append("    ");
         /**
@@ -69,7 +70,12 @@ public class Matriz extends LinkedList {
                 /**
                  * Imprimo la posición indicada para la columna actual
                  */
-                sb.append(this.get(row + nextPos) + "     ");
+                if (this.get(row + nextPos) instanceof Double) {
+                    tempDouble = Math.round((Double)this.get(row + nextPos) * 100.0) / 100.0;
+                    sb.append(tempDouble + "     ");
+                } else {
+                    sb.append(this.get(row + nextPos) + "     ");
+                }
                 nextPos += filas;
             }
             sb.append("\n");

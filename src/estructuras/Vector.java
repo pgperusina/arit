@@ -16,11 +16,17 @@ public class Vector extends LinkedList {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        double tempDouble;
         int c = 0;
         sb.append("( ");
         for (Object v : this) {
             if (c > 0) sb.append(", ");
-            sb.append(v.toString());
+            if (v instanceof Double) {
+                tempDouble = Math.round((Double)v * 100.0) / 100.0;
+                sb.append(tempDouble + "");
+            } else {
+                sb.append(v.toString());
+            }
             c++;
         }
         sb.append(" )");

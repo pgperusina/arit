@@ -67,7 +67,7 @@ public class ExpresionAritmetica extends AST {
 
         if (this.operador == OperadorAritmetico.SUMA) {
             /**
-             * Si el operando 1 y el 2 son vectores
+             * Si el operando 1 y el 2 son vectores o matrices
              */
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
@@ -94,8 +94,8 @@ public class ExpresionAritmetica extends AST {
                             }
                         } else {
                             for (int i = 0; i < operando2Valor.size(); i++) {
-                                result.add(Integer.valueOf(operando2Valor.get(i).toString()) +
-                                        Integer.valueOf(operando1Valor.getFirst().toString()));
+                                result.add(Integer.valueOf(operando1Valor.getFirst().toString()) +
+                                        Integer.valueOf(operando2Valor.get(i).toString()));
                             }
                         }
                     } else if ( (operando1TipoDato.equals(TipoDato.INTEGER) & operando2TipoDato.equals(TipoDato.NUMERIC))
@@ -114,8 +114,8 @@ public class ExpresionAritmetica extends AST {
                             }
                         } else {
                             for (int i = 0; i < operando2Valor.size(); i++) {
-                                result.add( Double.valueOf(operando2Valor.get(i).toString())
-                                        + Double.valueOf(operando1Valor.getFirst().toString()));
+                                result.add( Double.valueOf(operando1Valor.getFirst().toString())
+                                        + Double.valueOf(operando2Valor.get(i).toString()));
                             }
                         }
                     } else if ( (operando1TipoDato.equals(TipoDato.STRING) & operando2TipoDato.equals(TipoDato.INTEGER))
@@ -138,8 +138,8 @@ public class ExpresionAritmetica extends AST {
                             }
                         } else {
                             for (int i = 0; i < operando2Valor.size(); i++) {
-                                result.add( String.valueOf(operando2Valor.get(i))
-                                        + String.valueOf(operando1Valor.getFirst()));
+                                result.add( String.valueOf(operando1Valor.getFirst())
+                                        + String.valueOf(operando2Valor.get(i)));
                             }
                         }
                     } else {
@@ -161,7 +161,82 @@ public class ExpresionAritmetica extends AST {
                 }
 
             } else {
-                return new Excepcion("Semántico", "Error de tipos, ambos operadores deben " +
+                return new Excepcion("Semántico", "Error de tipos en suma, ambos operadores deben " +
+                        " tener el mismo tipo de estructura. +", fila, columna);
+            }
+        } else if (this.operador == OperadorAritmetico.RESTA) {
+            /**
+             * Si el operando 1 y el 2 son vectores o matrices
+             */
+            if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                    & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))) {
+                LinkedList operando1Valor = (LinkedList) operando1.ejecutar(tabla, arbol);
+                LinkedList operando2Valor = (LinkedList) operando2.ejecutar(tabla, arbol);
+
+                if (operando1Valor.size() == operando2Valor.size()
+                        || (operando1Valor.size() == 1 & operando2Valor.size() > 1)
+                        || (operando2Valor.size() == 1 & operando1Valor.size() > 1)) {
+                    LinkedList result = new LinkedList();
+                    if (operando1TipoDato.equals(TipoDato.INTEGER) & operando2TipoDato.equals(TipoDato.INTEGER)) {
+                        this.tipo = new Tipo(TipoDato.INTEGER);
+                        if (operando1Valor.size() == operando2Valor.size()) {
+                            for (int i = 0; i < operando1Valor.size(); i++) {
+                                result.add(Integer.valueOf(operando1Valor.get(i).toString())
+                                        - Integer.valueOf(operando2Valor.get(i).toString()));
+                            }
+                        } else if (operando1Valor.size() > operando2Valor.size()) {
+                            for (int i = 0; i < operando1Valor.size(); i++) {
+                                result.add(Integer.valueOf(operando1Valor.get(i).toString())
+                                        - Integer.valueOf(operando2Valor.getFirst().toString()));
+                            }
+                        } else {
+                            for (int i = 0; i < operando2Valor.size(); i++) {
+                                result.add(Integer.valueOf(operando1Valor.getFirst().toString())
+                                        - Integer.valueOf(operando2Valor.get(i).toString()));
+                            }
+                        }
+                    } else if ( (operando1TipoDato.equals(TipoDato.INTEGER) & operando2TipoDato.equals(TipoDato.NUMERIC))
+                            || (operando1TipoDato.equals(TipoDato.NUMERIC) & operando2TipoDato.equals(TipoDato.INTEGER))
+                            || (operando1TipoDato.equals(TipoDato.NUMERIC) & operando2TipoDato.equals(TipoDato.NUMERIC))) {
+                        this.tipo = new Tipo(TipoDato.NUMERIC);
+                        if (operando1Valor.size() == operando2Valor.size()) {
+                            for (int i = 0; i < operando1Valor.size(); i++) {
+                                result.add( Double.valueOf(operando1Valor.get(i).toString())
+                                        - Double.valueOf(operando2Valor.get(i).toString()));
+                            }
+                        } else if (operando1Valor.size() > operando2Valor.size()) {
+                            for (int i = 0; i < operando1Valor.size(); i++) {
+                                result.add(Double.valueOf(operando1Valor.get(i).toString())
+                                        - Double.valueOf(operando2Valor.getFirst().toString()));
+                            }
+                        } else {
+                            for (int i = 0; i < operando2Valor.size(); i++) {
+                                result.add( Double.valueOf(operando1Valor.getFirst().toString())
+                                        - Double.valueOf(operando2Valor.get(i).toString()));
+                            }
+                        }
+                    } else {
+                        return new Excepcion("Semántico", "Error en resta de estructuras, los tipos de dato " +
+                                " no son compatibles. (" + operando1TipoDato + " - " + operando2TipoDato + ").", fila, columna);
+                    }
+
+                    if (operando1.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ)) {
+                        this.tipo.setTipoEstructura(Tipo.TipoEstructura.MATRIZ);
+                        return new Matriz(result, ((Matriz)operando1.ejecutar(tabla, arbol)).getFilas(),
+                                ((Matriz)operando1.ejecutar(tabla, arbol)).getColumnas());
+                    } else {
+                        this.tipo.setTipoEstructura(Tipo.TipoEstructura.VECTOR);
+                        return new Vector(result);
+                    }
+                } else {
+                    return new Excepcion("Semántico", "Error en resta de estructuras, ambas deben ser del " +
+                            " mismo tamaño o una debe ser escalar. ", fila, columna);
+                }
+
+            } else {
+                return new Excepcion("Semántico", "Error de tipos en resta, ambos operadores deben " +
                         " tener el mismo tipo de estructura. +", fila, columna);
             }
         }
