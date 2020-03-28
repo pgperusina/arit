@@ -4,8 +4,10 @@ import abstracto.AST;
 import excepciones.Excepcion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
+import tablasimbolos.Tipo;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class If extends AST {
 
@@ -32,24 +34,25 @@ public class If extends AST {
             return valorCondicion;
         }
 
-        if (!(valorCondicion instanceof Boolean)) {
-            Excepcion ex = new Excepcion("Semántico", "La condición de la sentencia IF debe de ser de tipo Boolean", fila, columna);
-            arbol.getExcepciones().add(ex);
-            return ex;
+        if (!( (this.condicion.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
+                || this.condicion.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ))
+                & this.condicion.getTipo().getTipoDato() == Tipo.TipoDato.BOOLEAN) ) {
+            return new Excepcion("Semántico", "La condición de la sentencia IF " +
+                    "debe de ser un Vector o Matriz booleano.", fila, columna);
         }
 
         Object result;
-        if ((Boolean) valorCondicion) {
-            for (AST m : instruccionesIf) {
-                result = m.ejecutar(childTable, arbol);
+        if ((Boolean) ((LinkedList)valorCondicion).getFirst()) {
+            for (AST instruccionIf : instruccionesIf) {
+                result = instruccionIf.ejecutar(childTable, arbol);
                 if (result instanceof Return || result instanceof Excepcion
                         || result instanceof Break || result instanceof Continue) {
                     return result;
                 }
             }
         } else {
-            for (AST m : instruccionesElse) {
-                result = m.ejecutar(childTable, arbol);
+            for (AST instruccionElse : instruccionesElse) {
+                result = instruccionElse.ejecutar(childTable, arbol);
                 if (result instanceof Return || result instanceof Excepcion
                         || result instanceof Break || result instanceof Continue) {
                     return result;

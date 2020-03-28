@@ -61,6 +61,7 @@ public class ExpresionAritmetica extends AST {
             if (unario instanceof Excepcion) return unario;
         }
 
+        int filasMatriz = 0, columnasMatriz = 0;
         if (this.operador == OperadorAritmetico.SUMA) {
             /**
              * Si el operando 1 y el 2 son vectores o matrices
@@ -72,9 +73,43 @@ public class ExpresionAritmetica extends AST {
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
-                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))) {
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ) {
                 LinkedList operando1Valor = (LinkedList) operando1.ejecutar(tabla, arbol);
                 LinkedList operando2Valor = (LinkedList) operando2.ejecutar(tabla, arbol);
+
+                /**
+                 * Valido que operaciones entre vector y matriz, sean las aceptadas
+                 * (Vector de una sola posición).
+                 */
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if ((operando1Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Vector-Matriz, el vector debe ser " +
+                                "de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) {
+                    if ((operando2Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Matriz-Vector, el vector debe ser  " +
+                                "de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
 
                 if (operando1Valor.size() == operando2Valor.size()
                         || (operando1Valor.size() == 1 & operando2Valor.size() > 1)
@@ -147,10 +182,10 @@ public class ExpresionAritmetica extends AST {
                                 " no son compatibles. (" + operando1TipoDato + " - " + operando2TipoDato + ").", fila, columna);
                     }
 
-                    if (operando1.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                            | operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ) ) {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.MATRIZ);
-                        return new Matriz(result, ((Matriz)operando1.ejecutar(tabla, arbol)).getFilas(),
-                                ((Matriz)operando1.ejecutar(tabla, arbol)).getColumnas());
+                        return new Matriz(result, filasMatriz, columnasMatriz);
                     } else {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.VECTOR);
                         return new Vector(result);
@@ -175,9 +210,43 @@ public class ExpresionAritmetica extends AST {
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
-                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))) {
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ) {
                 LinkedList operando1Valor = (LinkedList) operando1.ejecutar(tabla, arbol);
                 LinkedList operando2Valor = (LinkedList) operando2.ejecutar(tabla, arbol);
+
+                /**
+                 * Valido que operaciones entre vector y matriz, sean las aceptadas
+                 * (Vector de una sola posición).
+                 */
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if ((operando1Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Vector-Matriz, el vector debe ser " +
+                                "de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) {
+                    if ((operando2Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Matriz-Vector, el vector debe ser  " +
+                                "de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
 
                 if (operando1Valor.size() == operando2Valor.size()
                         || (operando1Valor.size() == 1 & operando2Valor.size() > 1)
@@ -226,10 +295,10 @@ public class ExpresionAritmetica extends AST {
                                 " no son compatibles. (" + operando1TipoDato + " - " + operando2TipoDato + ").", fila, columna);
                     }
 
-                    if (operando1.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                    | operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.MATRIZ);
-                        return new Matriz(result, ((Matriz)operando1.ejecutar(tabla, arbol)).getFilas(),
-                                ((Matriz)operando1.ejecutar(tabla, arbol)).getColumnas());
+                        return new Matriz(result, filasMatriz, columnasMatriz);
                     } else {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.VECTOR);
                         return new Vector(result);
@@ -254,9 +323,43 @@ public class ExpresionAritmetica extends AST {
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
-                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))) {
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ) {
                 LinkedList operando1Valor = (LinkedList) operando1.ejecutar(tabla, arbol);
                 LinkedList operando2Valor = (LinkedList) operando2.ejecutar(tabla, arbol);
+
+                /**
+                 * Valido que operaciones entre vector y matriz, sean las aceptadas
+                 * (Vector de una sola posición).
+                 */
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if ((operando1Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Vector-Matriz, el vector debe ser" +
+                                " de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) {
+                    if ((operando2Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Matriz-Vector, el vector debe ser  " +
+                                "de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
 
                 if (operando1Valor.size() == operando2Valor.size()
                         || (operando1Valor.size() == 1 & operando2Valor.size() > 1)
@@ -306,10 +409,10 @@ public class ExpresionAritmetica extends AST {
                                 + operando2TipoDato + ").", fila, columna);
                     }
 
-                    if (operando1.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                    | operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ) ) {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.MATRIZ);
-                        return new Matriz(result, ((Matriz)operando1.ejecutar(tabla, arbol)).getFilas(),
-                                ((Matriz)operando1.ejecutar(tabla, arbol)).getColumnas());
+                        return new Matriz(result, filasMatriz, columnasMatriz);
                     } else {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.VECTOR);
                         return new Vector(result);
@@ -334,9 +437,42 @@ public class ExpresionAritmetica extends AST {
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
-                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))) {
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ) {
                 LinkedList operando1Valor = (LinkedList) operando1.ejecutar(tabla, arbol);
                 LinkedList operando2Valor = (LinkedList) operando2.ejecutar(tabla, arbol);
+                /**
+                 * Valido que operaciones entre vector y matriz, sean las aceptadas
+                 * (Vector de una sola posición).
+                 */
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if ((operando1Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Vector-Matriz, el vector debe ser" +
+                                " de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) {
+                    if ((operando2Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Matriz-Vector, el vector debe ser  " +
+                                "de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
 
                 if (operando1Valor.size() == operando2Valor.size()
                         || (operando1Valor.size() == 1 & operando2Valor.size() > 1)
@@ -410,10 +546,10 @@ public class ExpresionAritmetica extends AST {
                                 + operando2TipoDato + ").", fila, columna);
                     }
 
-                    if (operando1.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                    |operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.MATRIZ);
-                        return new Matriz(result, ((Matriz)operando1.ejecutar(tabla, arbol)).getFilas(),
-                                ((Matriz)operando1.ejecutar(tabla, arbol)).getColumnas());
+                        return new Matriz(result, filasMatriz, columnasMatriz);
                     } else {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.VECTOR);
                         return new Vector(result);
@@ -438,9 +574,43 @@ public class ExpresionAritmetica extends AST {
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
-                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))) {
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ) {
                 LinkedList operando1Valor = (LinkedList) operando1.ejecutar(tabla, arbol);
                 LinkedList operando2Valor = (LinkedList) operando2.ejecutar(tabla, arbol);
+
+                /**
+                 * Valido que operaciones entre vector y matriz, sean las aceptadas
+                 * (Vector de una sola posición).
+                 */
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if ((operando1Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Vector-Matriz, el vector debe ser" +
+                                " de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) {
+                    if ((operando2Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Matriz-Vector, el vector debe ser  " +
+                                "de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
 
                 if (operando1Valor.size() == operando2Valor.size()
                         || (operando1Valor.size() == 1 & operando2Valor.size() > 1)
@@ -490,10 +660,10 @@ public class ExpresionAritmetica extends AST {
                                 + operando2TipoDato + ").", fila, columna);
                     }
 
-                    if (operando1.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                    | operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.MATRIZ);
-                        return new Matriz(result, ((Matriz)operando1.ejecutar(tabla, arbol)).getFilas(),
-                                ((Matriz)operando1.ejecutar(tabla, arbol)).getColumnas());
+                        return new Matriz(result, filasMatriz, columnasMatriz);
                     } else {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.VECTOR);
                         return new Vector(result);
@@ -518,9 +688,42 @@ public class ExpresionAritmetica extends AST {
             if ( (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
                     & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
-                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))) {
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ))
+                    ||
+                    (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                            & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ) {
                 LinkedList operando1Valor = (LinkedList) operando1.ejecutar(tabla, arbol);
                 LinkedList operando2Valor = (LinkedList) operando2.ejecutar(tabla, arbol);
+                /**
+                 * Valido que operaciones entre vector y matriz, sean las aceptadas
+                 * (Vector de una sola posición).
+                 */
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if ((operando1Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Vector-Matriz, el vector debe ser" +
+                                " de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando2.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) {
+                    if ((operando2Valor.size() > 1)) {
+                        return new Excepcion("Semántico", "Error en comparación Matriz-Vector, el vector debe ser  " +
+                                "de una sola posición ", fila, columna);
+                    }
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
+                if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                        & operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
+                    filasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getFilas();
+                    columnasMatriz = ((Matriz) operando1.ejecutar(tabla, arbol)).getColumnas();
+                }
 
                 if (operando1Valor.size() == operando2Valor.size()
                         || (operando1Valor.size() == 1 & operando2Valor.size() > 1)
@@ -594,10 +797,10 @@ public class ExpresionAritmetica extends AST {
                                 + operando2TipoDato + ").", fila, columna);
                     }
 
-                    if (operando1.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ)) {
+                    if (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
+                    | operando2TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)) {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.MATRIZ);
-                        return new Matriz(result, ((Matriz)operando1.ejecutar(tabla, arbol)).getFilas(),
-                                ((Matriz)operando1.ejecutar(tabla, arbol)).getColumnas());
+                        return new Matriz(result, filasMatriz, columnasMatriz);
                     } else {
                         this.tipo.setTipoEstructura(Tipo.TipoEstructura.VECTOR);
                         return new Vector(result);
@@ -612,9 +815,6 @@ public class ExpresionAritmetica extends AST {
                         " tener el mismo tipo de estructura. +", fila, columna);
             }
         } else if (this.operador == OperadorAritmetico.MENOSUNARIO) {
-            /**
-             * Si el operando 1 y el 2 son vectores o matrices
-             */
             Tipo.TipoEstructura operandoUnarioTipoEstructura = operandoU.getTipo().getTipoEstructura();
             TipoDato operandoUnarioTipoDato = operandoU.getTipo().getTipoDato();
             LinkedList operandoUnarioValor = (LinkedList) operandoU.ejecutar(tabla, arbol);
@@ -631,7 +831,7 @@ public class ExpresionAritmetica extends AST {
                     result.add(Double.valueOf(operandoUnarioValor.get(i).toString()) * -1);
                 }
             } else {
-                return new Excepcion("Semántico", "El operador unario es solo aplicable " +
+                return new Excepcion("Semántico", "El operador menos unario es solo aplicable " +
                         " a enteros y numericos.", fila, columna);
             }
 

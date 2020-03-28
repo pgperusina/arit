@@ -132,11 +132,9 @@ public class Llamada extends AST {
             this.tipo = funcion.getTipo();
             return o;
         } else {
-            Excepcion ex = new Excepcion("Semántico", "La cantidad de argumentos "
+            return new Excepcion("Semántico", "La cantidad de argumentos "
                     + "enviados (" + this.argumentos.size() + ") no coincide con la cantidad de parámetros "
                     + "de la función (" + funcion.getParametros().size() + ")." + this.nombre, fila, columna);
-            arbol.getExcepciones().add(ex);
-            return ex;
         }
     }
 }

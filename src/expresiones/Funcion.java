@@ -6,6 +6,8 @@ import estructuras.Lista;
 import estructuras.Matriz;
 import estructuras.Vector;
 import excepciones.Excepcion;
+import instrucciones.Break;
+import instrucciones.Continue;
 import instrucciones.Return;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
@@ -43,6 +45,14 @@ public class Funcion extends AST {
             Object result = instruccion.ejecutar(tabla, arbol);
             if (result instanceof Excepcion) {
                 return result;
+            }
+            if (result instanceof Break) {
+                return new Excepcion("Semántico", "Sentencia 'break' " +
+                        "fuera de ciclo.", ((Break) result).fila, ((Break) result).columna);
+            }
+            if (result instanceof Continue) {
+                return new Excepcion("Semántico", "Sentencia 'continue' " +
+                        "fuera de ciclo.", ((Continue) result).fila, ((Continue) result).columna);
             }
             if (result instanceof Return) {
                 Return r = (Return) result;

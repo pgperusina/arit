@@ -27,11 +27,10 @@ public class Print extends Funcion {
     public Object ejecutar(Tabla tabla, Arbol arbol) {
         Simbolo simbolo = tabla.getVariable(PRINT_PARAMETRO);
         if (simbolo == null) {
-            Excepcion ex = new Excepcion("Semántico", "El argumento enviado a la " +
+            return new Excepcion("Semántico", "El argumento enviado a la " +
                     "función Print no es válido."
-                    , simbolo.getFila(), simbolo.getColumna());
-            arbol.getExcepciones().add(ex);
-            return ex;
+                    , this.fila, this.columna);
+
         }
 //        //Todo validar que solo venga una expresion
 //        if (!simbolo.getTipo().equals(new Tipo(Tipo.TipoDato.STRING))) {

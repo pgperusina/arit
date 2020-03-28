@@ -444,21 +444,22 @@ AST Case() :
 AST insBreak() :
 {AST e;}
 {
-    <BREAK> (<PCOMA>)? { return new Break(); }
+    <BREAK> (<PCOMA>)? { return new Break(token.beginLine, token.beginColumn); }
 }
 
 AST insContinue() :
 {AST e;}
 {
-    <CONTINUE> (<PCOMA>)? { return new Continue(); }
+    <CONTINUE> (<PCOMA>)? { return new Continue(token.beginLine, token.beginColumn); }
 }
 
 AST retorno() :
 {AST e;}
 {
-    LOOKAHEAD(2)<RETORNO> <PARINI> e=expresion() <PAREND> (<PCOMA>)? {return new Return(e, token.beginLine, token.beginColumn);}
+    LOOKAHEAD(3) <RETORNO> <PARINI> <PAREND> (<PCOMA>)? {return new Return(token.beginLine, token.beginColumn);}
     |
-    <RETORNO> (<PCOMA>)? {return new Return(token.beginLine, token.beginColumn);}
+    <RETORNO> <PARINI> e=expresion() <PAREND> (<PCOMA>)? {return new Return(e, token.beginLine, token.beginColumn);}
+
 }
 
 

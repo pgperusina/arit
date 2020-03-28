@@ -716,7 +716,7 @@ AST insBreak() throws ParseException {AST e;
       jj_la1[25] = jj_gen;
       ;
     }
-{if ("" != null) return new Break();}
+{if ("" != null) return new Break(token.beginLine, token.beginColumn);}
     throw new Error("Missing return statement in function");
 }
 
@@ -731,15 +731,14 @@ AST insBreak() throws ParseException {AST e;
       jj_la1[26] = jj_gen;
       ;
     }
-{if ("" != null) return new Continue();}
+{if ("" != null) return new Continue(token.beginLine, token.beginColumn);}
     throw new Error("Missing return statement in function");
 }
 
   final public AST retorno() throws ParseException {AST e;
-    if (jj_2_16(2)) {
+    if (jj_2_16(3)) {
       jj_consume_token(RETORNO);
       jj_consume_token(PARINI);
-      e = expresion();
       jj_consume_token(PAREND);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case PCOMA:{
@@ -750,11 +749,14 @@ AST insBreak() throws ParseException {AST e;
         jj_la1[27] = jj_gen;
         ;
       }
-{if ("" != null) return new Return(e, token.beginLine, token.beginColumn);}
+{if ("" != null) return new Return(token.beginLine, token.beginColumn);}
     } else {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case RETORNO:{
         jj_consume_token(RETORNO);
+        jj_consume_token(PARINI);
+        e = expresion();
+        jj_consume_token(PAREND);
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case PCOMA:{
           jj_consume_token(PCOMA);
@@ -764,7 +766,7 @@ AST insBreak() throws ParseException {AST e;
           jj_la1[28] = jj_gen;
           ;
         }
-{if ("" != null) return new Return(token.beginLine, token.beginColumn);}
+{if ("" != null) return new Return(e, token.beginLine, token.beginColumn);}
         break;
         }
       default:
@@ -1308,17 +1310,6 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
-  private boolean jj_3R_23()
- {
-    if (jj_3R_36()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_75()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
   private boolean jj_3R_28()
  {
     if (jj_3R_41()) return true;
@@ -1344,16 +1335,16 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
-  private boolean jj_3_2()
- {
-    if (jj_3R_18()) return true;
-    return false;
-  }
-
   private boolean jj_3_18()
  {
     if (jj_scan_token(MENOS)) return true;
     if (jj_3R_23()) return true;
+    return false;
+  }
+
+  private boolean jj_3_2()
+ {
+    if (jj_3R_18()) return true;
     return false;
   }
 
@@ -1434,15 +1425,15 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
-  private boolean jj_3R_54()
- {
-    if (jj_scan_token(LLAVEI)) return true;
-    return false;
-  }
-
   private boolean jj_3R_74()
  {
     if (jj_scan_token(MAYORIGUAL)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_54()
+ {
+    if (jj_scan_token(LLAVEI)) return true;
     return false;
   }
 
@@ -1478,13 +1469,6 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
-  private boolean jj_3_12()
- {
-    if (jj_scan_token(COMA)) return true;
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    return false;
-  }
-
   private boolean jj_3R_56()
  {
     if (jj_3R_66()) return true;
@@ -1493,6 +1477,13 @@ cad = t.image.substring(1,t.image.length()-1);
       xsp = jj_scanpos;
       if (jj_3R_67()) { jj_scanpos = xsp; break; }
     }
+    return false;
+  }
+
+  private boolean jj_3_12()
+ {
+    if (jj_scan_token(COMA)) return true;
+    if (jj_scan_token(IDENTIFICADOR)) return true;
     return false;
   }
 
@@ -1626,9 +1617,7 @@ cad = t.image.substring(1,t.image.length()-1);
   private boolean jj_3R_53()
  {
     if (jj_scan_token(RETORNO)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(25)) jj_scanpos = xsp;
+    if (jj_scan_token(PARINI)) return true;
     return false;
   }
 
@@ -1636,6 +1625,7 @@ cad = t.image.substring(1,t.image.length()-1);
  {
     if (jj_scan_token(RETORNO)) return true;
     if (jj_scan_token(PARINI)) return true;
+    if (jj_scan_token(PAREND)) return true;
     return false;
   }
 
@@ -1767,6 +1757,12 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
+  private boolean jj_3R_61()
+ {
+    if (jj_scan_token(NULL)) return true;
+    return false;
+  }
+
   private boolean jj_3R_17()
  {
     Token xsp;
@@ -1782,12 +1778,6 @@ cad = t.image.substring(1,t.image.length()-1);
     if (jj_scan_token(IDENTIFICADOR)) return true;
     if (jj_scan_token(IGUAL)) return true;
     if (jj_scan_token(FUNCION)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_61()
- {
-    if (jj_scan_token(NULL)) return true;
     return false;
   }
 
@@ -1848,17 +1838,17 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
-  private boolean jj_3R_47()
- {
-    if (jj_scan_token(SWITCH)) return true;
-    if (jj_scan_token(PARINI)) return true;
-    return false;
-  }
-
   private boolean jj_3R_49()
  {
     if (jj_scan_token(NOT)) return true;
     if (jj_3R_55()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_47()
+ {
+    if (jj_scan_token(SWITCH)) return true;
+    if (jj_scan_token(PARINI)) return true;
     return false;
   }
 
@@ -1893,16 +1883,16 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
+  private boolean jj_3R_79()
+ {
+    if (jj_scan_token(POTENCIA)) return true;
+    return false;
+  }
+
   private boolean jj_3R_46()
  {
     if (jj_scan_token(DO)) return true;
     if (jj_3R_54()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_79()
- {
-    if (jj_scan_token(POTENCIA)) return true;
     return false;
   }
 
@@ -1966,6 +1956,17 @@ cad = t.image.substring(1,t.image.length()-1);
   private boolean jj_3R_30()
  {
     if (jj_3R_43()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_23()
+ {
+    if (jj_3R_36()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_75()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 

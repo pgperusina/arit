@@ -1,10 +1,13 @@
 package expresiones;
 
 import abstracto.AST;
+import estructuras.Vector;
 import excepciones.Excepcion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
+
+import java.util.LinkedList;
 
 public class ExpresionTernaria extends AST {
 
@@ -29,12 +32,15 @@ public class ExpresionTernaria extends AST {
 
         this.tipo = new Tipo(Tipo.TipoDato.BOOLEAN);
 
-        if (this.condicion.tipo.getTipoDato() == Tipo.TipoDato.BOOLEAN) {
-            return (boolean) operando1.ejecutar(tabla, arbol) ? operando1.ejecutar(tabla, arbol) : operando2.ejecutar(tabla, arbol);
+        if ( (this.condicion.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
+            || this.condicion.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ))
+                & this.condicion.getTipo().getTipoDato() == Tipo.TipoDato.BOOLEAN) {
+            return (Boolean)((LinkedList) condicion).getFirst()
+                    ? operando1.ejecutar(tabla, arbol)
+                    : operando2.ejecutar(tabla, arbol);
         } else {
-            Excepcion ex = new Excepcion("Semántico", "La condición del operador ternario no es de tipo Boolean.", fila, columna);
-            arbol.getExcepciones().add(ex);
-            return ex;
+            return new Excepcion("Semántico", "La condición del operador ternario " +
+                    "no es Matriz o Vector booleano.", fila, columna);
         }
     }
 }
