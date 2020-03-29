@@ -588,7 +588,7 @@ public class AsignacionIndiceEstructura extends AST {
                 /**
                  * Modificando valor existente
                  */
-                modificarValorEstructura(simbolo, valorSimbolo, valorPosicion, valorIntepretado, prioridadCasteoSimbolo);
+                modificarValorEstructura(simbolo, valorSimbolo, valorPosicion, valorIntepretado, prioridadCasteoValor);
                 return null;
             }
         }

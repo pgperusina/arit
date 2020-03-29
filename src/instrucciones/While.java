@@ -1,11 +1,17 @@
 package instrucciones;
 
 import abstracto.AST;
+import estructuras.Arreglo;
+import estructuras.Lista;
+import estructuras.Matriz;
+import estructuras.Vector;
 import excepciones.Excepcion;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
+import tablasimbolos.Tipo;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class While extends AST {
 
@@ -21,41 +27,41 @@ public class While extends AST {
 
     @Override
     public Object ejecutar(Tabla tabla, Arbol arbol) {
-        Object valorCondicion;
-        do {
-            Tabla childTable = new Tabla(tabla);
-            valorCondicion = this.condicion.ejecutar(childTable, arbol);
+        Tabla t = new Tabla(tabla);
+        Object result = condicion.ejecutar(t, arbol);
+        if (result instanceof Excepcion) {
+            return result;
+        }
 
-            if (valorCondicion instanceof Excepcion) {
-                return valorCondicion;
-            }
+        if (!(result instanceof Vector || result instanceof Lista
+            || result instanceof Matriz ||result instanceof Arreglo)) {
+            return new Excepcion("Semántico", "La condición de While debe " +
+                    "ser una estructura tipo Vector, Lista, Matriz o Arreglo.", condicion.fila, condicion.columna);
+        }
 
-            if (!(valorCondicion instanceof Boolean)) {
-                Excepcion ex = new Excepcion("Semántico",
-                        "La condición del ciclo WHILE espera un valor Booleano",
-                        fila, columna);
-                arbol.getExcepciones().add(ex);
-                return ex;
-            }
+        /**
+         * Verifico que la condición sea de tipo boolean
+         */
+        if (!(condicion.getTipo().getTipoDato().equals(Tipo.TipoDato.BOOLEAN))) {
+            return new Excepcion("Semántico", "La condición de While debe " +
+                    "ser de tipo Boolean.", condicion.fila, condicion.columna);
+        }
 
-            Object result;
-            if ((Boolean) valorCondicion) {
-                for (AST instruccion : instrucciones) {
-                    result = instruccion.ejecutar(childTable, arbol);
-                    if (result instanceof Return || result instanceof Excepcion) {
-                        return result;
-                    }
-                    if(result instanceof Break){
-                        return null;
-                    }
-                    if(result instanceof Continue){
-                        break;
-                    }
+        while ((Boolean)((LinkedList)condicion.ejecutar(tabla,arbol)).getFirst()) {
+            for (AST instruccion : instrucciones) {
+                result = instruccion.ejecutar(t, arbol);
+                if (result instanceof Return || result instanceof Excepcion) {
+                    return result;
+                }
+                if(result instanceof Break){
+                    return null;
+                }
+                if(result instanceof Continue){
+                    break;
                 }
             }
 
-        } while ((Boolean) valorCondicion);
-
+        }
         return null;
     }
 }

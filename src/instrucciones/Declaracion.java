@@ -41,6 +41,7 @@ public class Declaracion extends AST {
          */
         Simbolo simbolo = tabla.getVariable(this.identificador);
         if (simbolo != null) {
+            simbolo.setTipo(this.tipo);
             simbolo.setValor(value);
             return null;
         }

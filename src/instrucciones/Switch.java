@@ -25,7 +25,9 @@ public class Switch extends AST {
 
     @Override
     public Object ejecutar(Tabla tabla, Arbol arbol) {
-        Object result = condicion.ejecutar(tabla, arbol);
+        Tabla t = new Tabla(tabla);
+
+        Object result = condicion.ejecutar(t, arbol);
         if (result instanceof Excepcion) {
             return result;
         }
@@ -44,7 +46,7 @@ public class Switch extends AST {
             /**
              * Ejecuto expresion de case para verificar que no sea excepción
              */
-            result = ((Case)caso).getExpresion().ejecutar(tabla, arbol);
+            result = ((Case)caso).getExpresion().ejecutar(t, arbol);
             if (result instanceof Excepcion) {
                 return result;
             }
@@ -74,7 +76,7 @@ public class Switch extends AST {
              * Comparo la condición con cada caso
              */
             if (condicionValor.getFirst().equals(caseValorExpresion.getFirst())) {
-                result = caso.ejecutar(tabla, arbol);
+                result = caso.ejecutar(t, arbol);
                 if (result instanceof Excepcion) {
                     return result;
                 }
@@ -89,7 +91,7 @@ public class Switch extends AST {
          * ejecuto el caso default
          */
         if (casoDefault != null) {
-            result = casoDefault.ejecutar(tabla, arbol);
+            result = casoDefault.ejecutar(t, arbol);
             if (result instanceof Excepcion) {
                 return result;
             }
