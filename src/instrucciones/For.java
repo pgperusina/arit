@@ -62,9 +62,10 @@ public class For extends AST {
         for (int i = 0; i < estructura.size(); i++) {
             Object iterador = estructura.get(i);
             if (!(iterador instanceof LinkedList)) {
+                setTipoIterador(t, iterador);
                 t.getVariable(this.identificador).setValor(new Vector(Arrays.asList(iterador)));
             } else {
-                setTipoIterador(t, iterador);
+                setTipoIteradorEstructura(t, (LinkedList)iterador);
                 t.getVariable(this.identificador).setValor(iterador);
             }
 
@@ -88,7 +89,35 @@ public class For extends AST {
                     }
                     break;
                 }
-                ((LinkedList)estructura).set(i, t.getVariable(this.identificador).getValor());
+                if (expresion.ejecutar(t, arbol) instanceof Vector) {
+                    if (!(t.getVariable(this.identificador).getTipo().getTipoEstructura()
+                            .equals(Tipo.TipoEstructura.VECTOR)) ) {
+                        return new Excepcion("Semántico", "Error en ciclo For: Una estructura Vector solo acepta " +
+                                " valores primitivos y Vectores.", instruccion.fila, instruccion.columna);
+                    }
+                    ((LinkedList) estructura).set(i, t.getVariable(this.identificador).getValor());
+                } else if (expresion.ejecutar(t, arbol) instanceof Lista) {
+                    if (!(t.getVariable(this.identificador).getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
+                            || t.getVariable(this.identificador).getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) ) {
+                        return new Excepcion("Semántico", "Error en ciclo For: Una estructura Lista solo acepta " +
+                                " valores de tipo Lista y Vectores.", instruccion.fila, instruccion.columna);
+                    }
+                    ((LinkedList) estructura).set(i, t.getVariable(this.identificador).getValor());
+                } else if (expresion.ejecutar(t, arbol) instanceof Matriz) {
+                    if (!(t.getVariable(this.identificador).getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
+                            & ((LinkedList)t.getVariable(this.identificador).getValor()).size() == 1) ) {
+                        return new Excepcion("Semántico", "Error en ciclo For: Una estructura Matriz solo acepta " +
+                                " valores de tipo Vector de una sola posición.", instruccion.fila, instruccion.columna);
+                    }
+                    ((LinkedList) estructura).set(i, t.getVariable(this.identificador).getValor());
+                } else if (expresion.ejecutar(t, arbol) instanceof Arreglo) {
+                    if (!(t.getVariable(this.identificador).getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
+                            || t.getVariable(this.identificador).getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) ) {
+                        return new Excepcion("Semántico", "Error en ciclo For: Una estructura Arreglo solo acepta " +
+                                " valores de tipo Lista y Vectores.", instruccion.fila, instruccion.columna);
+                    }
+                    ((LinkedList) estructura).set(i, t.getVariable(this.identificador).getValor());
+                }
             }
             if (expresion instanceof Identificador) {
                 castearEstructura(arbol, t, estructura);
@@ -98,7 +127,7 @@ public class For extends AST {
         return null;
     }
 
-    private void setTipoIterador(Tabla t, Object estructuraPos) {
+    private void setTipoIteradorEstructura(Tabla t, LinkedList estructuraPos) {
         if (estructuraPos instanceof Vector) {
             t.getVariable(this.identificador).setTipo(new Tipo(estructuraPos.getClass().getSimpleName()
                     , Tipo.TipoEstructura.VECTOR));
@@ -112,6 +141,13 @@ public class For extends AST {
             t.getVariable(this.identificador).setTipo(new Tipo(estructuraPos.getClass().getSimpleName()
                     , Tipo.TipoEstructura.ARREGLO));
         }
+    }
+
+    private void setTipoIterador(Tabla t, Object estructuraPos) {
+
+        t.getVariable(this.identificador).setTipo(new Tipo(estructuraPos.getClass().getSimpleName()
+                , Tipo.TipoEstructura.VECTOR));
+
     }
 
     private void castearEstructura(Arbol arbol, Tabla t, LinkedList estructura) {
@@ -133,6 +169,9 @@ public class For extends AST {
 
     private void castearEstructura(Simbolo simbolo, LinkedList estructura, int prioridadCasteo) {
         Object temp;
+        if (prioridadCasteo == 4) {
+            return;
+        }
         if (prioridadCasteo == 3) {
             simbolo.setTipo(new Tipo(Tipo.TipoDato.STRING, simbolo.getTipo().getTipoEstructura()));
             for (int i = 0; i < estructura.size(); i++) {

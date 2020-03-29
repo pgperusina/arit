@@ -148,7 +148,7 @@ public class Utils {
         if (simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) {
             prioridad = 4;
 
-        } else if (simbolo.getValor() instanceof Vector | simbolo.getValor() instanceof Matriz) {
+        } else if (simbolo.getValor() instanceof Vector || simbolo.getValor() instanceof Matriz) {
             if (prioridad < 4) {
                 if (simbolo.getTipo().getTipoDato().equals(Tipo.TipoDato.STRING)) {
                     prioridad = 3;
