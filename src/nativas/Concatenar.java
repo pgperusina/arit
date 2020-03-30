@@ -129,6 +129,10 @@ public class Concatenar extends Funcion {
 
     private void popularLista(Object valor, LinkedList lista) {
         if (valor instanceof Vector | valor instanceof Lista) {
+            if (((LinkedList) valor).size() > 1) {
+                lista.add(valor);
+                return;
+            }
             ((LinkedList) valor).forEach(v -> {
                 popularLista(v, lista);
             });
