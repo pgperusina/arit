@@ -9,9 +9,7 @@ import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 
 import static utilities.Constantes.MEAN_PARAMETRO;
@@ -39,7 +37,7 @@ public class Mode extends Funcion {
         if (!(datos.getTipo().getTipoDato().equals(Tipo.TipoDato.NUMERIC)
                 | datos.getTipo().getTipoDato().equals(Tipo.TipoDato.INTEGER))) {
             return new Excepcion("Semántico", "El argumento de datos enviado a la funcion " +
-                    this.nombre.toUpperCase() + " debe de ser de tipo Numeric o Integer.", trim.getFila(), trim.getColumna());
+                    this.nombre.toUpperCase() + " debe de ser de tipo Integer.", trim.getFila(), trim.getColumna());
         }
         if (trim != null) {
             if (((Vector) trim.getValor()).size() > 1) {
@@ -54,26 +52,45 @@ public class Mode extends Funcion {
         }
 
         List listaDatos = (LinkedList)datos.getValor();
-        Double mode = 0.0;
-        int n = 0;
+        List listaFiltrada = new LinkedList();
+        Double mode = 0d;
+        Map<Double, Integer>  mapaDatos = new HashMap<>();
         if (trim != null) {
             int trimValue = (int) ((LinkedList) trim.getValor()).getFirst();
             for (Object listaDato : listaDatos) {
                 if (Double.valueOf(listaDato.toString()) >= trimValue) {
-                    mode += Double.valueOf(listaDato.toString());
-                    n++;
+                    listaFiltrada.add(listaDato);
                 }
             }
+
         } else {
-            for (Object listaDato : listaDatos) {
-                mode += Double.valueOf(listaDato.toString());
-                n++;
+            listaFiltrada.addAll(listaDatos);
+
+        }
+        listaFiltrada.sort(Comparator.naturalOrder());
+        mode = calcularModa(listaFiltrada, mapaDatos);
+
+        return new Simbolo(new Tipo(Tipo.TipoDato.INTEGER, Tipo.TipoEstructura.VECTOR)
+                , this.nombre, new Vector(Arrays.asList(mode)));
+    }
+
+    private Double calcularModa(List listaDatos, Map<Double, Integer> mapaDatos) {
+        int maximo = 1;
+        Double moda = 0d;
+        for (int i = 0; i < listaDatos.size(); i++) {
+            if (mapaDatos.get(Double.valueOf(listaDatos.get(i).toString())) != null)  {
+                int contador = mapaDatos.get(Double.valueOf(listaDatos.get(i).toString()));
+                contador++;
+                mapaDatos.put(Double.valueOf(listaDatos.get(i).toString()), contador);
+                if (contador > maximo) {
+                    maximo = contador;
+                    moda = Double.valueOf(listaDatos.get(i).toString());
+                }
+            } else {
+                mapaDatos.put(Double.valueOf(listaDatos.get(i).toString()), 1);
             }
         }
-        mode = mode / n;
-
-        return new Simbolo(new Tipo(Tipo.TipoDato.NUMERIC, Tipo.TipoEstructura.VECTOR)
-                , this.nombre, new Vector(Arrays.asList(mode)));
+        return moda;
     }
 
     @Override

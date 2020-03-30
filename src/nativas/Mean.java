@@ -53,6 +53,7 @@ public class Mean extends Funcion {
         List listaDatos = (LinkedList)datos.getValor();
         Double mean = 0.0;
         int n = 0;
+        listaDatos.sort(Comparator.naturalOrder());
         if (trim != null) {
             int trimValue = (int) ((LinkedList) trim.getValor()).getFirst();
             for (Object listaDato : listaDatos) {
