@@ -32,8 +32,7 @@ public final class Constantes {
     public static final String NCOL_PARAMETRO = "ncol&&parametro";
     public static final String NROW_PARAMETRO = "nrow&&parametro";
     public static final String STRING_LENGTH_PARAMETRO = "stringlength&&parametro";
-    public static final String REMOVE_PARAMETRO_1 = "remove&&parametro1";
-    public static final String REMOVE_PARAMETRO_2 = "remove&&parametro2";
+    public static final String REMOVE_PARAMETRO = "remove&&parametro";
     public static final String TO_LOWER_CASE_PARAMETRO = "tolowercase&&parametro";
     public static final String TO_UPPER_CASE_PARAMETRO = "touppercase&&parametro";
     public static final String TRUNK_PARAMETRO = "trunk&&parametro";

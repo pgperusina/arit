@@ -27,7 +27,7 @@ public class Array extends Funcion {
         int count = 1;
         LinkedList<Simbolo> parametros = new LinkedList<>();
         while(tabla.getVariableLocal(ARRAY_PARAMETRO + count) != null) {
-            parametros.add(tabla.getVariable(ARRAY_PARAMETRO + count));
+            parametros.add(tabla.getVariableLocal(ARRAY_PARAMETRO + count));
             count++;
         }
 
@@ -128,7 +128,7 @@ public class Array extends Funcion {
             return result;
         }
         if (!(result instanceof Vector)) {
-            return new Excepcion("Semántico","El segundo argumento de la función 'Array' " +
+            return new Excepcion("Semántico","El segundo argumento de la función 'ARRAY' " +
                     " debe de ser un VECTOR.",
                     argumentos.get(1).fila, argumentos.get(1).columna);
         }
@@ -149,7 +149,12 @@ public class Array extends Funcion {
          */
         for (AST argumento : argumentos) {
             result = argumento.ejecutar(tabla, arbol);
+            if (result instanceof Excepcion) {
+                return result;
+            }
             Simbolo simbolo = new Simbolo(argumento.getTipo(), ARRAY_PARAMETRO + count++, result);
+            simbolo.setFila(argumento.fila);
+            simbolo.setColumna(argumento.columna);
             result = tabla.setVariableLocal(simbolo);
 
             /**

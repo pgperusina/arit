@@ -47,6 +47,9 @@ public class Llamada extends AST {
                     this.tipo = ((Simbolo) o).getTipo();
                     return ((Simbolo) o).getValor();
                 } else {
+                    if (o instanceof Excepcion) {
+                        return o;
+                    }
                     return new Excepcion("Semántico", "Error ejecutando la función '" + funcion.getNombre() +"'.", fila, columna);
                 }
             }

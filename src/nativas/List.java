@@ -28,12 +28,12 @@ public class List extends Funcion {
 
         LinkedList<Simbolo> parametros = new LinkedList<>();
         while(tabla.getVariableLocal(LIST_PARAMETRO + count) != null) {
-            parametros.add(tabla.getVariable(LIST_PARAMETRO + count));
+            parametros.add(tabla.getVariableLocal(LIST_PARAMETRO + count));
             count++;
         }
         if (parametros.size() == 0) {
             Excepcion ex = new Excepcion("Semántico", "No se envió ningún argumento " +
-                    "a la función 'List'.", fila, columna);
+                    "a la función 'LIST'.", fila, columna);
             arbol.getExcepciones().add(ex);
             return ex;
         }
@@ -65,6 +65,8 @@ public class List extends Funcion {
                 return ex;
             }
             Simbolo simbolo = new Simbolo(argumento.getTipo(), LIST_PARAMETRO + count++, result);
+            simbolo.setFila(argumento.fila);
+            simbolo.setColumna(argumento.columna);
             result = tabla.setVariableLocal(simbolo);
 
             if (result != null) {

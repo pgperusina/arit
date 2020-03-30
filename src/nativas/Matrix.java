@@ -25,7 +25,7 @@ public class Matrix extends Funcion {
         int count = 1;
         LinkedList<Simbolo> parametros = new LinkedList<>();
         while(tabla.getVariableLocal(MATRIX_PARAMETRO + count) != null) {
-            parametros.add(tabla.getVariable(MATRIX_PARAMETRO + count));
+            parametros.add(tabla.getVariableLocal(MATRIX_PARAMETRO + count));
             count++;
         }
 
@@ -92,6 +92,8 @@ public class Matrix extends Funcion {
                         argumento.fila, argumento.columna);
             }
             Simbolo simbolo = new Simbolo(argumento.getTipo(), MATRIX_PARAMETRO + count++, result);
+            simbolo.setFila(argumento.fila);
+            simbolo.setColumna(argumento.columna);
             result = tabla.setVariableLocal(simbolo);
 
             if (result != null) {

@@ -25,7 +25,7 @@ public class Print extends Funcion {
 
     @Override
     public Object ejecutar(Tabla tabla, Arbol arbol) {
-        Simbolo simbolo = tabla.getVariable(PRINT_PARAMETRO);
+        Simbolo simbolo = tabla.getVariableLocal(PRINT_PARAMETRO);
         if (simbolo == null) {
             return new Excepcion("Semántico", "El argumento enviado a la " +
                     "función Print no es válido."
@@ -80,9 +80,16 @@ public class Print extends Funcion {
 
             System.out.println(""+simbolo.getTipo()+"");
             System.out.println(l.toString());
+            return null;
         }
         if (simbolo.getValor() instanceof Lista) {
             LinkedList l = (LinkedList)simbolo.getValor();
+            printLineaConsola(arbol, simbolo.getTipo().toString() + "\n");
+            printLineaConsola(arbol, l.toString() + "\n");
+            System.out.println(""+simbolo.getTipo()+"");
+            System.out.println(l.toString());
+        } else {
+            Object l = simbolo.getValor();
             printLineaConsola(arbol, simbolo.getTipo().toString() + "\n");
             printLineaConsola(arbol, l.toString() + "\n");
             System.out.println(""+simbolo.getTipo()+"");
@@ -106,6 +113,8 @@ public class Print extends Funcion {
                 }
 
                 Simbolo simbolo = new Simbolo(argumento.getTipo(), PRINT_PARAMETRO, result);
+                simbolo.setFila(argumento.fila);
+                simbolo.setColumna(argumento.columna);
                 result = tabla.setVariable(simbolo);
 
                 if (result != null) {

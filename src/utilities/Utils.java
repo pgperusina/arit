@@ -60,8 +60,8 @@ public class Utils {
         tabla.setFuncion(nSlength);
 
         ArrayList<AST> parametrosRemove = new ArrayList<>();
-        parametrosRemove.add(new Identificador(REMOVE_PARAMETRO_1, -1, -1));
-        parametrosRemove.add(new Identificador(REMOVE_PARAMETRO_2, -1, -1));
+        parametrosRemove.add(new Identificador(REMOVE_PARAMETRO+1, -1, -1));
+        parametrosRemove.add(new Identificador(REMOVE_PARAMETRO+2, -1, -1));
         Remove nRemove = new Remove(REMOVE, parametrosRemove, new ArrayList<>(), -1, -1);
         tabla.setFuncion(nRemove);
 

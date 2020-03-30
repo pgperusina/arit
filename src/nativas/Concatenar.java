@@ -33,14 +33,12 @@ public class Concatenar extends Funcion {
          */
         LinkedList<Simbolo> parametros = new LinkedList<>();
         while(tabla.getVariableLocal(C_PARAMETRO + count) != null) {
-            parametros.add(tabla.getVariable(C_PARAMETRO + count));
+            parametros.add(tabla.getVariableLocal(C_PARAMETRO + count));
             count++;
         }
         if (parametros.size() == 0) {
-            Excepcion ex = new Excepcion("Semántico", "No se envió ningún argumento " +
+            return new Excepcion("Semántico", "No se envió ningún argumento " +
                     "a la función 'C'.", fila, columna);
-            arbol.getExcepciones().add(ex);
-            return ex;
         }
 
         /**
@@ -49,17 +47,15 @@ public class Concatenar extends Funcion {
         prioridad = definirPrioridadCasteo(parametros, arbol);
         this.tipo = definirTipoRetorno(prioridad);
         if (this.tipo == null) {
-            Excepcion ex = new Excepcion("Semántico","Error definiendo el tipo del Vector.",
+            return new Excepcion("Semántico","Error definiendo el tipo del Vector.",
                     this.fila, this.columna);
-            arbol.getExcepciones().add(ex);
         }
 
         LinkedList result = new LinkedList();
         for (Simbolo simboloParametro : parametros) {
 
             if (prioridad == 4) {
-                // todo - es cuando hay una lista en los parametros
-                // todo pasa a ser lista
+
                 ((LinkedList)simboloParametro.getValor()).forEach(v -> {
                     popularLista(v, result);
                 });
@@ -118,6 +114,8 @@ public class Concatenar extends Funcion {
                         argumento.fila, argumento.columna);
             }
             Simbolo simbolo = new Simbolo(argumento.getTipo(), C_PARAMETRO + count++, result);
+            simbolo.setFila(argumento.fila);
+            simbolo.setColumna(argumento.columna);
             result = tabla.setVariableLocal(simbolo);
 
             if (result != null) {
