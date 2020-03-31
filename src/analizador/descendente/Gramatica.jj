@@ -603,7 +603,6 @@ AST expresionUnaria() :
 AST valor() :
 { AST e; Token t; ArrayList<AST> argumentos; String cad;}
 {
-    try {
         <INTEGER> {
             return new Valor(new Tipo(TipoDato.INTEGER, TipoEstructura.VECTOR), new Vector(Arrays.asList(Integer.parseInt(token.image))), token.beginLine, token.beginColumn); }
         |
@@ -634,7 +633,4 @@ AST valor() :
         <DEFAULT_WORD> { return new ArgumentoDefault(); }
         |
         <PARINI> e=expresion() <PAREND> {return e;}
-    } catch (ParseException ex) {
-
-    }
 }
