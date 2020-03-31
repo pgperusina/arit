@@ -1,6 +1,8 @@
 package analizador.descendente;
 
 import abstracto.AST;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.printer.DotPrinter;
 import excepciones.Excepcion;
 import expresiones.Funcion;
 import instrucciones.Break;
@@ -9,9 +11,8 @@ import instrucciones.Return;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.util.ArrayList;
 
 import static utilities.Utils.agregarFuncionesNativas;
 
@@ -20,11 +21,15 @@ public class Analizar {
         try {
             Gramatica parser = new Gramatica(new BufferedReader(new FileReader("/Users/pgarcia/Documents/USAC/1erSemestre2020/compi2/lab/arit/entrada.txt")));
 //            Gramatica parser = new Gramatica(new BufferedReader(new FileReader("/Users/pgarcia/Documents/USAC/1erSemestre2020/compi2/lab/arit/entradaFinal.txt")));
-            Arbol arbol = parser.analizar();
+//            Arbol arbol = parser.analizar();
+            Arbol arbol = new Arbol(new ArrayList<>());
+            arbol.setInstrucciones(parser.analizar(new ArrayList<>()));
+
             Tabla tabla = new Tabla(null);
             // Se agregan las funciones nativas a la tabla de símbolos
             agregarFuncionesNativas(tabla);
             arbol.setTablaGlobal(tabla);
+
             // Primer recorrido para agregar funciones a la TS
             for (AST instruccion : arbol.getInstrucciones()) {
                 if (instruccion instanceof Funcion) {
@@ -60,6 +65,11 @@ public class Analizar {
                     }
                 }
             }
+            /**
+             * Agrego a la lista de excepciones, las excepciones léxicas y sintácticas
+             */
+//            arbol.getExcepciones().addAll(parser.token_source.listaExcepciones);
+                arbol.getExcepciones().addAll(parser.listaExcepciones);
 
             if (arbol.getExcepciones().size() != 0) {
                 System.out.println("******* EXCEPCIONES ******");

@@ -40,6 +40,7 @@ import expresiones.IndiceTipoUnoMatriz;
 import expresiones.IndiceTipoDosMatriz;
 import expresiones.IndiceTipoTresMatriz;
 import instrucciones.Declaracion;
+import excepciones.Excepcion;
 import estructuras.Vector;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tipo;
@@ -50,18 +51,12 @@ import java.util.LinkedList;
 import java.util.Arrays;
 
 public class Gramatica {
+    public LinkedList<Excepcion> listaExcepciones = new LinkedList<>();
+
 }
 PARSER_END(Gramatica)
 
 /** Lexico */
-SKIP : {
-      " "
-    | "\t"
-    | "\r"
-    | "\n"
-    | <"#*"> : MULTI_LINE_COMMENT
-    | <"#">  : IN_LINE_COMMENT
-}
 
 /* Comments */
 <IN_LINE_COMMENT> SKIP:
@@ -149,6 +144,22 @@ MORE :
    <STRING:"\""> { /*matchedToken.image = image.toString().trim();*/ } : DEFAULT
 }
 
+SKIP : {
+      " "
+    | "\t"
+    | "\r"
+    | "\n"
+    | <"#*"> : MULTI_LINE_COMMENT
+    | <"#">  : IN_LINE_COMMENT
+    | <(~[])> {
+//            LinkedList<Excepcion> listaExcepciones = new LinkedList<>();
+//            listaExcepciones.add(new Excepcion("Léxico", "Caracter no aceptado '"+ image.toString()+ "'.", input_stream.line, input_stream.column));
+            System.out.println("Léxico -- Caracter no aceptado '"+ image.toString()+ "' [Fila: " + input_stream.line + ", Columna: " + input_stream.column + "]");
+//            throw new ParseException();
+//            this.listaExcepciones.add(new Excepcion("Sintáctico", "Caracter no esperado", 1000,1000));
+        }
+}
+
 /**  FIN LEXICO **/
 
 
@@ -157,15 +168,36 @@ MORE :
 /** Produccion inicial
     analizar -> (instruccion)+ EOF
 */
-Arbol analizar() :
-{ArrayList<AST> instrucciones = new ArrayList<AST>(); AST e;}
+//Arbol analizar() :
+   ////{ArrayList<AST> instrucciones = new ArrayList<AST>(); AST e;}
+   ////{
+   ////  (e=instruccion() { instrucciones.add(e); } )+ <EOF>
+   ////  {
+   ////    System.out.println("END OF FILE");
+   ////    return new Arbol(instrucciones);
+   ////  }
+   ////}
+
+ArrayList<AST> analizar(ArrayList<AST> instrucciones) :
+{ AST e;}
 {
-  (e=instruccion() { instrucciones.add(e); } )+ <EOF>
-  {
-    System.out.println("END OF FILE");
-    return new Arbol(instrucciones);
-  }
+   try {
+        ( e = instruccion() { instrucciones.add(e); } )+
+         <EOF> {return instrucciones;}
+   } catch (ParseException ex) {
+           Token t;
+           listaExcepciones.add(new Excepcion("Sintáctico", "Caracter no esperado '"+ ex.currentToken.next.image +"'. Se esperaba '"+ex.tokenImage[0]+"' o '"+ex.tokenImage[1]+"'.",ex.currentToken.next.beginLine,ex.currentToken.next.beginColumn));
+           do {
+               t = getNextToken();
+               if(t.kind == EOF){
+                return instrucciones;
+               }
+            } while (t.kind != PCOMA && t!=null && t.kind != EOF );
+           return analizar(instrucciones);
+   }
 }
+
+
  /**
  * instruccion -> declaracion
 */
@@ -250,6 +282,17 @@ AST accesoEstructura() :
 LinkedList<AST> indicesAcceso() :
 {LinkedList<AST> lista = new LinkedList<AST>(); AST e, e1, r;}
 {
+    LOOKAHEAD(3) <CORI> e = expresion() <CORD>
+    { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); }
+    (
+        LOOKAHEAD(2) <CORI><CORI> e = expresion() <CORD><CORD>
+        { lista.add(new IndiceTipoDos(e, token.beginLine, token.beginColumn)); }
+        |
+        <CORI> e = expresion() <CORD>
+        { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); }
+    )*
+    {return lista; }
+    |
     LOOKAHEAD(3) <CORI> e = expresion() <COMA>
     { r = new IndiceTipoDosMatriz(e, token.beginLine, token.beginColumn); }
     (
@@ -272,17 +315,6 @@ LinkedList<AST> indicesAcceso() :
         { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); }
     )*
     { return lista;}
-    |
-    LOOKAHEAD(2) <CORI> e = expresion() <CORD>
-    { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); }
-    (
-        LOOKAHEAD(2) <CORI><CORI> e = expresion() <CORD><CORD>
-        { lista.add(new IndiceTipoDos(e, token.beginLine, token.beginColumn)); }
-        |
-        <CORI> e = expresion() <CORD>
-        { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); }
-    )*
-    {return lista; }
     |
     LOOKAHEAD(2) <CORI> <COMA> e = expresion() <CORD>
     {
@@ -420,26 +452,6 @@ AST Case() :
     (<BREAK> (<PCOMA>)? )?
     { return new Case(new Default(), instrucciones, token.beginLine, token.beginColumn); }
 }
-///**
-//* asignacion -> ID([expresion])+ = expresion
-//*/
-//AST asignacion() :
-//{ Token id; AST e, e1; }
-//{
-//    id =  <IDENTIFICADOR_LETRA>
-//    (
-//        <CORI> e = expresion() <CORD>
-//    )+
-//    <IGUAL> e1 = expresion() (<PCOMA>)?
-//    { return new Asignacion(id.image.trim(), e, e1, token.beginLine, token.beginColumn); }
-//    |
-//    id =  <IDENTIFICADOR_PUNTO>
-//    (
-//        <CORI> e = expresion() <CORD>
-//    )+
-//    <IGUAL> e1 = expresion() (<PCOMA>)?
-//    { return new Asignacion(id.image.trim(), e, e1, token.beginLine, token.beginColumn); }
-//}
 
 AST insBreak() :
 {AST e;}
@@ -591,6 +603,7 @@ AST expresionUnaria() :
 AST valor() :
 { AST e; Token t; ArrayList<AST> argumentos; String cad;}
 {
+    try {
         <INTEGER> {
             return new Valor(new Tipo(TipoDato.INTEGER, TipoEstructura.VECTOR), new Vector(Arrays.asList(Integer.parseInt(token.image))), token.beginLine, token.beginColumn); }
         |
@@ -621,4 +634,7 @@ AST valor() :
         <DEFAULT_WORD> { return new ArgumentoDefault(); }
         |
         <PARINI> e=expresion() <PAREND> {return e;}
+    } catch (ParseException ex) {
+
+    }
 }

@@ -11,118 +11,112 @@ public interface GramaticaConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int INTEGER = 11;
+  int INTEGER = 5;
   /** RegularExpression Id. */
-  int NUMERIC = 12;
+  int NUMERIC = 6;
   /** RegularExpression Id. */
-  int BOOLEAN = 13;
+  int BOOLEAN = 7;
   /** RegularExpression Id. */
-  int NULL = 14;
+  int NULL = 8;
   /** RegularExpression Id. */
-  int FOR = 15;
+  int FOR = 9;
   /** RegularExpression Id. */
-  int IN = 16;
+  int IN = 10;
   /** RegularExpression Id. */
-  int DO = 17;
+  int DO = 11;
   /** RegularExpression Id. */
-  int WHILE = 18;
+  int WHILE = 12;
   /** RegularExpression Id. */
-  int SWITCH = 19;
+  int SWITCH = 13;
   /** RegularExpression Id. */
-  int CASE = 20;
+  int CASE = 14;
   /** RegularExpression Id. */
-  int DEFAULT_WORD = 21;
+  int DEFAULT_WORD = 15;
   /** RegularExpression Id. */
-  int IF = 22;
+  int IF = 16;
   /** RegularExpression Id. */
-  int ELSE = 23;
+  int ELSE = 17;
   /** RegularExpression Id. */
-  int COMA = 24;
+  int COMA = 18;
   /** RegularExpression Id. */
-  int PCOMA = 25;
+  int PCOMA = 19;
   /** RegularExpression Id. */
-  int PARINI = 26;
+  int PARINI = 20;
   /** RegularExpression Id. */
-  int PAREND = 27;
+  int PAREND = 21;
   /** RegularExpression Id. */
-  int CORI = 28;
+  int CORI = 22;
   /** RegularExpression Id. */
-  int CORD = 29;
+  int CORD = 23;
   /** RegularExpression Id. */
-  int LLAVEI = 30;
+  int LLAVEI = 24;
   /** RegularExpression Id. */
-  int LLAVED = 31;
+  int LLAVED = 25;
   /** RegularExpression Id. */
-  int MAS = 32;
+  int MAS = 26;
   /** RegularExpression Id. */
-  int MENOS = 33;
+  int MENOS = 27;
   /** RegularExpression Id. */
-  int POR = 34;
+  int POR = 28;
   /** RegularExpression Id. */
-  int DIV = 35;
+  int DIV = 29;
   /** RegularExpression Id. */
-  int POTENCIA = 36;
+  int POTENCIA = 30;
   /** RegularExpression Id. */
-  int MODULO = 37;
+  int MODULO = 31;
   /** RegularExpression Id. */
-  int IGUAL = 38;
+  int IGUAL = 32;
   /** RegularExpression Id. */
-  int MENORQUE = 39;
+  int MENORQUE = 33;
   /** RegularExpression Id. */
-  int MAYORQUE = 40;
+  int MAYORQUE = 34;
   /** RegularExpression Id. */
-  int MENORIGUAL = 41;
+  int MENORIGUAL = 35;
   /** RegularExpression Id. */
-  int MAYORIGUAL = 42;
+  int MAYORIGUAL = 36;
   /** RegularExpression Id. */
-  int IGUALA = 43;
+  int IGUALA = 37;
   /** RegularExpression Id. */
-  int DIFERENTEDE = 44;
+  int DIFERENTEDE = 38;
   /** RegularExpression Id. */
-  int AND = 45;
+  int AND = 39;
   /** RegularExpression Id. */
-  int OR = 46;
+  int OR = 40;
   /** RegularExpression Id. */
-  int NOT = 47;
+  int NOT = 41;
   /** RegularExpression Id. */
-  int QUESTION_MARK = 48;
+  int QUESTION_MARK = 42;
   /** RegularExpression Id. */
-  int DOS_PUNTOS = 49;
+  int DOS_PUNTOS = 43;
   /** RegularExpression Id. */
-  int FUNCION = 50;
+  int FUNCION = 44;
   /** RegularExpression Id. */
-  int RETORNO = 51;
+  int RETORNO = 45;
   /** RegularExpression Id. */
-  int BREAK = 52;
+  int BREAK = 46;
   /** RegularExpression Id. */
-  int CONTINUE = 53;
+  int CONTINUE = 47;
   /** RegularExpression Id. */
-  int IDENTIFICADOR = 54;
+  int IDENTIFICADOR = 48;
   /** RegularExpression Id. */
-  int STRING = 57;
+  int STRING = 51;
 
   /** Lexical state. */
-  int DEFAULT = 0;
+  int IN_LINE_COMMENT = 0;
   /** Lexical state. */
-  int IN_LINE_COMMENT = 1;
+  int MULTI_LINE_COMMENT = 1;
   /** Lexical state. */
-  int MULTI_LINE_COMMENT = 2;
+  int DEFAULT = 2;
   /** Lexical state. */
   int STRING_STATE = 3;
 
   /** Literal token values. */
   String[] tokenImage = {
     "<EOF>",
-    "\" \"",
-    "\"\\t\"",
-    "\"\\r\"",
     "\"\\n\"",
-    "\"#*\"",
-    "\"#\"",
-    "\"\\n\"",
-    "<token of kind 8>",
+    "<token of kind 2>",
     "\"*#\"",
-    "<token of kind 10>",
+    "<token of kind 4>",
     "<INTEGER>",
     "<NUMERIC>",
     "<BOOLEAN>",
@@ -168,8 +162,15 @@ public interface GramaticaConstants {
     "\"continue\"",
     "<IDENTIFICADOR>",
     "\"\\\"\"",
-    "<token of kind 56>",
+    "<token of kind 50>",
     "\"\\\"\"",
+    "\" \"",
+    "\"\\t\"",
+    "\"\\r\"",
+    "\"\\n\"",
+    "\"#*\"",
+    "\"#\"",
+    "<token of kind 58>",
   };
 
 }

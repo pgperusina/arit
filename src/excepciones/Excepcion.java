@@ -49,7 +49,7 @@ public class Excepcion {
 
     @Override
     public String toString() {
-        return tipo + " **** " + descripcion + " [Fila: " + fila + ", Columna: " + columna + "]";
+        return tipo + " ***** " + descripcion + " [Fila: " + fila + ", Columna: " + columna + "]";
     }
 
     public void print(TextArea consola){
