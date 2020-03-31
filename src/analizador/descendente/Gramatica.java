@@ -1079,73 +1079,69 @@ e = new ExpresionAritmetica(e, e1, OperadorAritmetico.MODULO, token.beginLine, t
 }
 
   final public AST valor() throws ParseException {AST e; Token t; ArrayList<AST> argumentos; String cad;
-    try {
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case INTEGER:{
-        jj_consume_token(INTEGER);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case INTEGER:{
+      jj_consume_token(INTEGER);
 {if ("" != null) return new Valor(new Tipo(TipoDato.INTEGER, TipoEstructura.VECTOR), new Vector(Arrays.asList(Integer.parseInt(token.image))), token.beginLine, token.beginColumn);}
-        break;
-        }
-      case NUMERIC:{
-        jj_consume_token(NUMERIC);
+      break;
+      }
+    case NUMERIC:{
+      jj_consume_token(NUMERIC);
 {if ("" != null) return new Valor(new Tipo(TipoDato.NUMERIC, TipoEstructura.VECTOR), new Vector(Arrays.asList(Double.parseDouble(token.image))), token.beginLine, token.beginColumn);}
-        break;
-        }
-      case BOOLEAN:{
-        jj_consume_token(BOOLEAN);
+      break;
+      }
+    case BOOLEAN:{
+      jj_consume_token(BOOLEAN);
 {if ("" != null) return new Valor(new Tipo(TipoDato.BOOLEAN, TipoEstructura.VECTOR), new Vector(Arrays.asList(Boolean.parseBoolean(token.image))), token.beginLine, token.beginColumn);}
-        break;
-        }
-      case NULL:{
-        jj_consume_token(NULL);
+      break;
+      }
+    case NULL:{
+      jj_consume_token(NULL);
 {if ("" != null) return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new Vector(Arrays.asList(token.image)), token.beginLine, token.beginColumn);}
-        break;
-        }
-      case STRING:{
-        t = jj_consume_token(STRING);
+      break;
+      }
+    case STRING:{
+      t = jj_consume_token(STRING);
 cad = t.image.substring(1,t.image.length()-1);
             cad = cad.replace("\\","\\");
             cad = cad.replace("\\n","\n");
             cad = cad.replace("\\t","\t");
             {if ("" != null) return new Valor(new Tipo(TipoDato.STRING, TipoEstructura.VECTOR), new Vector(Arrays.asList(cad)), token.beginLine, token.beginColumn);}
-        break;
-        }
-      default:
-        jj_la1[41] = jj_gen;
-        if (jj_2_19(2)) {
-          e = llamada();
+      break;
+      }
+    default:
+      jj_la1[41] = jj_gen;
+      if (jj_2_19(2)) {
+        e = llamada();
 {if ("" != null) return e;}
-        } else if (jj_2_20(2)) {
-          e = accesoEstructura();
+      } else if (jj_2_20(2)) {
+        e = accesoEstructura();
 {if ("" != null) return e;}
-        } else {
-          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-          case IDENTIFICADOR:{
-            t = jj_consume_token(IDENTIFICADOR);
+      } else {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case IDENTIFICADOR:{
+          t = jj_consume_token(IDENTIFICADOR);
 {if ("" != null) return new Identificador(t.image.trim(), token.beginLine, token.beginColumn);}
-            break;
-            }
-          case DEFAULT_WORD:{
-            jj_consume_token(DEFAULT_WORD);
-{if ("" != null) return new ArgumentoDefault();}
-            break;
-            }
-          case PARINI:{
-            jj_consume_token(PARINI);
-            e = expresion();
-            jj_consume_token(PAREND);
-{if ("" != null) return e;}
-            break;
-            }
-          default:
-            jj_la1[42] = jj_gen;
-            jj_consume_token(-1);
-            throw new ParseException();
+          break;
           }
+        case DEFAULT_WORD:{
+          jj_consume_token(DEFAULT_WORD);
+{if ("" != null) return new ArgumentoDefault();}
+          break;
+          }
+        case PARINI:{
+          jj_consume_token(PARINI);
+          e = expresion();
+          jj_consume_token(PAREND);
+{if ("" != null) return e;}
+          break;
+          }
+        default:
+          jj_la1[42] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
         }
       }
-    } catch (ParseException ex) {
-
     }
     throw new Error("Missing return statement in function");
 }
@@ -1704,28 +1700,10 @@ cad = t.image.substring(1,t.image.length()-1);
     return false;
   }
 
-  private boolean jj_3R_58()
- {
-    if (jj_scan_token(INTEGER)) return true;
-    return false;
-  }
-
   private boolean jj_3R_46()
  {
     if (jj_scan_token(DO)) return true;
     if (jj_3R_54()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_34()
- {
-    if (jj_3R_46()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_33()
- {
-    if (jj_3R_45()) return true;
     return false;
   }
 
@@ -1752,6 +1730,24 @@ cad = t.image.substring(1,t.image.length()-1);
     if (!jj_3R_64()) return false;
     jj_scanpos = xsp;
     if (jj_3R_65()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_58()
+ {
+    if (jj_scan_token(INTEGER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_34()
+ {
+    if (jj_3R_46()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_33()
+ {
+    if (jj_3R_45()) return true;
     return false;
   }
 
