@@ -30,7 +30,7 @@
                <Button mnemonicParsing="false" onAction="#reporteErrores" prefHeight="100.0" prefWidth="228" text="Reporte de Errores" />
                <Button mnemonicParsing="false" onAction="#reporteTS" prefHeight="100.0" prefWidth="228" text="Reporte de Tabla de Símbolos" />
                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="228" text="Reporte de AST" />
-               <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="228" text="Mostrar Gráficas" />
+               <Button mnemonicParsing="false" onAction="#reportGraficas" prefHeight="100.0" prefWidth="228" text="Mostrar Gráficas" />
             </children></HBox>
           <HBox fillHeight="true" layoutX="22.0" layoutY="84.0" prefHeight="620.0" prefWidth="1137.0" spacing="30">
               <CodeArea fx:id="archivo" lineHighlighterOn="true" prefHeight="620.0" prefWidth="580.0" wrapText="true" />

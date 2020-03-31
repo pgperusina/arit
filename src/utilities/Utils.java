@@ -113,6 +113,31 @@ public class Utils {
         Array nArray = new Array(ARRAY, parametrosArray, new ArrayList<>(), -1, -1);
         tabla.setFuncion(nArray);
 
+        ArrayList<AST> parametrosPie = new ArrayList<>();
+        parametrosPie.add(new Identificador(PIE_PARAMETRO + 1, -1, -1));
+        parametrosPie.add(new Identificador(PIE_PARAMETRO + 2, -1, -1));
+        parametrosPie.add(new Identificador(PIE_PARAMETRO + 3, -1, -1));
+        Pie nPie = new Pie(PIE, parametrosPie, new ArrayList<>(), -1, -1);
+        tabla.setFuncion(nPie);
+
+        ArrayList<AST> parametrosBarra = new ArrayList<>();
+        parametrosBarra.add(new Identificador(BARRAS_PARAMETRO + 1, -1, -1));
+        parametrosBarra.add(new Identificador(BARRAS_PARAMETRO + 2, -1, -1));
+        parametrosBarra.add(new Identificador(BARRAS_PARAMETRO + 3, -1, -1));
+        parametrosBarra.add(new Identificador(BARRAS_PARAMETRO + 4, -1, -1));
+        parametrosBarra.add(new Identificador(BARRAS_PARAMETRO + 5, -1, -1));
+        Barras nBarra = new Barras(BARRAS, parametrosBarra, new ArrayList<>(), -1, -1);
+        tabla.setFuncion(nBarra);
+
+        ArrayList<AST> parametrosLinea = new ArrayList<>();
+        parametrosLinea.add(new Identificador(LINEA_PARAMETRO + 1, -1, -1));
+        parametrosLinea.add(new Identificador(LINEA_PARAMETRO + 2, -1, -1));
+        parametrosLinea.add(new Identificador(LINEA_PARAMETRO + 3, -1, -1));
+        parametrosLinea.add(new Identificador(LINEA_PARAMETRO + 4, -1, -1));
+        parametrosLinea.add(new Identificador(LINEA_PARAMETRO + 5, -1, -1));
+        Linea nLinea = new Linea(LINEA, parametrosLinea, new ArrayList<>(), -1, -1);
+        tabla.setFuncion(nLinea);
+
     }
 
     public static int definirPrioridadCasteo(LinkedList<Simbolo> parametros, Arbol arbol) {

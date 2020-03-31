@@ -11,14 +11,15 @@ import instrucciones.Continue;
 import instrucciones.Return;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.chart.Chart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.fxmisc.richtext.*;
 import javafx.fxml.Initializable;
@@ -26,11 +27,14 @@ import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import static utilities.Utils.agregarFuncionesNativas;
@@ -45,12 +49,15 @@ public class Controller implements Initializable {
 
     private Arbol arbol;
     private Tabla tabla;
-    private final String sourceCodeUrl = "https://github.com/pgperusina/arit/tree/master";
+    private final String sourceCodeUrl = "https://github.com/pgperusina/arit/tree/develop";
     private URI codeUrl;
     Stage stageReporteErrores;
     Scene sceneReporteErrores;
     Stage stageReporteTS;
     Scene sceneReporteTS;
+    Stage stageReporteGraficas;
+    Scene sceneReporteGraficas;
+    private Group groupChart;
 
     TableView tablaErrores = new TableView();
     TableView tablaSimbolos = new TableView();
@@ -69,8 +76,8 @@ public class Controller implements Initializable {
         //EjecutarInstrucciones();
         try {
             Gramatica parser = new Gramatica(new BufferedReader(new StringReader(archivo.getText())));
-            arbol = parser.analizar();
-            ejecutarArbol(arbol);
+            arbol = new Arbol(new ArrayList<>());
+            ejecutarArbol(arbol, parser);
         } catch (ParseException e) {
             consola.setText(consola.getText() + e.getMessage() + "\n");
             System.err.println(e.getMessage());
@@ -126,6 +133,41 @@ public class Controller implements Initializable {
         stageReporteTS.setScene(sceneReporteTS);
         stageReporteTS.show();
 
+    }
+
+    @FXML
+    private void reportGraficas() {
+        stageReporteGraficas = new Stage();
+        stageReporteGraficas.setWidth(700);
+        stageReporteGraficas.setHeight(500);
+        String cssFile = "";
+
+        TabPane tabPane = new TabPane();
+        for (Map.Entry<String, Chart> entry : arbol.getListaGraficas().entrySet()) {
+            tabPane.getTabs().add(new Tab(entry.getKey(), entry.getValue()));
+            if (entry.getValue() instanceof LineChart) {
+                if (entry.getValue().getStyleClass().get(1).equalsIgnoreCase("P")) {
+                    cssFile = "./lineChartPunto.css";
+                } else if (entry.getValue().getStyleClass().get(1).equalsIgnoreCase("I")) {
+                    cssFile = "./lineChartLinea.css";
+                } else {
+                    cssFile = "./lineChartFull.css";
+                }
+            }
+        }
+
+        VBox vBox = new VBox(tabPane);
+
+        vBox.setPrefWidth(stageReporteGraficas.getWidth());
+        vBox.setPrefHeight(stageReporteGraficas.getHeight());
+
+        sceneReporteGraficas = new Scene(vBox);
+        sceneReporteGraficas.getStylesheets().add(cssFile);
+
+        stageReporteGraficas.setTitle("Reporte de gráficas");
+        stageReporteGraficas.setResizable(true);
+        stageReporteGraficas.setScene(sceneReporteGraficas);
+        stageReporteGraficas.show();
     }
 
     private void popularTablaReporteTS() {
@@ -200,8 +242,9 @@ public class Controller implements Initializable {
         tablaErrores.getColumns().add(column4);
     }
 
-    private void ejecutarArbol(Arbol arbol) {
+    private void ejecutarArbol(Arbol arbol, Gramatica parser) throws ParseException {
         System.out.println("ejecutandoooo");
+        arbol.setInstrucciones(parser.analizar(new ArrayList<>()));
         arbol.setOutput(consola);
         tabla = new Tabla(null);
         /**
@@ -250,6 +293,11 @@ public class Controller implements Initializable {
             }
         }
 
+        /**
+         * Agrego a la lista de excepciones, las excepciones léxicas y sintácticas
+         */
+//            arbol.getExcepciones().addAll(parser.token_source.listaExcepciones);
+        arbol.getExcepciones().addAll(parser.listaExcepciones);
         if (arbol.getExcepciones().size() != 0) {
             tablaErrores.getItems().clear();
             consola.setText(consola.getText() + "\n\n/******* EXCEPCIONES ******/" + "\n");

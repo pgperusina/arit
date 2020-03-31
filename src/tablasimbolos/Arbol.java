@@ -2,9 +2,13 @@ package tablasimbolos;
 
 import abstracto.AST;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 import excepciones.Excepcion;
 import javafx.scene.Group;
+import javafx.scene.chart.Chart;
 import javafx.scene.control.TextArea;
 
 public class Arbol {
@@ -14,10 +18,12 @@ public class Arbol {
     private TextArea consola;
     private Tabla tablaGlobal;
     private Group grupo;
+    private Map<String, Chart> listaGraficas;
 
     public Arbol(ArrayList<AST> instrucciones) {
         this.instrucciones = instrucciones;
         this.excepciones = new ArrayList<>();
+        this.listaGraficas = new HashMap<>();
     }
 
     public ArrayList<AST> getInstrucciones() {
@@ -58,6 +64,14 @@ public class Arbol {
 
     public void setGrupo(Group grupo) {
         this.grupo = grupo;
+    }
+
+    public Map<String, Chart> getListaGraficas() {
+        return listaGraficas;
+    }
+
+    public void setListaGraficas(Map<String, Chart> listaGraficas) {
+        this.listaGraficas = listaGraficas;
     }
 
 }
