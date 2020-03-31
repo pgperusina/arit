@@ -26,8 +26,8 @@ public final class Constantes {
     public static final String PIE = "pie";
     public static final String BARRAS = "barplot";
     public static final String LINEA = "plot";
-    public static final String HISTOGRAMA = "histograma";
-    public static final String DISPERSION = "dispersion";
+    public static final String HISTOGRAMA = "hist";
+//    public static final String DISPERSION = "plot";
 
     public static final String PRINT_PARAMETRO = "print&&parametro";
     public static final String C_PARAMETRO = "c&&parametro";
@@ -51,5 +51,5 @@ public final class Constantes {
     public static final String BARRAS_PARAMETRO = "barras&&parametro";
     public static final String LINEA_PARAMETRO = "linea&&parametro";
     public static final String HISTOGRAMA_PARAMETRO = "histograma&&parametro";
-    public static final String DISPERSION_PARAMETRO = "dispersion&&parametro";
+//    public static final String DISPERSION_PARAMETRO = "dispersion&&parametro";
 }

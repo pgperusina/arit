@@ -5,37 +5,34 @@ import estructuras.Vector;
 import excepciones.Excepcion;
 import expresiones.Funcion;
 import javafx.scene.chart.*;
+import javafx.scene.control.Tab;
 import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
-import static utilities.Constantes.BARRAS_PARAMETRO;
+import static utilities.Constantes.HISTOGRAMA_PARAMETRO;
 
-public class Barras extends Funcion {
-    public Barras(String nombre, ArrayList<AST> parametros, ArrayList<AST> instrucciones, int fila, int columna) {
+public class Histograma extends Funcion {
+    public Histograma(String nombre, ArrayList<AST> parametros, ArrayList<AST> instrucciones, int fila, int columna) {
         super(nombre, parametros, instrucciones, true, fila, columna);
     }
 
     @Override
     public Object ejecutar(Tabla tabla, Arbol arbol) {
-        Simbolo simboloDatos = tabla.getVariableLocal(BARRAS_PARAMETRO+1);
-        Simbolo simboloLabelX = tabla.getVariableLocal(BARRAS_PARAMETRO+2);
-        Simbolo simboloLabelY = tabla.getVariableLocal(BARRAS_PARAMETRO+3);
-        Simbolo simboloTitulo = tabla.getVariableLocal(BARRAS_PARAMETRO+4);
-        Simbolo simboloNombresBarras = tabla.getVariableLocal(BARRAS_PARAMETRO+5);
-        if (simboloDatos == null | simboloLabelX == null | simboloLabelY == null
-                | simboloTitulo == null | simboloNombresBarras == null) {
+        Simbolo simboloDatos = tabla.getVariableLocal(HISTOGRAMA_PARAMETRO+1);
+        Simbolo simboloLabelX = tabla.getVariableLocal(HISTOGRAMA_PARAMETRO+2);
+        Simbolo simboloTitulo = tabla.getVariableLocal(HISTOGRAMA_PARAMETRO+3);
+        if (simboloDatos == null | simboloLabelX == null | simboloTitulo == null ) {
             return new Excepcion("Semántico", "Faltan argumentos para la función " +
                     this.nombre + ".", fila, columna);
         }
         if (!(simboloDatos.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
                 | simboloLabelX.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
-                | simboloLabelY.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
-                | simboloTitulo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
-                | simboloNombresBarras.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR))) {
+                | simboloTitulo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR))) {
             return new Excepcion("Semántico", "Los argumentos enviados a la función " +
                     this.nombre.toUpperCase() + " debe de ser de tipo Vector.", simboloDatos.getFila(), simboloDatos.getColumna());
         }
@@ -48,50 +45,47 @@ public class Barras extends Funcion {
             return new Excepcion("Semántico", "El argumento de XLab enviado a la funcion " +
                     this.nombre.toUpperCase() + " debe de ser de tipo String.", simboloLabelX.getFila(), simboloLabelX.getColumna());
         }
-        if (!(simboloLabelY.getTipo().getTipoDato().equals(Tipo.TipoDato.STRING))) {
-            return new Excepcion("Semántico", "El argumento de YLab enviado a la funcion " +
-                    this.nombre.toUpperCase() + " debe de ser de tipo String.", simboloLabelY.getFila(), simboloLabelY.getColumna());
-        }
         if (!(simboloTitulo.getTipo().getTipoDato().equals(Tipo.TipoDato.STRING))) {
             return new Excepcion("Semántico", "El argumento de Main enviado a la funcion " +
                     this.nombre.toUpperCase() + " debe de ser de tipo String.", simboloTitulo.getFila(), simboloTitulo.getColumna());
         }
-        if (!(simboloNombresBarras.getTipo().getTipoDato().equals(Tipo.TipoDato.STRING))) {
-            return new Excepcion("Semántico", "El argumento Names.arg enviado a la funcion " +
-                    this.nombre.toUpperCase() + " debe de ser de tipo String.", simboloNombresBarras.getFila(), simboloNombresBarras.getColumna());
-        }
 
         Vector labelX = (Vector)simboloLabelX.getValor();
-        Vector labelY = (Vector)simboloLabelY.getValor();
-        Vector datos = (Vector)simboloDatos.getValor();
+        Vector datos = (Vector) simboloDatos.getValor();
+        LinkedList<Double> datosDouble = new LinkedList<>();
+        datos.forEach(d -> datosDouble.add(Double.valueOf(d.toString())));
         Vector titulo = (Vector)simboloTitulo.getValor();
-        Vector nombresBarras = (Vector)simboloNombresBarras.getValor();
+        int group[] = new int[10];
 
-        if (datos.size() != nombresBarras.size()) {
-            return new Excepcion("Semántico", "Los vectores de datos y nombres de cada barra de la función " +
-                    this.nombre.toUpperCase() + " deben de ser del mismo tamaño.", simboloDatos.getFila(), simboloDatos.getColumna());
-        }
-        
         CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel(String.valueOf(labelX.getFirst().toString()));
-
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel(String.valueOf(labelY.getFirst().toString()));
+        yAxis.setLabel("");
+        groupData(group, datosDouble);
 
-        BarChart barChart = new BarChart(xAxis, yAxis);
+        BarChart histograma = new BarChart(xAxis, yAxis);
 
         XYChart.Series dataSeries = new XYChart.Series();
         dataSeries.setName(String.valueOf(titulo.getFirst().toString()));
+        dataSeries.getData().add(new XYChart.Data("0-10", group[0]));
+        dataSeries.getData().add(new XYChart.Data("10-20", group[1]));
+        dataSeries.getData().add(new XYChart.Data("20-30", group[2]));
+        dataSeries.getData().add(new XYChart.Data("30-40", group[3]));
+        dataSeries.getData().add(new XYChart.Data("40-50", group[4]));
 
-        for (int i = 0; i < datos.size(); i++) {
-            dataSeries.getData().add(new XYChart.Data(String.valueOf(nombresBarras.get(i).toString())
-                    , Double.valueOf(datos.get(i).toString())));
-        }
+        dataSeries.getData().add(new XYChart.Data("50-60", group[5]));
+        dataSeries.getData().add(new XYChart.Data("60-70", group[6]));
+        dataSeries.getData().add(new XYChart.Data("70-80", group[7]));
+        dataSeries.getData().add(new XYChart.Data("80-90", group[8]));
+        dataSeries.getData().add(new XYChart.Data("90-100", group[9]));
 
-        barChart.getData().add(dataSeries);
-        barChart.setTitle(String.valueOf(titulo.getFirst()));
-        barChart.setPrefSize(650, 500);
-        arbol.getListaGraficas().put("Bar Chart - " + barChart.getTitle(), barChart);
+
+        histograma.getData().add(dataSeries);
+        histograma.setTitle(String.valueOf(titulo.getFirst()));
+        histograma.setPrefSize(650, 500);
+        histograma.setBarGap(0);
+        histograma.setCategoryGap(0);
+        arbol.getListaGraficas().put("Histogram - " + histograma.getTitle(), histograma);
 
         Simbolo s = new Simbolo(null, this.nombre, null);
         s.setFila(simboloDatos.getFila());
@@ -99,17 +93,46 @@ public class Barras extends Funcion {
         return s;
     }
 
+    private void groupData(int[] group, LinkedList<Double> data){
+        for(int i=0; i<10; i++){
+            group[i]=0;
+        }
+        for(int i=0; i<data.size(); i++){
+            if(data.get(i)<=10){
+                group[0]++;
+            }else if(data.get(i)<=20){
+                group[1]++;
+            }else if(data.get(i)<=30){
+                group[2]++;
+            }else if(data.get(i)<=40){
+                group[3]++;
+            }else if(data.get(i)<=50){
+                group[4]++;
+            }else if(data.get(i)<=60){
+                group[5]++;
+            }else if(data.get(i)<=70){
+                group[6]++;
+            }else if(data.get(i)<=80){
+                group[7]++;
+            }else if(data.get(i)<=90){
+                group[8]++;
+            }else if(data.get(i)<=100){
+                group[9]++;
+            }
+        }
+    }
+
     @Override
     public Object cargarTabla(Tabla tabla, Arbol arbol, ArrayList<AST> argumentos) {
         Object result;
-        if (argumentos.size() > 5) {
+        if (argumentos.size() > 3) {
             return new Excepcion("Semántico","La función '"+ this.nombre + "' debe recibir " +
-                    " 5 argumentos.",
+                    " 3 argumentos.",
                     argumentos.get(0).fila, argumentos.get(0).columna);
         }
         if (argumentos.size() < 1) {
             return new Excepcion("Semántico","La función '"+ this.nombre + "' debe recibir " +
-                    " 5 argumentos.",
+                    " 3 argumentos.",
                     this.fila, this.columna);
         }
 
@@ -119,7 +142,7 @@ public class Barras extends Funcion {
             if (result instanceof Excepcion) {
                 return result;
             }
-            Simbolo simbolo = new Simbolo(argumento.getTipo(), BARRAS_PARAMETRO + count++, result);
+            Simbolo simbolo = new Simbolo(argumento.getTipo(), HISTOGRAMA_PARAMETRO + count++, result);
             simbolo.setFila(argumento.fila);
             simbolo.setColumna(argumento.columna);
             result = tabla.setVariableLocal(simbolo);
