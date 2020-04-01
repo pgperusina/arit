@@ -6,6 +6,8 @@ import tablasimbolos.Tabla;
 
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class IndiceTipoUnoMatriz extends AST {
     private AST valorFila;
     private AST valorColumna;
@@ -24,4 +26,5 @@ public class IndiceTipoUnoMatriz extends AST {
         valores.add(valorColumna.ejecutar(tabla, arbol));
         return valores;
     }
+
 }

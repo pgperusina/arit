@@ -9,6 +9,8 @@ import tablasimbolos.Tipo;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class If extends AST {
 
     private AST condicion;
@@ -45,7 +47,10 @@ public class If extends AST {
         if ((Boolean) ((LinkedList)valorCondicion).getFirst()) {
             for (AST instruccionIf : instruccionesIf) {
                 result = instruccionIf.ejecutar(childTable, arbol);
-                if (result instanceof Return || result instanceof Excepcion
+                if (result instanceof Return) {
+                    return result;
+                }
+                if (result instanceof Excepcion
                         || result instanceof Break || result instanceof Continue) {
                     return result;
                 }
@@ -61,5 +66,35 @@ public class If extends AST {
         }
 
         return null;
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        int random = getRandomInRange(1, 10000);
+        dotBuilder.append(padre+"->"+condicion.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        condicion.crearDotFile(dotBuilder, condicion.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        dotBuilder.append(padre+"->"+"InstruccionesIf"+random);
+        dotBuilder.append("\n");
+        dotBuilder.append(padre+"->"+"InstruccionesElse"+random);
+        dotBuilder.append("\n");
+        for (AST instruccion : instruccionesIf) {
+            dotBuilder.append("InstruccionesIf"+random+"->"+instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+            instruccion.crearDotFile(dotBuilder, instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+
+        }
+        for (AST instruccion : instruccionesElse) {
+            random = getRandomInRange(1, 10000);
+            dotBuilder.append("InstruccionesElse"+random+"->"+instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+            instruccion.crearDotFile(dotBuilder, instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+
+        }
+
+        return dotBuilder.toString();
     }
 }

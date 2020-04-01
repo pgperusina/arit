@@ -1,0 +1,60 @@
+
+analizar ::= ( instruccion )+ <EOF>
+
+instruccion ::= funcion | declaracion | llamada (  )? | asignacionIndiceEstructura (  )? | retorno | insBreak | insContinue | sentenciaIf | cicloFor | cicloWhile | cicloDoWhile (  )? | Switch
+
+declaracion ::=   expresion (  )?
+
+funcion ::=    listaParametros    bloqueInstrucciones |     listaParametros  bloqueInstrucciones
+
+asignacionIndiceEstructura ::=  indicesAcceso  expresion
+
+accesoEstructura ::=  indicesAcceso
+
+indicesAcceso ::=  expresion  (   expresion   |  expresion  )* |  expresion  ( expresion )?  |   expresion   (   expresion   |  expresion  )* |   expresion 
+
+llamada ::=   listaExpresiones 
+
+listaExpresiones ::= ( expresion (  expresion )* )?
+
+listaParametros ::= (  (  expresion )? (   (  expresion )? )* )?
+
+bloqueInstrucciones ::=  ( instruccion )* 
+
+sentenciaIf ::=   expresion  bloqueInstrucciones (  sentenciaIf |  bloqueInstrucciones )?
+
+cicloFor ::=     expresion  bloqueInstrucciones
+
+cicloWhile ::=   expresion  bloqueInstrucciones
+
+cicloDoWhile ::=  bloqueInstrucciones   expresion 
+
+Switch ::=   expresion   bloqueCases 
+
+bloqueCases ::= ( Case )+
+
+Case ::=  expresion  ( instruccion )* (  (  )? )? |   ( instruccion )* (  (  )? )?
+
+insBreak ::=  (  )?
+
+insContinue ::=  (  )?
+
+retorno ::=    (  )? |   expresion  (  )?
+
+expresion ::= expresionOr (  expresion  expresion )*
+
+expresionOr ::= expresionAnd (  expresionAnd )*
+
+expresionAnd ::= expresionIgualdad (  expresionIgualdad )*
+
+expresionIgualdad ::= expresionRelacional (  expresionRelacional |  expresionRelacional )*
+
+expresionRelacional ::= expresionAditiva (  expresionAditiva |  expresionAditiva |  expresionAditiva |  expresionAditiva )*
+
+expresionAditiva ::= expresionMultiplicativa (  expresionMultiplicativa |  expresionMultiplicativa )*
+
+expresionMultiplicativa ::= expresionUnaria (  expresionUnaria |  expresionUnaria |  expresionUnaria |  expresionUnaria )*
+
+expresionUnaria ::=  expresionUnaria |  expresionUnaria | valor
+
+valor ::=  |  |  |  |  | llamada | accesoEstructura |  |  |  expresion 

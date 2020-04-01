@@ -10,6 +10,8 @@ import tablasimbolos.Tipo;
 
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class ExpresionRelacional extends AST {
 
     public static enum OperadorRelacional {
@@ -209,7 +211,8 @@ public class ExpresionRelacional extends AST {
 
             } else {
                 return new Excepcion("Semántico", "Error de tipos en comparación (!=), ambos operadores deben " +
-                        " tener el mismo tipo de estructura. +", fila, columna);
+                        " tener el mismo tipo de estructura. '" +operando1TipoEstructura.toString()+ "" +
+                        "- " + operando2TipoEstructura.toString()+ "'.", fila, columna);
             }
         } else if (this.operador == OperadorRelacional.IGUALA) {
             /**
@@ -367,7 +370,8 @@ public class ExpresionRelacional extends AST {
 
             } else {
                 return new Excepcion("Semántico", "Error de tipos en comparación (==), ambos operadores deben " +
-                        " tener el mismo tipo de estructura. +", fila, columna);
+                        " tener el mismo tipo de estructura. '" +operando1TipoEstructura.toString()+ "" +
+                        "- " + operando2TipoEstructura.toString()+ "'.", fila, columna);
             }
         } else if (this.operador == OperadorRelacional.MAYORQUE) {
             /**
@@ -505,7 +509,8 @@ public class ExpresionRelacional extends AST {
 
             } else {
                 return new Excepcion("Semántico", "Error de tipos en comparación (>), ambos operadores deben " +
-                        " tener el mismo tipo de estructura. +", fila, columna);
+                        " tener el mismo tipo de estructura. '" +operando1TipoEstructura.toString()+ "" +
+                        "- " + operando2TipoEstructura.toString()+ "'.", fila, columna);
             }
         } else if (this.operador == OperadorRelacional.MENORQUE) {
             /**
@@ -643,7 +648,8 @@ public class ExpresionRelacional extends AST {
 
             } else {
                 return new Excepcion("Semántico", "Error de tipos en comparación (<), ambos operadores deben " +
-                        " tener el mismo tipo de estructura. +", fila, columna);
+                        " tener el mismo tipo de estructura. '" +operando1TipoEstructura.toString()+ "" +
+                        "- " + operando2TipoEstructura.toString()+ "'.", fila, columna);
             }
         } else if (this.operador == OperadorRelacional.MAYORIGUAL) {
             /**
@@ -781,7 +787,8 @@ public class ExpresionRelacional extends AST {
 
             } else {
                 return new Excepcion("Semántico", "Error de tipos en comparación (>=), ambos operadores deben " +
-                        " tener el mismo tipo de estructura. +", fila, columna);
+                        " tener el mismo tipo de estructura. '" +operando1TipoEstructura.toString()+ "" +
+                        "- " + operando2TipoEstructura.toString()+ "'.", fila, columna);
             }
         } else if (this.operador == OperadorRelacional.MENORIGUAL) {
             /**
@@ -919,9 +926,28 @@ public class ExpresionRelacional extends AST {
 
             } else {
                 return new Excepcion("Semántico", "Error de tipos en comparación (<=), ambos operadores deben " +
-                        " tener el mismo tipo de estructura. +", fila, columna);
+                        " tener el mismo tipo de estructura. '" +operando1TipoEstructura.toString()+ "" +
+                        "- " + operando2TipoEstructura.toString()+ "'.", fila, columna);
             }
         }
         return null;
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        int random = getRandomInRange(1,10000);
+        dotBuilder.append(padre+"->"+this.operando1.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        this.operando1.crearDotFile(dotBuilder, this.operando1.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        dotBuilder.append(padre+"->"+this.operador.name()+getRandomInRange(1,10000));
+        dotBuilder.append("\n");
+        random = getRandomInRange(1,10000);
+        dotBuilder.append(padre+"->"+this.operando2.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        this.operando2.crearDotFile(dotBuilder, this.operando2.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+
+        return dotBuilder.toString();
     }
 }

@@ -13,6 +13,8 @@ import tablasimbolos.Tipo;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class DoWhile extends AST {
     private AST condicion;
     private ArrayList<AST> instrucciones;
@@ -61,5 +63,20 @@ public class DoWhile extends AST {
         } while ((Boolean)((LinkedList)condicion.ejecutar(tabla,arbol)).getFirst());
 
         return null;
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        for (AST instruccion : instrucciones) {
+            int random = getRandomInRange(1, 10000);
+            dotBuilder.append(padre+"->"+instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+
+            instruccion.crearDotFile(dotBuilder, instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+
+        }
+
+        return dotBuilder.toString();
     }
 }

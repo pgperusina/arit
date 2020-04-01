@@ -10,6 +10,8 @@ import utilities.Utils;
 
 import java.util.ArrayList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class Llamada extends AST {
 
     private String nombre;
@@ -84,23 +86,24 @@ public class Llamada extends AST {
                          * Si el parámetro existe en la tabla anterior, se crea localmente
                          * Sino, se usa el valor de la variable de la tabla anterior
                          */
-//                        if (t.getVariable(((Declaracion) parametro).getIdentificador()) != null) {
+                        if (t.getVariable(((Declaracion) parametro).getIdentificador()) == null) {
                             Simbolo simbolo = new Simbolo(this.argumentos.get(i).getTipo(),
                                     ((Declaracion) parametro).getIdentificador(), result);
-                            result = t.setVariableLocal(simbolo);
-//                        }
+                            result = t.setVariable(simbolo);
+                        }
 
 
                     } else {
-//                        if (t.getVariable(((Identificador) parametro).getIdentificador()) != null) {
+
+                        if (t.getVariable(((Identificador) parametro).getIdentificador()) == null) {
                             Simbolo simbolo = new Simbolo(this.argumentos.get(i).getTipo(),
                                     ((Identificador) parametro).getIdentificador(), result);
-                            result = t.setVariableLocal(simbolo);
-//                        }
+                            result = t.setVariable(simbolo);
+                        }
 
                     }
                 }
-                if (result != null) {
+                if (result instanceof Excepcion) {
                     return result;
                 }
 
@@ -139,5 +142,15 @@ public class Llamada extends AST {
                     + "enviados (" + this.argumentos.size() + ") no coincide con la cantidad de parámetros "
                     + "de la función (" + funcion.getParametros().size() + ")." + this.nombre, fila, columna);
         }
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        int random = getRandomInRange(1, 10000);
+
+        dotBuilder.append(padre+"->"+this.nombre+"-"+random);
+        dotBuilder.append("\n");
+
+        return dotBuilder.toString();
     }
 }

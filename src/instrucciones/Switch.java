@@ -11,6 +11,8 @@ import tablasimbolos.Tabla;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class Switch extends AST {
 
     private AST condicion;
@@ -101,6 +103,20 @@ public class Switch extends AST {
         }
 
         return null;
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        for (AST instruccion : listaCases) {
+            int random = getRandomInRange(1, 10000);
+            dotBuilder.append(padre+"->"+instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+
+            instruccion.crearDotFile(dotBuilder, instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+        }
+
+        return dotBuilder.toString();
     }
 
 }

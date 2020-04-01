@@ -14,4 +14,5 @@ public class Acceso extends AST {
         this.fila = fila;
         this.columna = columna;
     }
+
 }

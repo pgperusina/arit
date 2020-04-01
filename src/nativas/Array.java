@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 import static utilities.Constantes.*;
+import static utilities.Utils.getRandomInRange;
 
 public class Array extends Funcion {
     public Array(String nombre, ArrayList<AST> parametros, ArrayList<AST> instrucciones, int fila, int columna) {

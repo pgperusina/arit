@@ -11,6 +11,8 @@ import tablasimbolos.Tipo.TipoDato;
 
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class ExpresionAritmetica extends AST {
 
     public static enum OperadorAritmetico {
@@ -80,8 +82,21 @@ public class ExpresionAritmetica extends AST {
                     ||
                     (operando1TipoEstructura.equals(Tipo.TipoEstructura.MATRIZ)
                             & operando2TipoEstructura.equals(Tipo.TipoEstructura.VECTOR)) ) {
-                LinkedList operando1Valor = (LinkedList) operando1.ejecutar(tabla, arbol);
-                LinkedList operando2Valor = (LinkedList) operando2.ejecutar(tabla, arbol);
+                LinkedList operando1Valor = new LinkedList();
+                LinkedList operando2Valor = new LinkedList();
+                Object op1 = operando1.ejecutar(tabla, arbol);
+                Object op2 = operando2.ejecutar(tabla, arbol);
+                if (!(op1 instanceof LinkedList)) {
+                    operando1Valor.add(op1);
+                } else {
+                    operando1Valor = (LinkedList)operando1.ejecutar(tabla, arbol);
+                }
+                if (!(op2 instanceof LinkedList)) {
+                    operando2Valor.add(op2);
+                } else {
+                    operando2Valor = (LinkedList)operando2.ejecutar(tabla, arbol);
+                }
+
 
                 /**
                  * Valido que operaciones entre vector y matriz, sean las aceptadas
@@ -256,7 +271,7 @@ public class ExpresionAritmetica extends AST {
                         this.tipo = new Tipo(TipoDato.INTEGER);
                         if (operando1Valor.size() == operando2Valor.size()) {
                             for (int i = 0; i < operando1Valor.size(); i++) {
-                                result.add(Integer.valueOf(operando1Valor.get(i).toString())
+                                result.add(Integer. valueOf(operando1Valor.get(i).toString())
                                         - Integer.valueOf(operando2Valor.get(i).toString()));
                             }
                         } else if (operando1Valor.size() > operando2Valor.size()) {
@@ -847,5 +862,33 @@ public class ExpresionAritmetica extends AST {
         }
 
         return null;
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        int random = getRandomInRange(1,10000);
+        if (operando1 != null & operando2 != null) {
+            dotBuilder.append(padre + "->" + this.operando1.getClass().getSimpleName() + random);
+            dotBuilder.append("\n");
+            this.operando1.crearDotFile(dotBuilder, this.operando1.getClass().getSimpleName() + random);
+            dotBuilder.append("\n");
+            dotBuilder.append(padre + "->" + this.operador.name() + getRandomInRange(1, 10000));
+            dotBuilder.append("\n");
+            random = getRandomInRange(1, 10000);
+            dotBuilder.append(padre + "->" + this.operando2.getClass().getSimpleName() + random);
+            dotBuilder.append("\n");
+            this.operando2.crearDotFile(dotBuilder, this.operando2.getClass().getSimpleName() + random);
+            dotBuilder.append("\n");
+        } else {
+            random = getRandomInRange(1, 10000);
+            dotBuilder.append(padre + "->" + this.operador.name()+ random);
+            dotBuilder.append("\n");
+            dotBuilder.append(padre + "->" + this.operandoU.getClass().getSimpleName() + random);
+            dotBuilder.append("\n");
+            this.operandoU.crearDotFile(dotBuilder, this.operandoU.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+        }
+
+        return dotBuilder.toString();
     }
 }

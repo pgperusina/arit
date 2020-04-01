@@ -126,7 +126,7 @@ public class Print extends Funcion {
     }
 
     public void printLineaConsola(Arbol arbol, String s) {
-//        arbol.getConsola().setText(arbol.getConsola().getText() + s + "\n");
+        arbol.getConsola().setText(arbol.getConsola().getText() + s + "\n");
     }
 
     public void printConsola(Arbol arbol, String s) {

@@ -508,7 +508,12 @@ public class AsignacionIndiceEstructura extends AST {
             if (resultPosicion instanceof Excepcion) {
                 return resultPosicion;
             }
-            LinkedList valorPosicion = (LinkedList)resultPosicion;
+            LinkedList valorPosicion = new LinkedList();
+            if (!(resultPosicion instanceof Vector)) {
+                valorPosicion.add(resultPosicion);
+            } else {
+                valorPosicion = (LinkedList)resultPosicion;
+            }
             if (!(valorPosicion.getFirst() instanceof Integer)) {
                 return new Excepcion("Semántico", "La modificación de vectores vía índice " +
                         "requiere que los índices sean de tipo INTEGER.",

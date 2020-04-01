@@ -15,4 +15,8 @@ public class AST {
     public Tipo getTipo() {
         return tipo;
     }
+
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        return "";
+    }
 }

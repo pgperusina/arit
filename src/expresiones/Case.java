@@ -16,6 +16,8 @@ import tablasimbolos.Tipo;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class Case extends AST {
 
     private AST expresion;
@@ -53,5 +55,20 @@ public class Case extends AST {
         }
 
         return null;
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        for (AST instruccion : instrucciones) {
+            int random = getRandomInRange(1, 10000);
+            dotBuilder.append(padre+"->"+instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+
+            instruccion.crearDotFile(dotBuilder, instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+
+        }
+
+        return dotBuilder.toString();
     }
 }

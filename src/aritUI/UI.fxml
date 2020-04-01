@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import org.fxmisc.richtext.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="735" prefWidth="1180" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aritUI.Controller">
+<AnchorPane id="AnchorPane" prefHeight="950" prefWidth="1300" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aritUI.Controller">
     <children>
-      <VBox layoutX="13.0" layoutY="6.0" prefHeight="703.0" prefWidth="1155.0">
+      <VBox layoutX="13.0" layoutY="6.0" prefHeight="950" prefWidth="1300">
          <MenuBar>
            <menus>
              <Menu mnemonicParsing="false" text="Archivo">
@@ -26,15 +26,19 @@
          </MenuBar>
          <HBox fillHeight="true" prefHeight="100.0" prefWidth="200.0" spacing="10">
             <children>
-               <Button fx:id="botonEjecutar" mnemonicParsing="false" onAction="#Ejecutar" prefHeight="100.0" prefWidth="228" text="Ejecutar Archivo" />
-               <Button mnemonicParsing="false" onAction="#reporteErrores" prefHeight="100.0" prefWidth="228" text="Reporte de Errores" />
-               <Button mnemonicParsing="false" onAction="#reporteTS" prefHeight="100.0" prefWidth="228" text="Reporte de Tabla de Símbolos" />
-               <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="228" text="Reporte de AST" />
-               <Button mnemonicParsing="false" onAction="#reportGraficas" prefHeight="100.0" prefWidth="228" text="Mostrar Gráficas" />
+                <VBox>
+                    <Button fx:id="botonEjecutar" mnemonicParsing="false" onAction="#Ejecutar" prefHeight="52.0" prefWidth="250" text="Ejecutar Archivo (Descendente)" />
+                    <Button fx:id="botonEjecutarAscendente" mnemonicParsing="false" onAction="#EjecutarAscendente" prefHeight="52.0" prefWidth="250" text="Ejecutar Archivo (Ascendente)" />
+                </VBox>
+
+               <Button mnemonicParsing="false" onAction="#reporteErrores" prefHeight="100.0" prefWidth="250" text="Reporte de Errores" />
+               <Button mnemonicParsing="false" onAction="#reporteTS" prefHeight="100.0" prefWidth="250" text="Reporte de Tabla de Símbolos" />
+               <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="250" text="Reporte de AST" />
+               <Button mnemonicParsing="false" onAction="#reportGraficas" prefHeight="100.0" prefWidth="249.0" text="Mostrar Gráficas" />
             </children></HBox>
-          <HBox fillHeight="true" layoutX="22.0" layoutY="84.0" prefHeight="620.0" prefWidth="1137.0" spacing="30">
-              <CodeArea fx:id="archivo" lineHighlighterOn="true" prefHeight="620.0" prefWidth="580.0" wrapText="true" />
-              <TextArea fx:id="consola" editable="false" layoutX="620.0" layoutY="113.0" prefHeight="620.0" prefWidth="576.0" style="-fx-font-weight: bold; -fx-text-fill:white; -fx-font-size: 14; -fx-control-inner-background: black;" wrapText="true" />
+          <HBox fillHeight="true" layoutX="22.0" layoutY="84.0" prefHeight="801.0" prefWidth="1300.0" spacing="30">
+              <CodeArea fx:id="archivo" lineHighlighterOn="true" prefHeight="801.0" prefWidth="637.0" wrapText="true" />
+              <TextArea fx:id="consola" editable="false" layoutX="620.0" layoutY="113.0" prefHeight="801.0" prefWidth="621.0" style="-fx-font-weight: bold; -fx-text-fill:white; -fx-font-size: 14; -fx-control-inner-background: black;" wrapText="true" />
           </HBox>
       </VBox>
     </children>

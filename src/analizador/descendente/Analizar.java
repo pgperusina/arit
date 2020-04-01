@@ -15,6 +15,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 import static utilities.Utils.agregarFuncionesNativas;
+import static utilities.Utils.getRandomInRange;
 
 public class Analizar {
     public static void main(String[] args) throws FileNotFoundException {
@@ -53,15 +54,15 @@ public class Analizar {
                     if (result instanceof Break) {
                         Excepcion ex = new Excepcion("Semántico", "Sentencia 'break' fuera de ciclo.", m.fila, m.columna);
                         arbol.getExcepciones().add(ex);
-                        ex.print(arbol.getConsola());
+//                        ex.print(arbol.getConsola());
                     } else if (result instanceof Continue) {
                         Excepcion ex = new Excepcion("Semántico", "Sentencia 'continue' fuera de ciclo.", m.fila, m.columna);
                         arbol.getExcepciones().add(ex);
-                        ex.print(arbol.getConsola());
+//                        ex.print(arbol.getConsola());
                     } else if (result instanceof Return) {
                         Excepcion ex = new Excepcion("Semántico", "Sentencia 'return' fuera de función.", m.fila, m.columna);
                         arbol.getExcepciones().add(ex);
-                        ex.print(arbol.getConsola());
+//                        ex.print(arbol.getConsola());
                     }
                 }
             }
@@ -77,10 +78,66 @@ public class Analizar {
                     System.out.println(excepcion.toString());
                 });
             }
+
+            StringBuilder dotBuilder = new StringBuilder();
+            dotBuilder.append("digraph G \n");
+            dotBuilder.append("{ \n");
+            String padre = "";
+            String hijo = "";
+            for (AST instruccion : arbol.getInstrucciones()) {
+                int random = getRandomInRange(1,10000);
+                hijo = instruccion.getClass().getSimpleName()+random;
+                dotBuilder.append("Arbol"+"->"+hijo);
+                dotBuilder.append("\n");
+                instruccion.crearDotFile(dotBuilder, hijo);
+            }
+            dotBuilder.append("}");
+            System.out.println(dotBuilder.toString());
+            System.out.println(System.getProperty("user.dir"));
+            crearArchivoDot(dotBuilder);
+
         } catch (ParseException e) {
             System.err.println(e.getMessage());
         } catch (TokenMgrError e) {
             System.err.println(e.getMessage());
+        }
+    }
+
+    public static void crearArchivoDot(StringBuilder dotBuilder) {
+        try {
+
+            File file = new File(System.getProperty("user.dir")+"/grafo.txt");
+            BufferedWriter writer = null;
+            try {
+                writer = new BufferedWriter(new FileWriter(file));
+                writer.write(dotBuilder.toString());
+            } finally {
+                if (writer != null) writer.close();
+            }
+
+            String dotPath = "/usr/local/Cellar/graphviz/2.42.3/bin/dot";
+
+            String fileInputPath = System.getProperty("user.dir")+"/grafo.txt";
+            String fileOutputPath = System.getProperty("user.dir")+"/grafo.png";
+
+            String tParam = "-Tpng";
+            String tOParam = "-o";
+
+            String[] cmd = new String[5];
+            cmd[0] = dotPath;
+            cmd[1] = tParam;
+            cmd[2] = fileInputPath;
+            cmd[3] = tOParam;
+            cmd[4] = fileOutputPath;
+
+            Runtime rt = Runtime.getRuntime();
+
+            rt.exec( cmd );
+            System.out.print("Arbol creado");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
         }
     }
 }

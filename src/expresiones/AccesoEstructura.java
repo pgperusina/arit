@@ -14,6 +14,8 @@ import tablasimbolos.Tipo;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class AccesoEstructura extends AST {
 
     private String identificador;
@@ -319,7 +321,6 @@ public class AccesoEstructura extends AST {
              * Si el índice está fuera del rango se debe indicar un error.
              */
             //TODO - validar que el valor de posición sea mayor a cero
-            this.tipo = simbolo.getTipo();
             LinkedList valor = (LinkedList) simbolo.getValor();
             for (AST posicion : posiciones) {
                 if (!(posicion instanceof IndiceTipoUno)) {
@@ -333,23 +334,58 @@ public class AccesoEstructura extends AST {
                     return resultPosicion;
                 }
 
+                if (!(resultPosicion instanceof Vector
+                        | resultPosicion instanceof Integer)) {
+                    return new Excepcion("Semántico", "Error accediendo a vector. El tipo del índice no es el correcto.", posicion.fila, posicion.columna);
+                }
                 if (!(resultPosicion instanceof Vector)) {
-                    return new Excepcion("Semántico", "Error accediendo a vector.", posicion.fila, posicion.columna);
-                }
-                Vector r = (Vector)resultPosicion;
-                if (!(r.get(0) instanceof Integer)) {
-                    return new Excepcion("Semántico", "El acceso a la posición de un vector " +
-                            "debe ser con índices de tipo INTEGER.", posicion.fila, posicion.columna);
-                }
-                if ((Integer)r.getFirst() > (Integer)valor.size() |
-                        (Integer)r.getFirst() < 1) {
-                     return new Excepcion("Semántico", "Está tratando de acceder a una posición fuera " +
-                            "de rango en el VECTOR '" + simbolo.getIdentificador() + "'.", posicion.fila, posicion.columna);
+                    if (!(resultPosicion instanceof Integer)) {
+                        return new Excepcion("Semántico", "El acceso a la posición de un vector " +
+                                "debe ser con índices de tipo INTEGER.", posicion.fila, posicion.columna);
+                    }
+                    if ((Integer)resultPosicion > (Integer)valor.size() |
+                            (Integer)resultPosicion < 1) {
+                        return new Excepcion("Semántico", "Está tratando de acceder a una posición fuera " +
+                                "de rango en el VECTOR '" + simbolo.getIdentificador() + "'.", posicion.fila, posicion.columna);
 //
+                    }
+                    valor = new Vector(Arrays.asList(valor.get((Integer)resultPosicion-1)));
+                } else {
+                    Vector r = (Vector)resultPosicion;
+                    if (!(r.get(0) instanceof Integer)) {
+                        return new Excepcion("Semántico", "El acceso a la posición de un vector " +
+                                "debe ser con índices de tipo INTEGER.", posicion.fila, posicion.columna);
+                    }
+                    if ((Integer)r.getFirst() > (Integer)valor.size() |
+                            (Integer)r.getFirst() < 1) {
+                        return new Excepcion("Semántico", "Está tratando de acceder a una posición fuera " +
+                                "de rango en el VECTOR '" + simbolo.getIdentificador() + "'.", posicion.fila, posicion.columna);
+//
+                    }
+                    valor = new Vector(Arrays.asList(valor.get((Integer)r.getFirst()-1)));
                 }
-                valor = new Vector(Arrays.asList(valor.get((Integer)r.getFirst()-1)));
+
+                this.tipo = new Tipo(valor.getFirst().getClass().getSimpleName(), Tipo.TipoEstructura.VECTOR);
+
             }
             return valor;
         }
+    }
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        int random = getRandomInRange(1, 10000);
+
+        dotBuilder.append(padre+"->"+this.identificador+random);
+        dotBuilder.append("\n");
+        for (AST posicion : posiciones) {
+            random = getRandomInRange(1, 10000);
+            dotBuilder.append(padre+"->"+posicion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+            posicion.crearDotFile(dotBuilder, posicion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+
+        }
+
+        return dotBuilder.toString();
     }
 }

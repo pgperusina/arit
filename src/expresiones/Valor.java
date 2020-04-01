@@ -7,7 +7,15 @@ import tablasimbolos.Tipo;
 
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class Valor extends AST {
+
+    /**
+     * AST graph variables
+     */
+    int valorPadre = 1;
+    int valorHijo = 1;
 
     private Object valor;
 
@@ -21,6 +29,13 @@ public class Valor extends AST {
     @Override
     public Object ejecutar(Tabla tabla, Arbol arbol) {
         return this.valor;
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        dotBuilder.append(padre+"->"+valor.getClass().getSimpleName()+getRandomInRange(1,10000));
+        dotBuilder.append("\n");
+        return dotBuilder.toString();
     }
 
 //    private StringBuilder getValuesToString() {

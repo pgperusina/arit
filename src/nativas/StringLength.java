@@ -32,7 +32,8 @@ public class StringLength extends Funcion {
         }
         if (!(simbolo.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR))) {
             return new Excepcion("Semántico", "El argumento enviado a la funcion " +
-                    this.nombre.toUpperCase() + " debe de ser de tipo Vector o Primitivo.", simbolo.getFila(), simbolo.getColumna());
+                    this.nombre.toUpperCase() + " debe de ser de tipo Vector o Primitivo. Se envió '"
+                    + simbolo.getTipo().toString()+ "'.", simbolo.getFila(), simbolo.getColumna());
         }
         if (!(simbolo.getTipo().getTipoDato().equals(Tipo.TipoDato.STRING))) {
             return new Excepcion("Semántico", "El argumento enviado a la funcion " +

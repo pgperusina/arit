@@ -7,7 +7,15 @@ import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
 
+import static utilities.Utils.getRandomInRange;
+
 public class Declaracion extends AST {
+
+    /**
+     * Valores AST graph
+     */
+    int countPadre = 1;
+    int countHijo = 1;
 
     private String identificador;
     private AST valor;
@@ -82,5 +90,21 @@ public class Declaracion extends AST {
 
     private Tipo setTipo() {
         return null;
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        int random = getRandomInRange(1, 10000);
+        dotBuilder.append(padre+"->Identificador"+random);
+        dotBuilder.append("\n");
+        random = getRandomInRange(1, 10000);
+        dotBuilder.append(padre+"->"+valor.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        padre = valor.getClass().getSimpleName()+random;
+
+        valor.crearDotFile(dotBuilder, padre);
+        dotBuilder.append("\n");
+
+        return dotBuilder.toString();
     }
 }

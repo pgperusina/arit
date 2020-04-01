@@ -6,18 +6,15 @@ import estructuras.Lista;
 import estructuras.Matriz;
 import estructuras.Vector;
 import excepciones.Excepcion;
-import expresiones.Identificador;
 import tablasimbolos.Arbol;
 import tablasimbolos.Simbolo;
 import tablasimbolos.Tabla;
 import tablasimbolos.Tipo;
-import utilities.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 
-import static utilities.Utils.definirPrioridadCasteo;
+import static utilities.Utils.getRandomInRange;
 
 public class For extends AST {
 
@@ -50,162 +47,89 @@ public class For extends AST {
                     "ser una estructura tipo Vector, Lista, Matriz o Arreglo.", expresion.fila, expresion.columna);
         }
 
-        result = tabla.getVariable(this.identificador);
+        result = tabla.getVariableLocal(this.identificador);
 
         if (result == null) {
-            t.setVariable(new Simbolo(expresion.getTipo(), this.identificador, new LinkedList<>()));
+            tabla.setVariableLocal(new Simbolo(expresion.getTipo(), this.identificador, new LinkedList<>()));
         }
 
         LinkedList estructura = (LinkedList) expresion.ejecutar(t, arbol);
 
 
         for (int i = 0; i < estructura.size(); i++) {
-            Object iterador = estructura.get(i);
-            if (!(iterador instanceof LinkedList)) {
-                setTipoIterador(t, iterador);
-                t.getVariable(this.identificador).setValor(new Vector(Arrays.asList(iterador)));
-            } else {
-                setTipoIteradorEstructura(t, (LinkedList)iterador);
-                t.getVariable(this.identificador).setValor(iterador);
+            Object estructuraPos = estructura.get(i);
+            t.getVariable(this.identificador).setValor(estructuraPos);
+            if (estructuraPos instanceof Vector) {
+                Vector es = (Vector)estructuraPos;
+                String tipoDato ="";
+                if (es.getFirst() instanceof Vector) {
+                    tipoDato = ((Vector) es.getFirst()).getFirst().getClass().getSimpleName();
+                } else {
+                    tipoDato = es.getFirst().getClass().getSimpleName();
+                }
+                t.getVariable(this.identificador).setTipo(new Tipo(tipoDato, Tipo.TipoEstructura.VECTOR));
+            } else if (estructuraPos instanceof Lista) {
+                Lista l = (Lista)estructuraPos;
+                if (l.getFirst() instanceof Lista) {
+                    t.getVariable(this.identificador).setTipo(new Tipo(Tipo.TipoDato.OBJETO, Tipo.TipoEstructura.LISTA));
+                } else {
+                    Vector es = (Vector)l.getFirst();
+                    String tipoDato ="";
+                    if (es.getFirst() instanceof Vector) {
+                        tipoDato = ((Vector) es.getFirst()).getFirst().getClass().getSimpleName();
+                    } else {
+                        tipoDato = es.getFirst().getClass().getSimpleName();
+                    }
+                    t.getVariable(this.identificador).setTipo(new Tipo(tipoDato, Tipo.TipoEstructura.VECTOR));
+                }
+            } else if (estructuraPos instanceof Matriz) {
+                Matriz m = (Matriz)estructuraPos;
+                String tipoDato ="";
+                if (m.getFirst() instanceof Vector) {
+                    tipoDato = ((Vector) m.getFirst()).getFirst().getClass().getSimpleName();
+                } else {
+                    tipoDato = m.getFirst().getClass().getSimpleName();
+                }
+                t.getVariable(this.identificador).setTipo(new Tipo(tipoDato, Tipo.TipoEstructura.VECTOR));
             }
 
             for (AST instruccion : instrucciones) {
                 result = instruccion.ejecutar(t, arbol);
                 if (result instanceof Return || result instanceof Excepcion) {
-                    if (expresion instanceof Identificador) {
-                        castearEstructura(arbol, t, estructura);
-                    }
                     return result;
                 }
                 if(result instanceof Break){
-                    if (expresion instanceof Identificador) {
-                        castearEstructura(arbol, t, estructura);
-                    }
                     return null;
                 }
                 if(result instanceof Continue){
-                    if (expresion instanceof Identificador) {
-                        castearEstructura(arbol, t, estructura);
-                    }
                     break;
                 }
-                if (expresion.ejecutar(t, arbol) instanceof Vector) {
-                    if (!(t.getVariable(this.identificador).getTipo().getTipoEstructura()
-                            .equals(Tipo.TipoEstructura.VECTOR)) ) {
-                        return new Excepcion("Semántico", "Error en ciclo For: Una estructura Vector solo acepta " +
-                                " valores primitivos y Vectores.", instruccion.fila, instruccion.columna);
-                    }
-                    ((LinkedList) estructura).set(i, t.getVariable(this.identificador).getValor());
-                } else if (expresion.ejecutar(t, arbol) instanceof Lista) {
-                    if (!(t.getVariable(this.identificador).getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
-                            || t.getVariable(this.identificador).getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) ) {
-                        return new Excepcion("Semántico", "Error en ciclo For: Una estructura Lista solo acepta " +
-                                " valores de tipo Lista y Vectores.", instruccion.fila, instruccion.columna);
-                    }
-                    ((LinkedList) estructura).set(i, t.getVariable(this.identificador).getValor());
-                } else if (expresion.ejecutar(t, arbol) instanceof Matriz) {
-                    if (!(t.getVariable(this.identificador).getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
-                            & ((LinkedList)t.getVariable(this.identificador).getValor()).size() == 1) ) {
-                        return new Excepcion("Semántico", "Error en ciclo For: Una estructura Matriz solo acepta " +
-                                " valores de tipo Vector de una sola posición.", instruccion.fila, instruccion.columna);
-                    }
-                    ((LinkedList) estructura).set(i, t.getVariable(this.identificador).getValor());
-                } else if (expresion.ejecutar(t, arbol) instanceof Arreglo) {
-                    if (!(t.getVariable(this.identificador).getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
-                            || t.getVariable(this.identificador).getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.LISTA)) ) {
-                        return new Excepcion("Semántico", "Error en ciclo For: Una estructura Arreglo solo acepta " +
-                                " valores de tipo Lista y Vectores.", instruccion.fila, instruccion.columna);
-                    }
-                    ((LinkedList) estructura).set(i, t.getVariable(this.identificador).getValor());
-                }
+                t.getVariable(this.identificador).setValor(estructuraPos);
             }
-            if (expresion instanceof Identificador) {
-                castearEstructura(arbol, t, estructura);
-            }
+
         }
 
         return null;
     }
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        int random = getRandomInRange(1, 10000);
+        dotBuilder.append(padre+"->"+identificador+random);
+        dotBuilder.append("\n");
+        dotBuilder.append(padre+"->"+expresion.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        expresion.crearDotFile(dotBuilder, expresion.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        for (AST instruccion : instrucciones) {
+            random = getRandomInRange(1, 10000);
+            dotBuilder.append(padre+"->"+instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
 
-    private void setTipoIteradorEstructura(Tabla t, LinkedList estructuraPos) {
-        if (estructuraPos instanceof Vector) {
-            t.getVariable(this.identificador).setTipo(new Tipo(estructuraPos.getClass().getSimpleName()
-                    , Tipo.TipoEstructura.VECTOR));
-        } else if (estructuraPos instanceof Lista) {
-            t.getVariable(this.identificador).setTipo(new Tipo(estructuraPos.getClass().getSimpleName()
-                    , Tipo.TipoEstructura.LISTA));
-        } else if (estructuraPos instanceof Matriz) {
-            t.getVariable(this.identificador).setTipo(new Tipo(estructuraPos.getClass().getSimpleName()
-                    , Tipo.TipoEstructura.MATRIZ));
-        } else if (estructuraPos instanceof Arreglo) {
-            t.getVariable(this.identificador).setTipo(new Tipo(estructuraPos.getClass().getSimpleName()
-                    , Tipo.TipoEstructura.ARREGLO));
+            instruccion.crearDotFile(dotBuilder, instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+
         }
-    }
 
-    private void setTipoIterador(Tabla t, Object estructuraPos) {
-
-        t.getVariable(this.identificador).setTipo(new Tipo(estructuraPos.getClass().getSimpleName()
-                , Tipo.TipoEstructura.VECTOR));
-
-    }
-
-    private void castearEstructura(Arbol arbol, Tabla t, LinkedList estructura) {
-        int prioridadCasteoValor = Utils.definirPrioridadCasteo(t.getVariable(this.identificador)
-                , arbol);
-        int prioridadCasteoEstructura = definirPrioridadCasteo(t.getVariable(((Identificador) expresion)
-                .getIdentificador())
-                , arbol);
-        if (prioridadCasteoEstructura >= prioridadCasteoValor) {
-            castearEstructura(t.getVariable(((Identificador) expresion).getIdentificador())
-                    , estructura
-                    , prioridadCasteoEstructura);
-        } else {
-            castearEstructura(t.getVariable(((Identificador) expresion).getIdentificador())
-                    , estructura
-                    , prioridadCasteoValor);
-        }
-    }
-
-    private void castearEstructura(Simbolo simbolo, LinkedList estructura, int prioridadCasteo) {
-        Object temp;
-        if (prioridadCasteo == 4) {
-            return;
-        }
-        if (prioridadCasteo == 3) {
-            simbolo.setTipo(new Tipo(Tipo.TipoDato.STRING, simbolo.getTipo().getTipoEstructura()));
-            for (int i = 0; i < estructura.size(); i++) {
-                temp = estructura.get(i);
-                estructura.set(i, String.valueOf(temp));
-            }
-        } else if (prioridadCasteo == 2) {
-            simbolo.setTipo(new Tipo(Tipo.TipoDato.NUMERIC, simbolo.getTipo().getTipoEstructura()));
-            for (int i = 0; i < estructura.size(); i++) {
-                temp = estructura.get(i);
-                if (temp instanceof  Boolean) {
-                    estructura.set(i, temp == Boolean.TRUE ? "1.0" : "0.0");
-                } else if (temp instanceof Integer){
-                    estructura.set(i, Double.valueOf(temp.toString()));
-                } else {
-                    estructura.set(i, temp);
-                }
-            }
-        } else if (prioridadCasteo == 1) {
-            simbolo.setTipo(new Tipo(Tipo.TipoDato.INTEGER, simbolo.getTipo().getTipoEstructura()));
-            for (int i = 0; i < estructura.size(); i++) {
-                temp = estructura.get(i);
-                if (temp instanceof  Boolean) {
-                    estructura.set(i, temp == Boolean.TRUE ? "1" : "0");
-                } else {
-                    estructura.set(i, temp);
-                }
-            }
-        } else {
-            simbolo.setTipo(new Tipo(Tipo.TipoDato.BOOLEAN, simbolo.getTipo().getTipoEstructura()));
-            for (int i = 0; i < estructura.size(); i++) {
-                temp = estructura.get(i);
-                estructura.set(i, temp);
-            }
-        }
+        return dotBuilder.toString();
     }
 }

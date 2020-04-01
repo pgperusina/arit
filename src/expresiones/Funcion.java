@@ -16,6 +16,8 @@ import tablasimbolos.Tipo;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class Funcion extends AST {
     protected String nombre;
     protected ArrayList<AST> parametros;
@@ -59,7 +61,7 @@ public class Funcion extends AST {
                 if (r.getExpresion() == null) {
                     return null;
                 }
-                result = r.getExpresion().ejecutar(tabla, arbol);
+                result = r.getValorExplicito();
                 if (result instanceof Excepcion) {
                     return result;
                 }
@@ -106,5 +108,20 @@ public class Funcion extends AST {
 
     public Object cargarTabla(Tabla tabla, Arbol arbol, ArrayList<AST> argumentos) {
         return null;
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        for (AST instruccion : instrucciones) {
+            int random = getRandomInRange(1, 10000);
+            dotBuilder.append(padre+"->"+instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+
+            instruccion.crearDotFile(dotBuilder, instruccion.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+
+        }
+
+        return dotBuilder.toString();
     }
 }

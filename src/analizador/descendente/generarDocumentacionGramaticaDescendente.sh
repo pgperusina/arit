@@ -1,1 +1,1 @@
-java -cp ~/javacc/javacc.jar jjdoc -ONE_TABLE=false Gramatica.jj
+java -cp ~/javacc/javacc.jar jjdoc -ONE_TABLE=false -BNF=true  Gramatica.jj

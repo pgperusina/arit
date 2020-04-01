@@ -10,6 +10,8 @@ import tablasimbolos.Tipo;
 
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class ExpresionLogica extends AST {
 
     public static enum OperadorLogico {
@@ -275,5 +277,34 @@ public class ExpresionLogica extends AST {
             }
         }
         return null;
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        int random;
+        if (operando1 != null & operando2 != null) {
+            random = getRandomInRange(1,10000);
+            dotBuilder.append(padre + "->" + this.operando1.getClass().getSimpleName() + random);
+            dotBuilder.append("\n");
+            this.operando1.crearDotFile(dotBuilder, this.operando1.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+            dotBuilder.append(padre + "->" + this.operador.name() + random);
+            dotBuilder.append("\n");
+            random = getRandomInRange(1,10000);
+            dotBuilder.append(padre + "->" + this.operando2.getClass().getSimpleName() + random);
+            dotBuilder.append("\n");
+            this.operando2.crearDotFile(dotBuilder, this.operando2.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+        } else {
+            random = getRandomInRange(1, 10000);
+            dotBuilder.append(padre + "->" + this.operador.name()+ random);
+            dotBuilder.append("\n");
+            dotBuilder.append(padre + "->" + this.operandoU.getClass().getSimpleName() + random);
+            dotBuilder.append("\n");
+            this.operandoU.crearDotFile(dotBuilder, this.operandoU.getClass().getSimpleName()+random);
+            dotBuilder.append("\n");
+        }
+
+        return dotBuilder.toString();
     }
 }

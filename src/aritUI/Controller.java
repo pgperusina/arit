@@ -26,10 +26,7 @@ import javafx.fxml.Initializable;
 import tablasimbolos.Arbol;
 import tablasimbolos.Tabla;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -38,6 +35,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import static utilities.Utils.agregarFuncionesNativas;
+import static utilities.Utils.getRandomInRange;
 
 public class Controller implements Initializable {
     @FXML
@@ -64,6 +62,31 @@ public class Controller implements Initializable {
 
     @FXML
     private void Ejecutar(ActionEvent event) {
+        consola.clear();
+        if (archivo.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("La entrada está vacía.");
+            alert.setHeaderText(null);
+            alert.setContentText("No ha ingresado código para ejecutar.");
+            alert.showAndWait();
+            return;
+        }
+        //EjecutarInstrucciones();
+        try {
+            Gramatica parser = new Gramatica(new BufferedReader(new StringReader(archivo.getText())));
+            arbol = new Arbol(new ArrayList<>());
+            ejecutarArbol(arbol, parser);
+        } catch (ParseException e) {
+            consola.setText(consola.getText() + e.getMessage() + "\n");
+            System.err.println(e.getMessage());
+        } catch (TokenMgrError e) {
+            consola.setText(consola.getText() + e.getMessage() + "\n");
+            System.err.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    private void EjecutarAscendente(ActionEvent event) {
         consola.clear();
         if (archivo.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -301,15 +324,75 @@ public class Controller implements Initializable {
         if (arbol.getExcepciones().size() != 0) {
             tablaErrores.getItems().clear();
             consola.setText(consola.getText() + "\n\n/******* EXCEPCIONES ******/" + "\n");
-
             arbol.getExcepciones().forEach(excepcion -> {
-
                 tablaErrores.getItems().add(excepcion);
-
                 consola.setText(consola.getText() + excepcion.toString() + "\n");
                 System.out.println(excepcion.toString());
             });
         }
+        if (arbol != null) {
+            dibujarArbol(arbol);
+        }
+    }
 
+    private static void dibujarArbol(Arbol arbol) {
+        StringBuilder dotBuilder = new StringBuilder();
+        dotBuilder.append("digraph G \n");
+        dotBuilder.append("{ \n");
+        String padre = "";
+        String hijo = "";
+        try {
+            for (AST instruccion : arbol.getInstrucciones()) {
+                int random = getRandomInRange(1, 10000);
+                hijo = instruccion.getClass().getSimpleName() + random;
+                dotBuilder.append("Arbol" + "->" + hijo);
+                dotBuilder.append("\n");
+                instruccion.crearDotFile(dotBuilder, hijo);
+            }
+            dotBuilder.append("}");
+            System.out.println(dotBuilder.toString());
+            System.out.println(System.getProperty("user.dir"));
+            crearArchivoDot(dotBuilder);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void crearArchivoDot(StringBuilder dotBuilder) {
+        try {
+
+            File file = new File(System.getProperty("user.dir")+"/grafo.txt");
+            BufferedWriter writer = null;
+            try {
+                writer = new BufferedWriter(new FileWriter(file));
+                writer.write(dotBuilder.toString());
+            } finally {
+                if (writer != null) writer.close();
+            }
+
+            String dotPath = "/usr/local/Cellar/graphviz/2.42.3/bin/dot";
+
+            String fileInputPath = System.getProperty("user.dir")+"/grafo.txt";
+            String fileOutputPath = System.getProperty("user.dir")+"/grafo.png";
+
+            String tParam = "-Tpng";
+            String tOParam = "-o";
+
+            String[] cmd = new String[5];
+            cmd[0] = dotPath;
+            cmd[1] = tParam;
+            cmd[2] = fileInputPath;
+            cmd[3] = tOParam;
+            cmd[4] = fileOutputPath;
+
+            Runtime rt = Runtime.getRuntime();
+
+            rt.exec( cmd );
+            System.out.print("Arbol creado");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+        }
     }
 }

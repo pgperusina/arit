@@ -9,6 +9,8 @@ import tablasimbolos.Tipo;
 
 import java.util.LinkedList;
 
+import static utilities.Utils.getRandomInRange;
+
 public class ExpresionTernaria extends AST {
 
     private AST condicion;
@@ -25,22 +27,47 @@ public class ExpresionTernaria extends AST {
 
     @Override
     public Object ejecutar(Tabla tabla, Arbol arbol) {
-        Object condicion;
+        Object result;
 
-        condicion = this.condicion.ejecutar(tabla, arbol);
-        if (condicion instanceof Excepcion) return condicion;
-
-        this.tipo = new Tipo(Tipo.TipoDato.BOOLEAN);
+        result = this.condicion.ejecutar(tabla, arbol);
+        if (result instanceof Excepcion) return result;
 
         if ( (this.condicion.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.VECTOR)
             || this.condicion.getTipo().getTipoEstructura().equals(Tipo.TipoEstructura.MATRIZ))
                 & this.condicion.getTipo().getTipoDato() == Tipo.TipoDato.BOOLEAN) {
-            return (Boolean)((LinkedList) condicion).getFirst()
-                    ? operando1.ejecutar(tabla, arbol)
-                    : operando2.ejecutar(tabla, arbol);
+
+            if ((Boolean)((LinkedList) condicion.ejecutar(tabla, arbol)).getFirst()) {
+                result = operando1.ejecutar(tabla, arbol);
+                this.tipo = operando1.getTipo();
+            } else {
+                result = operando2.ejecutar(tabla, arbol);
+                this.tipo = operando2.getTipo();
+            }
+
+            return result;
         } else {
             return new Excepcion("Semántico", "La condición del operador ternario " +
-                    "no es Matriz o Vector booleano.", fila, columna);
+                    "no es Matriz o Vector booleano.", this.condicion.fila, this.condicion.columna);
         }
+    }
+
+    @Override
+    public String crearDotFile(StringBuilder dotBuilder, String padre) {
+        int random = getRandomInRange(1,10000);
+        dotBuilder.append(padre+"->"+this.condicion.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        this.condicion.crearDotFile(dotBuilder, this.condicion.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        random = getRandomInRange(1,10000);
+        dotBuilder.append(padre+"->"+this.operando1.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        this.operando1.crearDotFile(dotBuilder, this.operando1.getClass().getSimpleName()+random);
+        random = getRandomInRange(1,10000);
+        dotBuilder.append(padre+"->"+this.operando2.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+        this.operando2.crearDotFile(dotBuilder, this.operando2.getClass().getSimpleName()+random);
+        dotBuilder.append("\n");
+
+        return dotBuilder.toString();
     }
 }

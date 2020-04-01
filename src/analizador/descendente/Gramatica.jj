@@ -165,18 +165,6 @@ SKIP : {
 
 /************** INICIO PARSER ****************/
 
-/** Produccion inicial
-    analizar -> (instruccion)+ EOF
-*/
-//Arbol analizar() :
-   ////{ArrayList<AST> instrucciones = new ArrayList<AST>(); AST e;}
-   ////{
-   ////  (e=instruccion() { instrucciones.add(e); } )+ <EOF>
-   ////  {
-   ////    System.out.println("END OF FILE");
-   ////    return new Arbol(instrucciones);
-   ////  }
-   ////}
 
 ArrayList<AST> analizar(ArrayList<AST> instrucciones) :
 { AST e;}
@@ -204,11 +192,11 @@ ArrayList<AST> analizar(ArrayList<AST> instrucciones) :
 AST instruccion() :
 {AST e;}
 {
-    LOOKAHEAD(3) e = funcion() { return e; }
-    |
-    LOOKAHEAD(2) e = llamada() (<PCOMA>)? { return e; }
+    LOOKAHEAD(5) e = funcion() { return e; }
     |
     LOOKAHEAD(2) e = declaracion() { return e; }
+    |
+    LOOKAHEAD(2) e = llamada() (<PCOMA>)? { return e; }
     |
     e = asignacionIndiceEstructura() (<PCOMA>)? { return e; }
     |
@@ -228,12 +216,6 @@ AST instruccion() :
     |
     e = Switch() { return e; }
 
-
-//    |
-//    e = asignacion()
-//    {
-//        return e;
-//    }
 }
 
 /**
@@ -253,13 +235,14 @@ AST declaracion() :
 AST funcion() :
 { Token id; ArrayList<AST> listaParametros, bloqueInstrucciones; AST e; }
 {
-    LOOKAHEAD(3) id = <IDENTIFICADOR> <IGUAL>  <FUNCION> <PARINI>
-        listaParametros = listaParametros() <PAREND> bloqueInstrucciones = bloqueInstrucciones()
-    { return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn); }
-    |
-    id = <IDENTIFICADOR> <IGUAL> <PARINI> listaParametros = listaParametros() <PAREND>
+    LOOKAHEAD(3) id = <IDENTIFICADOR> <IGUAL> <PARINI> listaParametros = listaParametros() <PAREND>
     <IGUAL><MAYORQUE> bloqueInstrucciones = bloqueInstrucciones()
     { return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn); }
+    |
+    id = <IDENTIFICADOR> <IGUAL>  <FUNCION> <PARINI>
+        listaParametros = listaParametros() <PAREND> bloqueInstrucciones = bloqueInstrucciones()
+    { return new Funcion(id.image.trim(), listaParametros, bloqueInstrucciones, token.beginLine, token.beginColumn); }
+
 }
 
 /**
@@ -282,7 +265,7 @@ AST accesoEstructura() :
 LinkedList<AST> indicesAcceso() :
 {LinkedList<AST> lista = new LinkedList<AST>(); AST e, e1, r;}
 {
-    LOOKAHEAD(3) <CORI> e = expresion() <CORD>
+    LOOKAHEAD(3) <CORI> e = expresion()  <CORD>
     { lista.add(new IndiceTipoUno(e, token.beginLine, token.beginColumn)); }
     (
         LOOKAHEAD(2) <CORI><CORI> e = expresion() <CORD><CORD>
@@ -565,7 +548,7 @@ AST expresionAditiva() :
     (
         <MAS> e1 = expresionMultiplicativa() { e = new ExpresionAritmetica(e, e1, OperadorAritmetico.SUMA, token.beginLine, token.beginColumn); }
         |
-        LOOKAHEAD(2) <MENOS> e1 = expresionMultiplicativa() { e = new ExpresionAritmetica(e, e1, OperadorAritmetico.RESTA, token.beginLine, token.beginColumn); }
+        <MENOS> e1 = expresionMultiplicativa() { e = new ExpresionAritmetica(e, e1, OperadorAritmetico.RESTA, token.beginLine, token.beginColumn); }
     )*
     { return e; }
 }
@@ -593,9 +576,9 @@ AST expresionMultiplicativa() :
 AST expresionUnaria() :
 { AST e, e1; }
 {
-    <MENOS> e = valor() { return new ExpresionAritmetica(e, OperadorAritmetico.MENOSUNARIO, token.beginLine, token.beginColumn); }
+    <MENOS> e = expresionUnaria() { return new ExpresionAritmetica(e, OperadorAritmetico.MENOSUNARIO, token.beginLine, token.beginColumn); }
     |
-    <NOT> e = valor() { return new ExpresionLogica(e, OperadorLogico.NOT, token.beginLine, token.beginColumn); }
+    <NOT> e = expresionUnaria() { return new ExpresionLogica(e, OperadorLogico.NOT, token.beginLine, token.beginColumn); }
     |
     e = valor() { return e; }
 }
@@ -629,7 +612,6 @@ AST valor() :
         t = <IDENTIFICADOR> {
                 return new Identificador(t.image.trim(), token.beginLine, token.beginColumn); }
         |
-
         <DEFAULT_WORD> { return new ArgumentoDefault(); }
         |
         <PARINI> e=expresion() <PAREND> {return e;}
