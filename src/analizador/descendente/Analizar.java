@@ -1,8 +1,6 @@
 package analizador.descendente;
 
 import abstracto.AST;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.printer.DotPrinter;
 import excepciones.Excepcion;
 import expresiones.Funcion;
 import instrucciones.Break;
