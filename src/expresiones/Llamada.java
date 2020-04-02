@@ -148,7 +148,7 @@ public class Llamada extends AST {
     public String crearDotFile(StringBuilder dotBuilder, String padre) {
         int random = getRandomInRange(1, 10000);
 
-        dotBuilder.append(padre+"->"+this.nombre+"-"+random);
+        dotBuilder.append(padre+"->"+this.nombre+random);
         dotBuilder.append("\n");
 
         return dotBuilder.toString();
