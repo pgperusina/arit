@@ -1,16 +1,4738 @@
-# OLC2
-# PROYECTO 1
-# Archivo de prueba sencillo, puede contener errores :(
+# OLC2 - PROYECTO 1
 
-a = "hola mundo";
-b= c("hola mundo");
-c = c("casa", 2, null);
-d = c(a, c);
+# @Archivo de pruebas sencillo
 
-c[3] = d[3][1]
+# @Posiblemente contenga muchos errores
 
-print(c)
-a = c(true, 1, true, null);
-y = a
+# @Comentar errores para ir los corrigiendo
 
-print(y);
+# @Suerte :D
+
+
+
+puntos = 100;
+
+top10Notas = c(0,0,0,0,0,0,0,0,0,0);
+
+top10Nombres = c(0,0,0,0,0,0,0,0,0,0);
+
+print("---------------------------------- EVALUANDO VECTORES --------------------------------------------------")
+
+a = c(1,2,3,4,5,6,7,8,9,10)
+
+b = c(TRUE, FALSE, FALSE, FALSE, TRUE)
+
+c = c(1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10)
+
+d = c("J", "A", "D", "S", "P", "V", "HOLA", "A", "R", "I", "T")
+
+e = c(a,b,c,d)
+
+
+
+vectorSize = length(e);
+
+if(c(vectorSize) != c(36)){
+
+    puntos = (puntos - (c(-1)*-1*-1*c(-1))) + (puntos * puntos)/(c(2)*puntos);
+
+    print("TEST 1 - FAIL")
+
+}else{
+
+    print("TEST 1 - EZ")
+
+}
+
+
+
+
+
+f = e + e;
+
+g = f * 2 # Se detecta el error, pero debe continuar ejecutando
+
+h = c(e, e)
+
+i = c(b,FALSE,FALSE,FALSE,FALSE,TRUE) | ((a * -2 > c(a)+c((a+c)))) | falSe
+
+j = e[27] == c("A") ? 0 : -1;
+
+k = e[27] + e[27];
+
+
+
+if(!i | c(f[27]) != c(k,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE) | c((j * c(-1))) == c(1,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE)){
+
+    puntos = trunk(puntos - trunk(c[10]) - (c[7]+c[3]));
+
+    print("TEST 2 - FAIL")
+
+}else{
+
+    print("TEST 2 - EZ")
+
+}
+
+
+
+print("ya me aburri");
+
+
+
+
+
+if(typeof(puntos) != "integer"){
+
+    puntos = puntos - 2;
+
+    print("TEST 3 - FAIL")
+
+}else{
+
+    print("TEST 3 - PASS")
+
+}
+
+
+
+l = e;
+
+l[90] = "expandiendo EL VECTOR";
+
+
+
+if(l[89] != NULL){
+
+    puntos = puntos - 3;
+
+    print("TEST 4 - FAIL")
+
+}else{
+
+    print("TEST 4 - PASS")
+
+}
+
+
+
+counter = 1
+
+for(ii in l){
+
+    if(counter < 36){
+
+        ii = counter %% 3
+
+    }
+
+    else if(counter == 89){
+
+        counter = counter - 1;
+
+        break;
+
+    }
+
+    counter = counter + c(1) + 1 - 1 - c(c(c(c(c(c(c(c(c(c(c(c(c(c(1)))))))))))))) + 1
+
+}
+
+
+
+if(counter != 88){
+
+    puntos = puntos - 3;
+
+    print("TEST 5 - FAIL")
+
+}else{
+
+    print("TEST 5 - PASS")
+
+}
+
+
+
+print("PUNTEO EN EVALUACION SIMPLE DE VECTORES: "+puntos);
+
+
+
+print("---------------------------------- FIN EVALUACION VECTORES --------------------------------------------------")
+
+print("")
+
+print("")
+
+print("")
+
+print("")
+
+print("")
+
+print("")
+
+
+
+print("---------------------------------- EVALUANDO LISTAS --------------------------------------------------")
+
+
+
+getListEstudiante = function(id, cui, carnet, seccion, nombre, correo, nota=0) {
+
+    return(list(c(id, cui, carnet, seccion, nombre, correo, nota)));
+
+}
+
+
+
+addNode = function(list, est) {
+
+    list = c(list, est);
+
+    return(list)
+
+}
+
+
+
+printList = function(list){
+
+    counter = 0;
+
+    for(i in list){
+
+        if(i[[1]] == 0){
+
+            counter = counter + 1;
+
+        } else{
+
+            print(i)
+
+        }
+
+    }
+
+}
+
+
+
+seccionBMenos = getListEstudiante(00, 789012, 201503611, "B-", "Pavel Alexander Vasquez Flores", "alexanderpavelv32@gmail.com", default);
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(01,  789012, 200310165, "B-", "José Abraham Navarro De León", "joseabrahamnavarro@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(02,  789012, 200313243, "B-", "Randy Mauricio Orozco Reyes", "mauricioor@hotmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(03,  789012, 200511819, "B-", "Pablo Gerardo García Perusina", "200511819@ingenieria.usac.edu.gt", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(04,  789012, 200915147, "B-", "Rene Adrian Ramos Guzman", "xdrixnrxmos@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(05,  789012, 201010425, "B-", "Andrés Ricardo Ismael Guzmán", "a.ricardoguzman@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(06,  789012, 201020331, "B-", "Cristian Alexander Azurdia Ajú", "1983964490101@ingenieria.usac.edu.gt", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(07,  789012, 201020831, "B-", "Marco Antonio Fidencio Chávez Fuentes", "catalantt@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(08,  789012, 201020917, "B-", "Luis Carlos Mendez Rodas", "luiiscmr@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(09,  789012, 201021245, "B-", "Erin Leonel Flores", "erikfl.01@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(10, 789012, 201113875, "B-", "Peter Alexander Samuels", "Franco	peterinho14@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(11, 789012, 201114573, "B-", "Diego Javier Tejeda Wannam", "diegotejeda93@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(12, 789012, 201212945, "B-", "Elmer Edgardo Alay Yupe", "alayelmer1993@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(13, 789012, 201213059, "B-", "Kevin Ariel Cruz Ortiz", "kevincoma555@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(14, 789012, 201213123, "B-", "Kevin Madriel Juarez Cetino", "kevinm.3316@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(15, 789012, 201213177, "B-", "Marvin José Calderón García", "marvin93.0@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(16, 789012, 201313713, "B-", "Daniel Alejandro Herrera Hernández", "usac.daniel@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(17, 789012, 201313889, "B-", "Hilbert Josué Perucho Ramírez", "hilbert.perucho@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(18, 789012, 201313997, "B-", "Luis Noe Martinez Rivera", "luis56009@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(19, 789012, 201314059, "B-", "Salvador de Jesus López Bautista", "lobje17@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(20, 789012, 201314177, "B-", "Roberto Eduardo Caseros Reynoso", "robert.caseros@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(21, 789012, 201314241, "B-", "Andrea Lissette Flores Aguilar", "andreaflores2501@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(22, 789012, 201314571, "B-", "Wilson Yuviny Guerra Díaz", "yuvinygd@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(23, 789012, 201314697, "B-", "Katherine Mishelle Serrano del Cid", "michikatrins@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(24, 789012, 201325559, "B-", "Luis Alfonso Mencos Salazar", "lams0211@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(25, 789012, 201325657, "B-", "Selvin Estuardo Icu Son", "estuardo.icu@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(26, 789012, 201403767, "B-", "Pablo David Ramirez Fernandez", "pabloramirez.11294@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(27, 789012, 201403793, "B-", "Kevin Nicolas Garcia Martinez", "kg49954@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(28, 789012, 201403819, "B-", "Yoselin Annelice Lemus López", "annelice119@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(29, 789012, 201403841, "B-", "Huriel Uvaldo Gómez Gómez", "hurieluv2g2d93@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(30, 789012, 201403997, "B-", "Gary Stephen Giron Molina", "gsteph393@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(31, 789012, 201404215, "B-", "Jorge Luis Salazar Peralta", "jorsala01@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(32, 789012, 201404387, "B-", "Kevin Eduardo Estrada Martínez", "pex089@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(33, 789012, 201404423, "B-", "Jairo Pablo Hernandez Guzman", "Jairophg.lalala2014@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(34, 789012, 201408489, "B-", "Paul Steve Contreras Herrera", "stevcont96@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(35, 789012, 201408549, "B-", "Elba María Alvarez Domínguez", "elba1995@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(36, 789012, 201408603, "B-", "Berny Andree Cardona Ramos", "andreecr96@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(37, 789012, 201442819, "B-", "Jerson Eduardo Villatoro Nova", "jerduar.usac@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(38, 789012, 201503577, "B-", "Henry Francisco León Hernández", "henriscoh1995@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(39, 789012, 201503595, "B-", "Claudia Paola Casiano Sipac", "p.casiano33@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(40, 789012, 201503793, "B-", "Diana Maribel Jimenez Alonzo", "dianajimalon@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(41, 789012, 201503893, "B-", "Brandon Javier Soto Castañeda", "sotobrandon198@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(42, 789012, 201503911, "B-", "Juan Pablo Osuna De Leon", "juanpabloosuna1997@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(43, 789012, 201503925, "B-", "Sergio Geovany Guoz Tubac", "sergioguoz1@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(44, 789012, 201503935, "B-", "Douglas Daniel Aguilar Cuque", "ddaguilar017@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(45, 789012, 201503953, "B-", "Sergio Geovany Leal Cardona", "sgleal97@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(46, 789012, 201504231, "B-", "Jose Carlos Bautista Mazariegos", "jcbautista95@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(47, 789012, 201504427, "B-", "Carlos Eduardo Cordón Hernández", "carlos.edu.cordon@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(48, 789012, 201504475, "B-", "Luis Felipe González Orellana", "luisfe.go.03@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(49, 789012, 201602421, "B-", "Diego Alejandro Vásquez", "totodiego1897@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(50, 789012, 201602517, "B-", "Marvin Saúl Guzmán García", "marvin_saul@hotmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(51, 789012, 201602909, "B-", "Edward Danilo Gómez Hernández", "edgomher95@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(52, 789012, 201612113, "B-", "Raul Alexander Xiloj Lopez", "raulxiloj98@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(53, 789012, 201612139, "B-", "Jeralmy Alejandra De León Samayoa", "jeralmy0598@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(54, 789012, 201612383, "B-", "Javier Antonio Alvarez Gonzalez", "javier3448.ja@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(55, 789012, 201612419, "B-", "Edvin Miguel Castro Ajiatas", "emca9610@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(56, 789012, 201700327, "B-", "Marco Antonio López Grajeda", "juniorlograjeda@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(57, 789012, 201700345, "B-", "Luis Gerardo Chay Grijalva", "gerardo15.chay97@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(58, 789012, 201700465, "B-", "Max Leonel Florian Curtidor", "maxgt734@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(59, 789012, 201700473, "B-", "Javier Alejandro Golon Lopez", "javiagl98@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(60, 789012, 201700727, "B-", "Alberto Kanec Ixchop Ordoñez", "albertokanecixchop@gmail.com", default))
+
+seccionBMenos = addNode(seccionBMenos, getListEstudiante(61, 789012, 201700801, "B-", "Erwin Alejandro Garcia Barrera", "alejandro76.gb@gmail.com", default))
+
+
+
+seccionA = getListEstudiante(00, 789012, 201602656, "A", "Luis Lizama", "lizama@gmail.com", default);
+
+seccionA = addNode(seccionA, getListEstudiante(01, 23970101, 200412765, "A", "Jorge Enrique Archer Rosales", "jearbasp@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(02, 22020101, 200517803, "A", "Johnny Mike Bravo Zamora", "jbravozam@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(03, 26110110, 200611517, "A", "Jose Domingo Tubac Chocon", "jhosdimax@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(04, 23981401, 200915609, "A", "Gary Joan Ortiz Lopez", "gortiz1490@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(05, 20250101, 201020209, "A", "José Daniel Carías Juarroz", "jdcarias01@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(06, 20140114, 201020247, "A", "Haroldo Pablo Arias Molina", "ihpam25@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(07, 16290101, 201114496, "A", "German Mazariegos Salguero", "trapavoided22@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(08, 20660101, 201114502, "A", "Rodolfo Orantes Orellana", "rochofo@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(09, 20370101, 201123848, "A", "Mario Josué Alvarado Lima", "oiramalli@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(10, 23520101, 201212956, "A", "Jose David Axpuac Velasquez", "jose.axpuac@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(11, 24800101, 201213233, "A", "Guillermo Rene Medinilla Hernandez", "medinilla.guillermo@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(12, 22850101, 201216022, "A", "Ramon Osvaldo Patzan Caballeros", "christsoldier92@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(13, 26300401, 201220159, "A", "Diego Ahtohil Noj Armira", "diego28shil@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(14, 21181503, 201313875, "A", "Hayrton Omar Ixpatá Coloch", "hayrtonixpata@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(15, 25140101, 201314112, "A", "Randolph Estuardo Muy Chanchavac", "randolph.estuardo.2012@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(16, 23700101, 201403532, "A", "Ever Eduardo Chicas Prado", "everchicasp@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(17, 23550101, 201403632, "A", "Jorge David Espina Molina", "canchemolinas@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(18, 24810101, 201403862, "A", "Brandon Bredly Alvarez López", "brandonbbal1994@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(19, 29080101, 201403905, "A", "Javier Alberto Cabrera Puente", "j.a.cabrerapuente@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(20, 34280101, 201404367, "A", "Jose Andrés Ruiz Peer", "jruizpeer@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(21, 32570509, 201408486, "A", "Sharolin Guadalupe Lacunza González", "sharolin33@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(22, 30150301, 201503651, "A", "Jose Fernando Valdez Perez", "valdezpjose@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(23, 29151010, 201503746, "A", "Raymundo Alexander Ixvalan Pacheco", "alexixva@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(24, 29110101, 201503869, "A", "Juan Pablo Juárez López", "juarezjuanpa@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(25, 28250301, 201503910, "A", "Ariel Alejandro Bautista Méndez", "arielbm46@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(26, 35660101, 201504042, "A", "Julio Estuardo Gómez Alonzo", "esthuardo12@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(27, 29940101, 201504143, "A", "Carlos Roberto Jiménez Pérez", "carlosjimenez2286@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(28, 30530101, 201504192, "A", "Maynor David Salguero Guillén", "mada.salgui@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(29, 30740110, 201504381, "A", "Julio Antonio Chaicoj Cotzojay", "juliocotzo11@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(30, 34270101, 201504497, "A", "Carlos Luis Pablo Hernandez Gramajo", "wichos11.ch@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(31, 30180401, 201513699, "A", "Esdras Jonatan Noj Larios", "esdrasjnl@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(32, 30700101, 201602412, "A", "William Adolfo Corado Cabrera", "coradowilly@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(33, 29160101, 201602569, "A", "Christopher Jhoanis Soto Cifuentes", "christophersoto97@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(34, 36780901, 201602811, "A", "Oscar Ariel Corleto Soto", "oscarcorleto000@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(35, 30700101, 201602820, "A", "Luis Alfonso Melgar Arizpe", "alfonso.melgar97@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(36, 29330101, 201602916, "A", "Ricardo Antonio Menéndez Tobías", "richimenen@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(37, 30450101, 201602975, "A", "Ruth Nohemy Ardón Lechuga", "ruthlechuga.1997@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(38, 29960101, 201602988, "A", "Ozmar René Escobar Avila", "superspeed52@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(39, 30520101, 201603067, "A", "Carlos Giovani Gil Chacón", "carlos_gil1997@yahoo.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(40, 35470101, 201603095, "A", "Abner Fernando Cardona Ramirez ", "abner.cardona1997@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(41, 30090101, 201603174, "A", "Daniel Alejandro Castellon Schaad", "danielschaad2020@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(42, 36830108, 201603191, "A", "Pablo Andrés Hernández Rivera", "hpablo677@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(43, 29540101, 201610673, "A", "Yaiza Estefanía Pineda González", "ypineda2014ig@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(44, 30550108, 201612274, "A", "Carlos Antonio Campaneros Benito", "carloscampaneros@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(45, 27570116, 201700995, "A", "Luis Pedro Pineda González", "luispinedagonzalez33@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(46, 35330403, 201701020, "A", "Angel Marcelo Rama Marroquín García", "anmaramaga@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(47, 30970101, 201701029, "A", "Edson Armando Guix Manhel", "edsonguix@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(48, 32951014, 201709177, "A", "Cristian Manuel Castellanos Ajtún", "cristian6cas@hotmail.es", default));
+
+seccionA = addNode(seccionA, getListEstudiante(49, 30870101, 201713894, "A", "Brayan Alberto Chinchilla Ramos", "brayanch1297@gmail.com", default));
+
+seccionA = addNode(seccionA, getListEstudiante(50, 30920108, 201730555, "A", "Francisco Javier Bran Fuentes", "javierbran73@gmail.com", default));
+
+
+
+seccionBMas = getListEstudiante(00, 789012, 202000000, "B+", "Rainman Sian", "sian@gmail.com", default);
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(01, 15812201, 200313430, "B+", "Edwin Antonio López Ordóñez", "cobolatrix@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(02, 20440101, 200511896, "B+", "Darwin Dodany Girón Reyes", "dodanygiron@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(03, 28480101, 200517708, "B+", "José Eduardo Morales García", "edushowy@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(04, 25860101, 200715274, "B+", "Sergio Mynor David Felipe Zapeta", "sergio.zapeta@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(05, 12300101, 200915168, "B+", "Christian Levi González Rodríguez", "clevi.gonzalez@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(06, 25670101, 200915464, "B+", "Luis Fernnando Solares Arcon", "luisoler16@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(07, 17010101, 201020136, "B+", "David Eduardo Garcia Garcia", "david.ed.g2@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(08, 12030101, 201020260, "B+", "Victor Augusto López Hernández", "viktor1106@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(09, 26310101, 201020578, "B+", "Georgina Abigail Estrada García", "georgina.estrada78@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(10, 21880101, 201021164, "B+", "Rafael Alejandro Juárez Yantuche", "rafalejy@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(11, 20190101, 201114292, "B+", "Luis Carlos Alejos Avila", "siulsolrac1@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(12, 26020101, 201114566, "B+", "Brayan Ezequiel Santiago Brito", "ebritobryan@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(13, 26650101, 201122846, "B+", "Oscar René Jordán Orellana", "oscar.jordan.21091@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(14, 25700101, 201122998, "B+", "Pablo Roberto Roche Palacios", "pablorrp1@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(15, 23060115, 201212734, "B+", "Orlando Gofredo Batres Chinchilla", "batres.93@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(16, 23320101, 201212752, "B+", "Javier Alexander Chacón Samol", "shavichacon@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(17, 21860101, 201212822, "B+", "Luis Fernando Pérez Moran", "luispma14@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(18, 21740101, 201213132, "B+", "Carlos David Ramírez Altan", "racarlosdavid@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(19, 24790101, 201313872, "B+", "Esteban David Alvarez Bor", "davix93a@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(20, 21620301, 201314160, "B+", "Luis Manuel Morales López", "soy.lmml@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(21, 20300101, 201314164, "B+", "Oswaldo Giovanni Caceres Samayoa", "gios2911@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(22, 25670101, 201314412, "B+", "Juan De Dios Molina Herrera", "juandem95@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(23, 36010101, 201314642, "B+", "Glen Abra-Ham Calel Robledo", "gl3ncal3l@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(24, 21820101, 201314716, "B+", "James Allan Hansen Melgar Morales ", "2811874520101@ingenieria.usac.edu", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(25, 26180101, 201314778, "B+", "Duglas Francisco Avila Torres", "avilatorresics@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(26, 25340101, 201314810, "B+", "Luis Daniel Morales Aguirre", "201314810@ingenieria.usac.edu.gt", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(27, 29070101, 201314886, "B+", "Henry Edmar Lopez Cardona", "henrylopezkre@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(28, 25720101, 201318664, "B+", "Jenny Sharai Montenegro Contreras", "jennysharai14@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(29, 22450101, 201403552, "B+", "Juan Carlos Aragón Bámaca", "juank1316@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(30, 26070101, 201408470, "B+", "Sandra Eunice Jiménez Rodas", "sandraeujim@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(31, 27610101, 201443726, "B+", "Tanya Beatriz Muhun Recinos", "tanyarecinos911@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(32, 29292007, 201503368, "B+", "Fredy Jose Ramirez Sandoval", "fredyramirezsando@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(33, 37750101, 201503392, "B+", "Mynor Joel Lombardo Molina Guevara", "mynormolina1@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(34, 30800101, 201503422, "B+", "Susel Eugenia Retana Arriola", "sretanausac@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(35, 25110113, 201503440, "B+", "Cesar Dionicio Sazo Mayen", "csazo171@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(36, 26450101, 201503442, "B+", "Yadira Yasmin Ferrer Morales", "yyfm.95@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(37, 27390101, 201503738, "B+", "Juan José Lima Ramírez", "jjlima.jjl@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(38, 36421202, 201503774, "B+", "Esbin Daniel Gonzalez Orozco", "danielgo8646@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(39, 28580101, 201503918, "B+", "Brayan Mauricio Aroche Boror", "aroche.brayan@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(40, 22180101, 201504002, "B+", "Inti Andrés Samayoa Ortíz", "intirocks888@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(41, 31540101, 201504028, "B+", "Rodney Estuardo López Marroquín", "rodx1497@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(42, 30820101, 201504242, "B+", "Pablo Javier Blanco Calderón", "pablo6a@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(43, 28080101, 201504290, "B+", "Bryan Eduardo Chacón López", "bryaned44@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(44, 27440101, 201504420, "B+", "Ronald Neftali Berdúo Morales", "ronaldnef1996@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(45, 25770101, 201504444, "B+", "Christian Enrique Ramos Alvarez", "christian7.gt@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(46, 30800101, 201504468, "B+", "Guillermo Alfredo Peitzner Estrada", "guillermopeitzner@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(47, 37360301, 201602420, "B+", "Ingrid Rossana Pérez Mena", "ingrita.rpm@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(48, 31460101, 201602434, "B+", "Jeannira Del Rosario Sic Menéndez", "jeannirasic@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(49, 33370101, 201602744, "B+", "David Omar Enriquez Reyes", "davidomarenriquezreyes@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(50, 31130101, 201602754, "B+", "José Andrés Morales Calderón", "hp.ecene@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(51, 37250101, 201602870, "B+", "Nery Eduardo Herrera Cottom", "tesco.herrera.edu@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(52, 28030101, 201603102, "B+", "Willians Alberto Lemus López", "willialberto.125@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(53, 23920101, 201610648, "B+", "David Jonathan González Gámez", "davidgmz79@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(54, 23850101, 201612114, "B+", "Herbert Rafael Reyes Portillo", "herbertreyes13@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(55, 34900101, 201612272, "B+", "Andrés Esteban Carvajal Morales", "andyecarvajal@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(56, 31130108, 201612304, "B+", "Mindi Guisela Ajpop Aguilar", "mindi.ajpop@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(57, 31290920, 201612326, "B+", "Eddy Arnoldo Reyes Hernández", "eddyarnoldo06@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(58, 34460101, 201700314, "B+", "Carlos Rodrigo Estrada Najarro", "carlos.r.estrada.n@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(59, 30430101, 201700342, "B+", "José Francisco Puac Ixcamparic", "puac235@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(60, 35560101, 201700378, "B+", "Alison Cristina Leiva Paredes", "alisonleiva24@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(61, 36020101, 201700886, "B+", "Andhy Lizandro Solís Osorio", "andhysolis99@gmail.com", default));
+
+seccionBMas = addNode(seccionBMas, getListEstudiante(62, 36120101, 201701048, "B+", "Ronald Gabriel Romero González", "baco420151@gmail.com", default));
+
+
+
+seccionC = getListEstudiante(00, 3789012, 202000001, "C", "Juanca Maeda", "maeda@gmail.com", default);
+
+seccionC = addNode(seccionC, getListEstudiante(02, 1619403, 199516264, "C", "Sergio Fernando Giovani Morales Diaz", "envidiom@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(03, 2448401, 199811002, "C", "Arnaldo Patricio Paxtor García", "arnaldo.paxtor@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(01, 1777901, 961670932, "C", "Mynor Wotzbely Hidalgo Letona", "mynhidwotz@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(04, 2605901, 200011652, "C", "Oscar Humberto Morales Oviedo", "icellguatemala@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(05, 2902501, 200117439, "C", "José David Castro Bámaca", "josdivad@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(06, 2007501, 200412956, "C", "Nelson Jair González Pérez", "njgp86@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(07, 2876501, 200614911, "C", "Pedro Carlos Dávila Martinez", "slipcs6@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(08, 2430601, 200714175, "C", "Jennifer Lorena Rodriguez Lopez", "jenny7127@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(09, 2141004, 200714327, "C", "Victor Arturo Cochoy Tzunun", "vcochoy@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(10, 2914606, 200714473, "C", "Pablo Jonathán Yeguech Sanic", "pablogp8@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(11, 1996301, 200818841, "C", "Carlos Eduardo Monzón Duarte", "cmd12398@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(12, 2899601, 200819214, "C", "Carlos Esteban Godinez Delgado", "car5night@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(13, 2701101, 200915078, "C", "José Remberto Morejón Morales", "jose.usac.edu@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(14, 2601711, 200915080, "C", "Julio Roberto Vasquez Santiago", "otreborjjj@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(15, 2612001, 200915347, "C", "Erick Fernando Reyes Mancilla", "fernandoreyes182@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(16, 2307301, 200915390, "C", "Jose Carlos Toj Ajuchan", "chino1230@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(17, 2188801, 200915423, "C", "Gabriela Marilyn Orellana Solorzano", "gaba.ra91o@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(18, 2191701, 200915466, "C", "Oliver Alexander Rodas Mendoza", "oliver.rodas@popoyan.com.gt", default));
+
+seccionC = addNode(seccionC, getListEstudiante(19, 2431101, 200920081, "C", "Andrea Virginia Chavarria Guzmán", "andychava@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(20, 2983305, 201020975, "C", "Ottoniel Guarchaj", "otttoguitar@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(21, 2757201, 201114124, "C", "Jorge Antonio Rompiche Herrera", "2247557220101@ingenieria.usac.edu.gt ", default));
+
+seccionC = addNode(seccionC, getListEstudiante(22, 2853401, 201114336, "C", "Kevin Alejandro Sánchez Samayoa", "ka_sanchezsamayoa@outlook.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(23, 2098101, 201114527, "C", "Cristian Esteban Moino Rodriguez", "moino.cristian@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(24, 2918901, 201114726, "C", "Migdalia Iveth Mateo Pérez", "mivethp@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(25, 2472901, 201122864, "C", "Luis Carlos Valiente Salazar", "luiskr1993@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(26, 1042404, 201122934, "C", "Marco Antonio Xocop Roquel", "marcstu2007@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(27, 2441301, 201212623, "C", "Kenia Marisol Zepeda López", "kenia.apk@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(28, 2894801, 201212808, "C", "Denis Francisco Vasquez Flores", "vasquezdennisan@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(29, 2874201, 201212854, "C", "Freddy Alejandro Monterroso", "freddy.a.monterroso@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(30, 2760317, 201213194, "C", "Carlos Omar Aquino Escobar", "carlos.aquino093@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(31, 2252201, 201213255, "C", "Leonel Eduardo Avila Calvillo", "leo.avilac8@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(32, 2279201, 201213282, "C", "Sergio Fernando De Los Rios Roque", "sergiofernando23234@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(33, 3915701, 201213619, "C", "José Javier Barreda Mancilla", "javier.barreda94@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(34, 2244801, 201220165, "C", "Oscar Rolando Bernard Peralta", "oscarol14394@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(35, 2161001, 201222595, "C", "Ana Lucrecia Villatoro Rodriguez", "lukycrazy@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(36, 2517501, 201246079, "C", "Axel Smaylie López Xum", "2635017521001@ingenieria.usac.edu.gt", default));
+
+seccionC = addNode(seccionC, getListEstudiante(37, 2415602, 201313663, "C", "Daniel Alberto Juárez Back", "d.juarez1094@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(38, 2322701, 201313688, "C", "Marellyn Lisbeth Trejo Castro ", "mlis.trejo@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(39, 2398101, 201313819, "C", "César Javier Solares Orozco", "checha.db63@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(40, 2416601, 201313898, "C", "Eduardo Javier Hevia Calderón", "javierhc22@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(41, 2989106, 201314291, "C", "Luis Miguel Tun Garcia", "502luismiguel@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(42, 2445814, 201314359, "C", "Mario Roberto Cojolon Shoc", "mario69series24@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(43, 2041601, 201314408, "C", "Erick Fernando Hernandez Arroyo", "erickhernandez1710@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(44, 2988101, 201314474, "C", "Bayron Romeo Axpuac Yoc", "misinicialesbray@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(45, 2819214, 201314556, "C", "Carlos Gabriel Peralta Cambrán", "carlospecam@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(46, 2305601, 201314565, "C", "Danilo Urias Coc", "d14urias@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(47, 2738401, 201314713, "C", "Fernando Andrés Mérida Antón", "fer.merida94@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(48, 2430601, 201314808, "C", "Leslie Fabiola Morales González", "les.mg.usac@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(49, 2189302, 201314891, "C", "Luis Javier Yela Quijada", "javyela@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(50, 3912801, 201325533, "C", "Erick Fernando Elias Díaz", "elias25533@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(51, 2660711, 201346084, "C", "José Alberto Alarcón Chigua", "jalbertochigua@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(52, 2757001, 201403703, "C", "Rubén Emilio Osorio Sotorro", "rubenosorio88@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(53, 2433601, 201404104, "C", "Andrea Nicte Vicente Campos", "andreanicte02@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(54, 2103201, 201503378, "C", "Escarleth Andrea Velasco Campos", "velandreas@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(55, 3498403, 201503385, "C", "Brandon Antony Chitay Coutiño", "antonchitay@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(56, 3262914, 201503464, "C", "Roberto Adrián Cux Bran", "roberto.cux@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(57, 2695901, 201503470, "C", "Yimmi Daniel Ruano Pernillo", "yimmiss305@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(58, 3664301, 201503692, "C", "Diego Ernesto Sebastian Osorio Garcia", "diegoesog11@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(59, 2916901, 201503699, "C", "Eddy Javier Sirin Hernandez", "eddjavs@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(60, 2135901, 201503702, "C", "Edgar Humberto Borrayo Bartolón", "95.b.edgar@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(61, 3851401, 201503712, "C", "Oscar Rene Cuellar Mancilla", "oscarrenecuellarmancilla@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(62, 3195901, 201503750, "C", "Carlos Eduardo Carías Salan", "carloscariasingenieria@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(63, 3096501, 201503984, "C", "Fernando Vidal Ruiz Piox", "feruiz.12000@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(64, 3321101, 201504100, "C", "Christopher Alexander Lopez Orellana", "crhalfa09@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(65, 3333102, 201504448, "C", "Jefferson José Carlos Linares Cerón", "karlosceron15@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(66, 3878301, 201513760, "C", "Marco Pablo Mazariegos Macario", "marcomazariegos18@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(67, 2120501, 201602520, "C", "Marvin Ronaldo Martinez Marroquin", "marvin1ronal@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(68, 3935801, 201602723, "C", "Diego Alejandro Caballeros Melchor", "ultimaster22@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(69, 3134501, 201602743, "C", "Fernando Arturo Pensamiento Calderon", "fernanpensa@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(70, 3106801, 201602797, "C", "Edgar Arnoldo Aldana Arriola", "arnolso201@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(71, 3273201, 201602929, "C", "Sebastián Gómez Lavarreda", "santi.lavarreda@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(72, 3353701, 201602986, "C", "Nery Antonio Alvizures Sologaistoa", "nery016s@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(73, 3181801, 201603029, "C", "Luis Leonel Aguilar Sánchez", "leoaguilarsanchez97@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(74, 2270813, 201603189, "C", "Jose Ramiro Mateo Pu", "ramiromateo88@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(75, 3553901, 201610657, "C", "Sergio Alejandro Silva Roldán", "18sergiosilva@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(76, 3615801, 201612097, "C", "Erick Alexander Lemus Morales", "erick.lemus1998@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(77, 3928301, 201612204, "C", "Marylin Irenia Hernández Muñoz", "maryirenia@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(78, 3427109, 201612219, "C", "Herlindo René Corona Arenales", "uhcorona@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(79, 3944015, 201612408, "C", "Katherine Lisseth Sánchez Girón", "sanchezkathy29@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(80, 3843201, 201612499, "C", "Henry Adolfo Galvez", "soulofhenry@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(81, 3514001, 201700392, "C", "César Josué Reyes Díaz", "chechajosue@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(82, 3624601, 201700507, "C", "Kimberly Mireya Elias Diaz", "kim.eliasdiaz@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(83, 2809701, 201700675, "C", "David Rolando Elias Montufar", "davideliaspc@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(84, 3364014, 201700944, "C", "Alan Joel Morataya Escobar", "alanmorataya19@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(85, 3658201, 201709155, "C", "Kevin Alexander Garcia Jachac", "kevinalexandergarcia1999@gmail.com", default));
+
+seccionC = addNode(seccionC, getListEstudiante(86, 3818601, 201709362, "C", "Bruno Marco Jose Coronado Morales", "bcoronado.morales@gmail.com", default));
+
+
+
+pie(c(length(seccionA), length(seccionBMas), length(seccionBMenos), length(seccionC)), c("Sección A", "Sección B+", "Seccion B-", "Sección C"), "Cantidad de estudiantes por sección");
+
+
+
+todos = c(seccionBMenos, seccionBMas, seccionC, seccionA);
+
+
+
+agregarNotas();
+
+
+
+agregarNotas = () => {
+
+    for(estudiante in todos){
+
+        nota = calcularNota(estudiante);
+
+        if(nota > top10Notas[1]){
+
+            top10Notas[1] = nota;
+
+            top10Nombres[1] = estudiante[5];
+
+            top10Notas = bubblesort(top10Notas);
+
+        }
+
+        estudiante[7] = nota;
+
+    }
+
+}
+
+
+
+calcularNota = (est) => {
+
+    .cui = est[2]
+
+    .carnet = est[3]
+
+    .seccion = est[4]
+
+    .name = est[5]
+
+    .mail = est[6]
+
+
+
+    .nameSize = StringLength(.name);
+
+    .mailSize = StringLength(.mail);
+
+    .cuiSize = trunk(StringLength(.cui)/2.0);
+
+    .notaFinal = (.nameSize ^ .cuiSize) + .mailSize;
+
+
+
+    if(.seccion == "B-"){
+
+        .notaFinal = .notaFinal + 5;
+
+    }else{
+
+        .notaFinal = .notaFinal - 5; # <3 ^^
+
+    }
+
+
+
+    .notaFinal = .notaFinal + 5;
+
+
+
+    if(.seccion == "B+" | .seccion == "A" | .seccion == "C" ){
+
+        .notaFinal = .notaFinal + 1;
+
+    }
+
+
+
+    if(.carnet == "201503712"){
+
+        .notaFinal = 0;
+
+    }
+
+
+
+    while(.notaFinal > 100){
+
+        .notaFinal = trunk((.notaFinal / 2.0))+trunk(.mailSize/3.0);
+
+    }
+
+
+
+    return(.notaFinal);
+
+}
+
+
+
+bubblesort = function(v) {
+
+  itemCount = length(v)
+
+  while(TRUE) {
+
+    hasChanged = FALSE
+
+    itemCount = itemCount - 1
+
+    if(itemCount == 0){
+
+        break;
+
+    }
+
+    range = getVectorRango(1, itemCount)
+
+    for(i in range) {
+
+      if ( v[i] > v[i+1] ) {
+
+        t = v[i]
+
+        v[i] = v[i+1]
+
+        v[i+1] = t
+
+
+
+        tt = top10Nombres[i]
+
+        top10Nombres[i] = top10Nombres[i+1]
+
+        top10Nombres[i+1] = tt
+
+        hasChanged = TRUE
+
+      }
+
+    }
+
+    if ( !hasChanged ){break}
+
+  }
+
+  return(v)
+
+}
+
+
+
+getVectorRango = function(inicio, fin){
+
+    if(fin > inicio){
+
+        salida = inicio;
+
+        inicio = inicio + 1;
+
+        while(inicio <= fin){
+
+            salida = c(salida, inicio);
+
+            inicio = inicio + 1;
+
+        }
+
+        return(salida)
+
+    }else if(fin == inicio){
+
+        return(inicio);
+
+    }
+
+    return(0);
+
+}
+
+
+
+barplot(top10Notas, "Estudiante", "Nota", "Top 10 mejores notas", top10Nombres);
+
+
+
+
+
+
+
+print("---------------------------------- FIN EVALUACION LISTAS --------------------------------------------------")
+
+print("")
+
+print("")
+
+print("")
+
+print("")
+
+print("")
+
+print("")
+
+
+
+print("---------------------------------- EVALUANDO ESTRUCTURAS --------------------------------------------------")
+
+
+
+print("---------------------------------- EVALUANDO ESTRUCTURAS: VECTORES ----------------------------------------")
+
+vectorPrueba = 3;
+
+vectorPrueba[199] = "hola"
+
+print(vectorPrueba)
+
+
+
+print("---------------------------------- EVALUANDO ESTRUCTURAS: MATRICES ----------------------------------------")
+
+
+
+mattrizPRueba = matrix(c(2,3,4,5,9,12,5,5,6,6,8,0,4,1,3,4,5,0), 30,9);
+
+mattrizPRueba = mattrizPRueba ^ (mattrizPRueba/2) * mattrizPRueba ^ mattrizPRueba + 2 * mattrizPRueba;
+
+for(mm in mattrizPRueba){
+
+    print(mm)
+
+}
+
+
+
+print(mattrizPRueba[20,])
+
+print(mattrizPRueba[,4])
+
+print(mattrizPRueba[34])
+
+print(mattrizPRueba[30,9])
+
+
+
+mattrizPRueba = mattrizPRueba + 1.1
+
+print(mattrizPRueba)
+
+
+
+mattrizPRueba = mattrizPRueba + "J#"
+
+print(mattrizPRueba)
+
+
+
+print("---------------------------------- EVALUANDO ESTRUCTURAS: ARREGLOS -----------------------------------------")
+
+arregloPruebaVector = array(c(true,false), c(4,4,4,4))
+
+print(arregloPruebaVector)
+
+arregloPruebaVector[1][1][1][3] = 12
+
+print(arregloPruebaVector)
+
+arregloPruebaVector[4][2][4][1] = 839.4093
+
+print(arregloPruebaVector)
+
+arregloPruebaVector[2][3][1][1] = "J#"
+
+print(arregloPruebaVector)
+
+arregloPruebaVector[2][3][1][1] = list("J#")
+
+print(arregloPruebaVector)
+
+
+
+arregloPruebaLista = array(list(c(true, false)), c(4,4,4,4))
+
+print(arregloPruebaLista)
+
+arregloPruebaLista[1][1][1][3] = 12
+
+print(arregloPruebaLista)
+
+arregloPruebaLista[4][2][4][1] = 839.4093
+
+print(arregloPruebaLista)
+
+arregloPruebaLista[2][3][1][1] = list(c("J#","<3"))
+
+print(arregloPruebaLista)
+
+
+
+print("---------------------------------- FIN EVALUACION ESTRUCTURAS --------------------------------------------------")
+
+print("")
+
+print("")
+
+print("")
+
+print("")
+
+print("")
+
+print("")
+
+
+
+print("---------------------------------- EVALUANDO ARCHIVO DE ALBA --------------------------------------------------")
+
+# Archivo de alba :D
+
+var1 = 1;
+
+punteo = 0;
+
+
+
+Inicio();
+
+
+
+ Inicio = function() {
+
+    print("-----------------CALIFICACION-----------------");
+
+    var1 = 0;
+
+    #Verificar ámbitos, se toma con prioridad la variable local ante la global.
+
+    if (var1 != 0)
+
+    {
+
+        print("No se toma con prioridad la variable local ante la global");
+
+        print("Perdiste 5 puntos :c");
+
+    }
+
+    else{
+
+        punteo = punteo + 5;
+
+    }
+
+
+
+    #Sección de declaracion de variables
+
+    Declaracion();
+
+
+
+    #seccion de manejo de ámbitos 2
+
+    amb1 = 5;
+
+    Ambitos2();
+
+
+
+    #Sección de expresiones aritméticas
+
+    Aritmeticas();
+
+
+
+
+
+    #Seccion de expresiones lógicas
+
+    Logicas();
+
+
+
+
+
+    #Seccion de expresiones relacionales
+
+    Relacionales();
+
+
+
+    #punteo final
+
+    print("punteo Final: "+punteo);
+
+}
+
+
+
+ Declaracion = function(){
+
+    #*
+
+        SALIDA ESPERADA:
+
+            ========= Metodo Declaracion =========
+
+            Voy a ganar Compiladores 2 :D
+
+            ======================================
+
+
+
+    *#
+
+    print("========= Metodo Declaracion =========");
+
+    n4 = 2;
+
+    str4 = "Voy a ganar Compiladore";
+
+    db4 = 0.0;
+
+    db1 = db4;
+
+    chr4 = "s";
+
+    #if n modificar la asignación
+
+    if (db1 == db4){
+
+        print(str4 + chr4 +" " +n4+" :D");
+
+    }else {
+
+        print("Problemas en el metodo declaracion :(");
+
+    }
+
+    print("======================================");
+
+    punteo = punteo + 5;
+
+}
+
+
+
+ Ambitos2 = function(){
+
+    #debería lanzar un error, cualquiera
+
+    #comentar luego de que lanze el error
+
+    print("========= Error Ambitos ==============");
+
+    print("Debería lanzar error: "+amb1);
+
+    amb1 = "Desde ambito2";
+
+    print("======================================");
+
+    print("================ Nice ================");
+
+    punteo = punteo + 5;
+
+    print("Sin error: "+amb1);
+
+    print("======================================");
+
+
+
+}
+
+
+
+ Aritmeticas = () =>{
+
+    #suma de strings con caracteres
+
+    #*
+
+        SALIDA ESPERADA
+
+    ==============Aritmeticas=============
+
+    Hola COMPI
+
+    El valor de  n1 = 52.1
+
+    El valor de n3 = 70.0
+
+    -Operaciones Basicas: valor esperado:   a)62   b)0   c)-19   d)256   resultados>
+
+    a) 62
+
+    b) 0
+
+    c) -19
+
+    d) 256
+
+    ======================================
+
+    *#
+
+    print("==============Aritmeticas=============");
+
+    art1 = "Hola "+"C"+""+"O"+""+"M"+""+"P"+""+"I";
+
+    print(art1);
+
+    if (art1=="Hola COMPI"){
+
+        punteo = punteo + 3;
+
+    }else {
+
+        print("Perdiste 3 puntos en suma de y :c");
+
+    }
+
+
+
+    n1 = 0.0 + 1 + 1 + 1 + 0.1 + 49;
+
+    print("El valor de  n1 = "+n1);
+
+    if (n1 == 52.1){
+
+        punteo = punteo + 5;
+
+    }else {
+
+        print("Perdiste 5 puntos en suma de enteros booleanos y caracteres :c");
+
+    }
+
+
+
+    n4 = (5750 * 2) - 11800 + 1.0;
+
+    n3 = (((3 * 3) + 4) - 80 + 40.00 * 2 + 358.50 - (29 / 14.50)) - (0.50) + n4;
+
+    print("El valor de n3 = "+n3);
+
+    if (n3 == 70 | n3 == 70.0)
+
+    {
+
+        punteo = punteo + 3;
+
+    }
+
+    else
+
+    {
+
+        print("Perdiste 3 puntos :c ");
+
+    }
+
+
+
+    operacionesBasicas();
+
+    operacionesAvanzadas();
+
+    print("======================================");
+
+
+
+}
+
+
+
+ operacionesBasicas= () =>{
+
+    print("Operaciones Aritmeticas 1: valor esperado:  \na)62   \nb)0   \nc)-19   \nd)256   \nresultados>");
+
+    a = (20-10+8/2*3+10-10-10+50);
+
+    b = (50/50*50+50-100+100-100);
+
+    c = (100/20*9-78+6-7+8-7+7*1*2*3/3);
+
+    d = (2^(20/5*2));
+
+    print("a) " +a);
+
+    print("b) " +b);
+
+    print("c) " +c);
+
+    print("d) " +d);
+
+    if (a==62 & b==0 & c == -19 & d ==256){
+
+        print("Operaciones aritmeticas 1 bien :D");
+
+        punteo = punteo + 5;
+
+    }else {
+
+        print("Error en las operaciones basicas :(");
+
+    }
+
+}
+
+
+
+ operacionesAvanzadas=function(){
+
+    aritmetica1 = 2;
+
+    aritmetica2 = -10;
+
+    print("Operaciones Aritmeticas 2: valor esperado> -20  41, resultado>");
+
+    aritmetica3 = aritmetica2*aritmetica1;
+
+    print(aritmetica3+"");
+
+    aritmetica1 = aritmetica3/aritmetica1+50^2/50+50*2-100+100/100-0;
+
+    print(aritmetica1+"");
+
+    if (aritmetica3 == -20 & aritmetica1 == 41){
+
+        print("Operaciones aritmeticas 2 bien :D");
+
+        punteo = punteo + 5;
+
+    }else {
+
+        print("Error Operaciones Aritmeticas :c alv :c");
+
+    }
+
+}
+
+
+
+#FN5HU-3uykL
+
+
+
+ Logicas=function(){
+
+     print("==============Logicas1=============");
+
+    if (!!!!!!!!!!!!!!!!!!!!!!true){
+
+        punteo = punteo + 1;
+
+        print("Bien primera condicion :)");
+
+    }else {
+
+        print("Perdiste 1 punto :c");
+
+    }
+
+
+
+    if (true & true | false & false & false | !true){
+
+        punteo = punteo + 1;
+
+        print("Bien segunda condicion:)");
+
+    }else {
+
+        print("Perdiste 1 punto :c");
+
+    }
+
+    print("======================================");
+
+    Logicas2();
+
+}
+
+
+
+ Logicas2=function(){
+
+    n0 = 16;
+
+    print("==============Logicas2=============");
+
+
+
+    if (!(!(n0 == 16 & false==true) & !(true))){
+
+        print("Not y Ands Correctos");
+
+        punteo = punteo +3;
+
+    }else {
+
+        print("No funcionan nots y ands :(");
+
+    }
+
+
+
+    n1 = n0 /16;
+
+    n1 = n1 + (true?1:0);
+
+    condicion1 = n1 !=2; #esto es false
+
+    aritmetica1 = n0/16 + ((((!(true|false))))?1:0); # aritmetica1 = 0
+
+    condicion2 = aritmetica1 == n1; #false
+
+    condicion3 = !true; #false
+
+
+
+    if (!(!(!(condicion1|condicion2) | condicion3 ))){
+
+        print("Nots y Ors correectos");
+
+        punteo = punteo + 3;
+
+    }else {
+
+        print("No Funciona nots y ands :(");
+
+    }
+
+    print("======================================");
+
+}
+
+
+
+ Relacionales=function(){
+
+    n0 = 34;
+
+    n1 = 16;
+
+
+
+    relaciones1(n0);
+
+    relaciones2(n1);
+
+}
+
+
+
+
+
+ relaciones1=function(salida)
+
+{
+
+        print("==============relacionales1=============");
+
+        n0 = salida + 0.0;
+
+        if (n0 < 34.44)
+
+            {
+
+                salida = salida+15;
+
+                if (salida > 44)
+
+                    {
+
+                        salida = salida +1
+
+                    }
+
+            }
+
+            else {
+
+                salida = 1;
+
+            }
+
+
+
+        if (salida != 1)
+
+            {
+
+                if (salida == 50)
+
+                    {
+
+                        print("salida Correcta Relacionales 1!");
+
+                        punteo = punteo + 5;
+
+                    }
+
+                    else {
+
+                        print("salida incorrecta!!");
+
+                    }
+
+            }
+
+            else {
+
+                print("salida incorrecta!!");
+
+            }
+
+        print("======================================");
+
+}
+
+
+
+ relaciones2=function(n0){
+
+            print("vas bien, animo :D");
+
+            print("============Relacionales2=============");
+
+
+
+            if (10-15 >= 0 & 44.44 == 44.44)
+
+            {
+
+                print("salida incorrecta primer if relacionales2!!");
+
+            }
+
+            else {
+
+                if (15+8 == 22-10+5*3-4 & 13*0>-1)
+
+                    {
+
+                        if (10.0 != 11.0-1.01 )
+
+                            {
+
+                                print("salida CORRECTA en relacionales2!!");
+
+                                punteo = punteo + 5;
+
+                            }
+
+                            else {
+
+                                print("salida incorrecta segundo if relacionales 2!!");
+
+                            }
+
+                    }
+
+                    else {
+
+                        if (1 == 1)
+
+                            {
+
+                                print("salida incorrecta relacionales 2 3er if !!");
+
+                            }
+
+                            else {
+
+                                print("salida incorrecta relacionales 2 Sino3er if !!");
+
+                            }
+
+                    }
+
+            }
+
+        print("======================================");
+
+    SentenciasAnidadas();
+
+}
+
+
+
+ figura1=function(n){
+
+
+
+    StringFigura = "";
+
+    i = -3*n/2
+
+    while (i < n+1) {
+
+        StringFigura = "";
+
+        j = -3*n/2
+
+        while (j < ((3*n/2)+1)) {
+
+            absolutoi = i;
+
+            absolutoj = j;
+
+            if (i <0){
+
+                absolutoi = i*-1;
+
+            }
+
+            if (j < 0){
+
+                absolutoj = j*-1;
+
+            }
+
+            if ((absolutoi + absolutoj < n)
+
+                | ((-n/2-i) * (-n/2-i) + ( n/2-j) * ( n/2-j) <= n*n/2)
+
+                | ((-n/2-i) * (-n/2-i) + (-n/2-j) * (-n/2-j) <= n*n/2)) {
+
+                StringFigura = StringFigura + "* ";
+
+            }
+
+            else{
+
+                StringFigura = StringFigura + ". ";
+
+            }
+
+            j = j + 1;
+
+        }
+
+        print(StringFigura);
+
+        i = i + 1;
+
+    }
+
+    print("if la figura es un corazon +10 <3");
+
+}
+
+
+
+ figura2=function(){
+
+    StringFigura = "";
+
+     c = "* ";
+
+        b = "  ";
+
+        altura = 10;
+
+        ancho = 1;
+
+        i = 0;
+
+        while (i < (altura/4)){
+
+            k = 0
+
+            j = 0
+
+            while (k < (altura - i)){
+
+                StringFigura = StringFigura+b
+
+                k = k+1;
+
+            }
+
+            while (j < (i*2 + ancho)){
+
+                StringFigura = StringFigura + c;
+
+                j = j+1;
+
+            }
+
+
+
+            print(StringFigura);
+
+            StringFigura ="";
+
+            i = i+1
+
+        }
+
+         StringFigura = "";
+
+         i = 0
+
+         while(i < (altura/4)){
+
+             k = 0
+
+             j = 0
+
+            while(k < ((altura - i) - 2)){
+
+                StringFigura = StringFigura + b;
+
+                k = k+1
+
+            }
+
+            while(j < (i*2 + 5)){
+
+                StringFigura = StringFigura + c;
+
+                j = j+1
+
+            }
+
+
+
+            print(StringFigura);
+
+            StringFigura = "";
+
+            i = i+1;
+
+        }
+
+         StringFigura = "";
+
+         i = 0;
+
+        while(i < (altura/4)){
+
+            k = 0
+
+            j = 0;
+
+            while(k < ((altura - i) - 4)){
+
+                StringFigura = StringFigura + b;
+
+                k = k+1
+
+            }
+
+            while(j < (i*2 + 9)){
+
+                StringFigura = StringFigura +c;
+
+                j = j+1;
+
+            }
+
+
+
+            print(StringFigura);
+
+            StringFigura = "";
+
+            i = i+1
+
+        }
+
+
+
+        StringFigura ="";
+
+        i = 0;
+
+        while(i < (altura/4)){
+
+            k = 0;
+
+            while(k < ((altura - i) - 6)){
+
+                StringFigura = StringFigura + b;
+
+                k = k+1
+
+            }
+
+            j = 0
+
+            while(j < (i*2 + 13)){
+
+                StringFigura = StringFigura + c;
+
+                j = j+1;
+
+            }
+
+
+
+            print(StringFigura);
+
+            StringFigura = "";
+
+            i = i+1;
+
+        }
+
+        StringFigura = "";
+
+        i = 0;
+
+        while(i < (altura/4)){
+
+            k = 0;
+
+            j = 0
+
+            while(k < (altura -2)){
+
+                StringFigura = StringFigura + b;
+
+                k = k+1;
+
+            }
+
+            while(j < (5)){
+
+                StringFigura = StringFigura + c;
+
+                j = j+1
+
+            }
+
+
+
+            print(StringFigura);
+
+            StringFigura = "";
+
+            i = i+1;
+
+        }
+
+
+
+            print("if la figura es un Arbol +10 <3");
+
+
+
+       }
+
+
+
+ SentenciasAnidadas=function(){
+
+    numero1 = 0;
+
+    do{
+
+    switch(numero1){
+
+        case 0:
+
+            figura0(8);
+
+            break;
+
+        case 1:
+
+            figura1(10);
+
+            break;
+
+        case 2:
+
+            figura2();
+
+            break;
+
+        default:
+
+            print("Esto se va a print 2 veces :3");
+
+    }
+
+    numero1 = numero1 + 1;
+
+    }while(numero1 <5);
+
+}
+
+
+
+ figura0=function(numero){
+
+    i = 0;
+
+    while(i < numero){
+
+        j = 0;
+
+        numeroMostrar = 1;
+
+        unaFila = "";
+
+        while(j <= i){
+
+            unaFila = unaFila + " " + numeroMostrar;
+
+            numeroMostrar  = numeroMostrar + 1;
+
+            j = j + 1;
+
+        }
+
+        print(unaFila);
+
+        i = i + 1;
+
+    }
+
+}
+
+
+
+# fin
+
+print("---------------------------------- EVALUANDO RECURSIVAS --------------------------------------------------")
+
+# recursivas
+
+
+
+factorial = function(n) {
+
+  if (n == 0) {
+
+    return (1);
+
+  }
+
+  return (n * factorial(n - 1));
+
+}
+
+
+
+potencia = (base, exp) => {
+
+  if (exp == 0) {
+
+    return (1);
+
+  }
+
+  return (base * potencia(base, exp - 1));
+
+}
+
+
+
+hanoi = function(discos, origen, auxiliar, destino) {
+
+ if (discos == 1) {
+
+   print("mover disco de " + origen + " a" + destino);
+
+ } else {
+
+   hanoi(discos - 1, origen, destino, auxiliar);
+
+   print("mover disco de " + origen + " a " + destino);
+
+   hanoi(discos - 1, auxiliar, origen, destino);
+
+ }
+
+}
+
+
+
+hofstaderFemenina = function(n) {
+
+  if (n < 0) {
+
+    return (0);
+
+  } else {
+
+    if (n == 0) {
+
+      return (1);
+
+    }
+
+    return (n - hofstaderFemenina(n - 1));
+
+  }
+
+}
+
+
+
+hofstaderMasculino = function(n) {
+
+  if (n < 0) {
+
+    return (0);
+
+  } else {
+
+    if (n == 0) {
+
+      return (0);
+
+    }
+
+    return (n - hofstaderMasculino(n - 1));
+
+  }
+
+}
+
+
+
+par = function(nump) {
+
+  if (nump == 0) {
+
+    return (1);
+
+  }
+
+  return (impar(nump - 1));
+
+}
+
+
+
+impar = function(numi) {
+
+  if (numi == 0) {
+
+    return (0);
+
+  }
+
+  return (par(numi - 1));
+
+}
+
+
+
+ackermann = function(m, n) {
+
+  return (m == 0 ? n + 1 : m > 0 & n == 0 ? ackermann(m - 1, 1) : ackermann(m - 1, ackermann(m, n - 1)));
+
+}
+
+
+
+main = () => {
+
+  #**
+
+    * Funcion factorial: Entrada 5
+
+    *#
+
+  print("\n======================= FACTORIAL ======================\n");
+
+  numero = 5;
+
+  print("El factorial del numero " + numero + " es: " + factorial(numero));
+
+  #**
+
+    * Funcion potencia: Entrada: base = 2, exponente = 5.
+
+    *#
+
+  print("\n======================= POTENCIA =======================\n");
+
+  base = 2;
+
+  exponente = 5;
+
+  print("El numero " + base + " elevado a la " + exponente + " potencia es: " + potencia(base, exponente));
+
+  print("\n================= RECURSIVIDAD MULTIPLE =================\n");
+
+  #**
+
+    * Funcion Hanoi, resuelve el problema de La Torres de Hanoi.
+
+    *#
+
+  print("\n============ HANOI ============\n");
+
+  discos = 3;
+
+  origen = 1;
+
+  auxiliar = 2;
+
+  destino = 3;
+
+  print("Solucion al problema de torres de Hanoi para n = " + discos);
+
+  hanoi(discos, origen, auxiliar, destino);
+
+  #**
+
+    * Funcion Hoftadter.
+
+    *#
+
+  print("\n================= RECURSIVIDAD CRUZADA");
+
+  print("\n===== Generar funciones Hoftadter\n");
+
+  i = 0;
+
+  print("\n== Femenina: \n");
+
+  while(i < 10) {
+
+    print(hofstaderFemenina(i));
+
+    i = i + 1;
+
+  }
+
+  print("\n== Masculina: \n");
+
+  i = 0;
+
+  while (i < 10) {
+
+    print(hofstaderMasculino(i));
+
+    i = i + 1;
+
+  }
+
+
+
+  #**
+
+    * Funciones Par e Impar.
+
+    *#
+
+  print("\n===== Determinar la paridad de dos numeros\n");
+
+  a = 17;
+
+  b = 68;
+
+  res = par(a);
+
+  print("== El numero " + a + " es: ");
+
+  if (res == 1) {
+
+    print("par");
+
+  } else {
+
+    print("impar");
+
+  }
+
+  res = impar(b);
+
+  print("== El numero " + b + " es: ");
+
+  if (res == 0) {
+
+    print("par");
+
+  } else {
+
+    print("impar");
+
+  }
+
+  print("\n========== RECURSIVIDAD ANIDADA ==========\n");
+
+  m = 3;
+
+  n = 4;
+
+  print("Funcion de Ackermann (" + m + ", " + n + ") = " + ackermann(m, n));
+
+}
+
+
+
+#main();
+
+# FIN DE FUNCIONES
+
+
+
+# fin recursivaas
+
+print("---------------------------------- FIN EVALUACION RECURSIVAS --------------------------------------------------")
+
+
+
+print("alumnos random que va ganar compi")
+
+print("seccion A");
+
+print(seccionA[48])
+
+print("seccion B-");
+
+print(seccionBMenos[13])
+
+print("seccion B+");
+
+print(seccionBMas[29])
+
+print("seccion C");
+
+print(seccionC[3])
+
+
+
+
+
+print("J# IS COMING <3")
+
+print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-FIN-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
+
+
+#*##############-SALIDA ESPERADA-#######################################################################
+
+>>---------------------------------- EVALUANDO VECTORES --------------------------------------------------
+
+>>TEST 1 - EZ
+
+>>Error Semántico: Multiplicacion de tipos no permitida: 11(STRING) * 2(INTEGER) en Expresion en la línea: 27 y columna: 5
+
+>>TEST 2 - EZ
+
+>>ya me aburri
+
+>>TEST 3 - PASS
+
+>>TEST 4 - PASS
+
+>>TEST 5 - PASS
+
+>>PUNTEO EN EVALUACION SIMPLE DE VECTORES: 100
+
+>>---------------------------------- FIN EVALUACION VECTORES --------------------------------------------------
+
+>>
+
+>>
+
+>>
+
+>>
+
+>>
+
+>>
+
+>>---------------------------------- EVALUANDO LISTAS --------------------------------------------------
+
+(TIENE QUE SALIR LA SIGUIENTE LISTA 263 VECES. LOL)
+
+>><LIST>
+
+       [[ 1 ]]    0   ,   789012   ,   201503611   ,   B-   ,   Pavel Alexander Vasquez Flores   ,   alexanderpavelv32@gmail.com   ,   70
+
+       [[ 2 ]]    1   ,   789012   ,   200310165   ,   B-   ,   José Abraham Navarro De León   ,   joseabrahamnavarro@gmail.com   ,   60
+
+       [[ 3 ]]    2   ,   789012   ,   200313243   ,   B-   ,   Randy Mauricio Orozco Reyes   ,   mauricioor@hotmail.com   ,   90
+
+       [[ 4 ]]    3   ,   789012   ,   200511819   ,   B-   ,   Pablo Gerardo García Perusina   ,   200511819@ingenieria.usac.edu.gt   ,   67
+
+       [[ 5 ]]    4   ,   789012   ,   200915147   ,   B-   ,   Rene Adrian Ramos Guzman   ,   xdrixnrxmos@gmail.com   ,   68
+
+       [[ 6 ]]    5   ,   789012   ,   201010425   ,   B-   ,   Andrés Ricardo Ismael Guzmán   ,   a.ricardoguzman@gmail.com   ,   58
+
+       [[ 7 ]]    6   ,   789012   ,   201020331   ,   B-   ,   Cristian Alexander Azurdia Ajú   ,   1983964490101@ingenieria.usac.edu.gt   ,   76
+
+       [[ 8 ]]    7   ,   789012   ,   201020831   ,   B-   ,   Marco Antonio Fidencio Chávez Fuentes   ,   catalantt@gmail.com   ,   61
+
+       [[ 9 ]]    8   ,   789012   ,   201020917   ,   B-   ,   Luis Carlos Mendez Rodas   ,   luiiscmr@gmail.com   ,   66
+
+       [[ 10 ]]    9   ,   789012   ,   201021245   ,   B-   ,   Erin Leonel Flores   ,   erikfl.01@gmail.com   ,   57
+
+       [[ 11 ]]    10   ,   789012   ,   201113875   ,   B-   ,   Peter Alexander Samuels   ,   Franco    peterinho14@gmail.com   ,   65
+
+       [[ 12 ]]    11   ,   789012   ,   201114573   ,   B-   ,   Diego Javier Tejeda Wannam   ,   diegotejeda93@gmail.com   ,   82
+
+       [[ 13 ]]    12   ,   789012   ,   201212945   ,   B-   ,   Elmer Edgardo Alay Yupe   ,   alayelmer1993@gmail.com   ,   61
+
+       [[ 14 ]]    13   ,   789012   ,   201213059   ,   B-   ,   Kevin Ariel Cruz Ortiz   ,   kevincoma555@gmail.com   ,   97
+
+       [[ 15 ]]    14   ,   789012   ,   201213123   ,   B-   ,   Kevin Madriel Juarez Cetino   ,   kevinm.3316@gmail.com   ,   90
+
+       [[ 16 ]]    15   ,   789012   ,   201213177   ,   B-   ,   Marvin José Calderón García   ,   marvin93.0@gmail.com   ,   88
+
+       [[ 17 ]]    16   ,   789012   ,   201313713   ,   B-   ,   Daniel Alejandro Herrera Hernández   ,   usac.daniel@gmail.com   ,   90
+
+       [[ 18 ]]    17   ,   789012   ,   201313889   ,   B-   ,   Hilbert Josué Perucho Ramírez   ,   hilbert.perucho@gmail.com   ,   63
+
+       [[ 19 ]]    18   ,   789012   ,   201313997   ,   B-   ,   Luis Noe Martinez Rivera   ,   luis56009@gmail.com   ,   66
+
+       [[ 20 ]]    19   ,   789012   ,   201314059   ,   B-   ,   Salvador de Jesus López Bautista   ,   lobje17@gmail.com   ,   74
+
+       [[ 21 ]]    20   ,   789012   ,   201314177   ,   B-   ,   Roberto Eduardo Caseros Reynoso   ,   robert.caseros@gmail.com   ,   74
+
+       [[ 22 ]]    21   ,   789012   ,   201314241   ,   B-   ,   Andrea Lissette Flores Aguilar   ,   andreaflores2501@gmail.com   ,   68
+
+       [[ 23 ]]    22   ,   789012   ,   201314571   ,   B-   ,   Wilson Yuviny Guerra Díaz   ,   yuvinygd@gmail.com   ,   73
+
+       [[ 24 ]]    23   ,   789012   ,   201314697   ,   B-   ,   Katherine Mishelle Serrano del Cid   ,   michikatrins@gmail.com   ,   90
+
+       [[ 25 ]]    24   ,   789012   ,   201325559   ,   B-   ,   Luis Alfonso Mencos Salazar   ,   lams0211@gmail.com   ,   88
+
+       [[ 26 ]]    25   ,   789012   ,   201325657   ,   B-   ,   Selvin Estuardo Icu Son   ,   estuardo.icu@gmail.com   ,   61
+
+       [[ 27 ]]    26   ,   789012   ,   201403767   ,   B-   ,   Pablo David Ramirez Fernandez   ,   pabloramirez.11294@gmail.com   ,   65
+
+       [[ 28 ]]    27   ,   789012   ,   201403793   ,   B-   ,   Kevin Nicolas Garcia Martinez   ,   kg49954@gmail.com   ,   57
+
+       [[ 29 ]]    28   ,   789012   ,   201403819   ,   B-   ,   Yoselin Annelice Lemus López   ,   annelice119@gmail.com   ,   99
+
+       [[ 30 ]]    29   ,   789012   ,   201403841   ,   B-   ,   Huriel Uvaldo Gómez Gómez   ,   hurieluv2g2d93@gmail.com   ,   77
+
+       [[ 31 ]]    30   ,   789012   ,   201403997   ,   B-   ,   Gary Stephen Giron Molina   ,   gsteph393@gmail.com   ,   73
+
+       [[ 32 ]]    31   ,   789012   ,   201404215   ,   B-   ,   Jorge Luis Salazar Peralta   ,   jorsala01@gmail.com   ,   80
+
+       [[ 33 ]]    32   ,   789012   ,   201404387   ,   B-   ,   Kevin Eduardo Estrada Martínez   ,   pex089@gmail.com   ,   62
+
+       [[ 34 ]]    33   ,   789012   ,   201404423   ,   B-   ,   Jairo Pablo Hernandez Guzman   ,   Jairophg.lalala2014@gmail.com   ,   60
+
+       [[ 35 ]]    34   ,   789012   ,   201408489   ,   B-   ,   Paul Steve Contreras Herrera   ,   stevcont96@gmail.com   ,   97
+
+       [[ 36 ]]    35   ,   789012   ,   201408549   ,   B-   ,   Elba María Alvarez Domínguez   ,   elba1995@gmail.com   ,   97
+
+       [[ 37 ]]    36   ,   789012   ,   201408603   ,   B-   ,   Berny Andree Cardona Ramos   ,   andreecr96@gmail.com   ,   80
+
+       [[ 38 ]]    37   ,   789012   ,   201442819   ,   B-   ,   Jerson Eduardo Villatoro Nova   ,   jerduar.usac@gmail.com   ,   61
+
+       [[ 39 ]]    38   ,   789012   ,   201503577   ,   B-   ,   Henry Francisco León Hernández   ,   henriscoh1995@gmail.com   ,   66
+
+       [[ 40 ]]    39   ,   789012   ,   201503595   ,   B-   ,   Claudia Paola Casiano Sipac   ,   p.casiano33@gmail.com   ,   90
+
+       [[ 41 ]]    40   ,   789012   ,   201503793   ,   B-   ,   Diana Maribel Jimenez Alonzo   ,   dianajimalon@gmail.com   ,   99
+
+       [[ 42 ]]    41   ,   789012   ,   201503893   ,   B-   ,   Brandon Javier Soto Castañeda   ,   sotobrandon198@gmail.com   ,   63
+
+       [[ 43 ]]    42   ,   789012   ,   201503911   ,   B-   ,   Juan Pablo Osuna De Leon   ,   juanpabloosuna1997@gmail.com   ,   72
+
+       [[ 44 ]]    43   ,   789012   ,   201503925   ,   B-   ,   Sergio Geovany Guoz Tubac   ,   sergioguoz1@gmail.com   ,   75
+
+       [[ 45 ]]    44   ,   789012   ,   201503935   ,   B-   ,   Douglas Daniel Aguilar Cuque   ,   ddaguilar017@gmail.com   ,   99
+
+       [[ 46 ]]    45   ,   789012   ,   201503953   ,   B-   ,   Sergio Geovany Leal Cardona   ,   sgleal97@gmail.com   ,   88
+
+       [[ 47 ]]    46   ,   789012   ,   201504231   ,   B-   ,   Jose Carlos Bautista Mazariegos   ,   jcbautista95@gmail.com   ,   72
+
+       [[ 48 ]]    47   ,   789012   ,   201504427   ,   B-   ,   Carlos Eduardo Cordón Hernández   ,   carlos.edu.cordon@gmail.com   ,   76
+
+       [[ 49 ]]    48   ,   789012   ,   201504475   ,   B-   ,   Luis Felipe González Orellana   ,   luisfe.go.03@gmail.com   ,   61
+
+       [[ 50 ]]    49   ,   789012   ,   201602421   ,   B-   ,   Diego Alejandro Vásquez   ,   totodiego1897@gmail.com   ,   61
+
+       [[ 51 ]]    50   ,   789012   ,   201602517   ,   B-   ,   Marvin Saúl Guzmán García   ,   marvin_saul@hotmail.com   ,   75
+
+       [[ 52 ]]    51   ,   789012   ,   201602909   ,   B-   ,   Edward Danilo Gómez Hernández   ,   edgomher95@gmail.com   ,   59
+
+       [[ 53 ]]    52   ,   789012   ,   201612113   ,   B-   ,   Raul Alexander Xiloj Lopez   ,   raulxiloj98@gmail.com   ,   82
+
+       [[ 54 ]]    53   ,   789012   ,   201612139   ,   B-   ,   Jeralmy Alejandra De León Samayoa   ,   jeralmy0598@gmail.com   ,   84
+
+       [[ 55 ]]    54   ,   789012   ,   201612383   ,   B-   ,   Javier Antonio Alvarez Gonzalez   ,   javier3448.ja@gmail.com   ,   72
+
+       [[ 56 ]]    55   ,   789012   ,   201612419   ,   B-   ,   Edvin Miguel Castro Ajiatas   ,   emca9610@gmail.com   ,   88
+
+       [[ 57 ]]    56   ,   789012   ,   201700327   ,   B-   ,   Marco Antonio López Grajeda   ,   juniorlograjeda@gmail.com   ,   92
+
+       [[ 58 ]]    57   ,   789012   ,   201700345   ,   B-   ,   Luis Gerardo Chay Grijalva   ,   gerardo15.chay97@gmail.com   ,   84
+
+       [[ 59 ]]    58   ,   789012   ,   201700465   ,   B-   ,   Max Leonel Florian Curtidor   ,   maxgt734@gmail.com   ,   88
+
+       [[ 60 ]]    59   ,   789012   ,   201700473   ,   B-   ,   Javier Alejandro Golon Lopez   ,   javiagl98@gmail.com   ,   97
+
+       [[ 61 ]]    60   ,   789012   ,   201700727   ,   B-   ,   Alberto Kanec Ixchop Ordoñez   ,   albertokanecixchop@gmail.com   ,   60
+
+       [[ 62 ]]    61   ,   789012   ,   201700801   ,   B-   ,   Erwin Alejandro Garcia Barrera   ,   alejandro76.gb@gmail.com   ,   68
+
+       [[ 63 ]]    0   ,   789012   ,   202000000   ,   B+   ,   Rainman Sian   ,   sian@gmail.com   ,   62
+
+       [[ 64 ]]    1   ,   15812201   ,   200313430   ,   B+   ,   Edwin Antonio López Ordóñez   ,   cobolatrix@gmail.com   ,   76
+
+       [[ 65 ]]    2   ,   20440101   ,   200511896   ,   B+   ,   Darwin Dodany Girón Reyes   ,   dodanygiron@gmail.com   ,   61
+
+       [[ 66 ]]    3   ,   28480101   ,   200517708   ,   B+   ,   José Eduardo Morales García   ,   edushowy@gmail.com   ,   76
+
+       [[ 67 ]]    4   ,   25860101   ,   200715274   ,   B+   ,   Sergio Mynor David Felipe Zapeta   ,   sergio.zapeta@gmail.com   ,   78
+
+       [[ 68 ]]    5   ,   12300101   ,   200915168   ,   B+   ,   Christian Levi González Rodríguez   ,   clevi.gonzalez@gmail.com   ,   88
+
+       [[ 69 ]]    6   ,   25670101   ,   200915464   ,   B+   ,   Luis Fernnando Solares Arcon   ,   luisoler16@gmail.com   ,   87
+
+       [[ 70 ]]    7   ,   17010101   ,   201020136   ,   B+   ,   David Eduardo Garcia Garcia   ,   david.ed.g2@gmail.com   ,   78
+
+       [[ 71 ]]    8   ,   12030101   ,   201020260   ,   B+   ,   Victor Augusto López Hernández   ,   viktor1106@gmail.com   ,   61
+
+       [[ 72 ]]    9   ,   26310101   ,   201020578   ,   B+   ,   Georgina Abigail Estrada García   ,   georgina.estrada78@gmail.com   ,   74
+
+       [[ 73 ]]    10   ,   21880101   ,   201021164   ,   B+   ,   Rafael Alejandro Juárez Yantuche   ,   rafalejy@gmail.com   ,   76
+
+       [[ 74 ]]    11   ,   20190101   ,   201114292   ,   B+   ,   Luis Carlos Alejos Avila   ,   siulsolrac1@gmail.com   ,   95
+
+       [[ 75 ]]    12   ,   26020101   ,   201114566   ,   B+   ,   Brayan Ezequiel Santiago Brito   ,   ebritobryan@gmail.com   ,   63
+
+       [[ 76 ]]    13   ,   26650101   ,   201122846   ,   B+   ,   Oscar René Jordán Orellana   ,   oscar.jordan.21091@gmail.com   ,   73
+
+       [[ 77 ]]    14   ,   25700101   ,   201122998   ,   B+   ,   Pablo Roberto Roche Palacios   ,   pablorrp1@gmail.com   ,   87
+
+       [[ 78 ]]    15   ,   23060115   ,   201212734   ,   B+   ,   Orlando Gofredo Batres Chinchilla   ,   batres.93@gmail.com   ,   84
+
+       [[ 79 ]]    16   ,   23320101   ,   201212752   ,   B+   ,   Javier Alexander Chacón Samol   ,   shavichacon@gmail.com   ,   100
+
+       [[ 80 ]]    17   ,   21860101   ,   201212822   ,   B+   ,   Luis Fernando Pérez Moran   ,   luispma14@gmail.com   ,   59
+
+       [[ 81 ]]    18   ,   21740101   ,   201213132   ,   B+   ,   Carlos David Ramírez Altan   ,   racarlosdavid@gmail.com   ,   69
+
+       [[ 82 ]]    19   ,   24790101   ,   201313872   ,   B+   ,   Esteban David Alvarez Bor   ,   davix93a@gmail.com   ,   59
+
+       [[ 83 ]]    20   ,   21620301   ,   201314160   ,   B+   ,   Luis Manuel Morales López   ,   soy.lmml@gmail.com   ,   59
+
+       [[ 84 ]]    21   ,   20300101   ,   201314164   ,   B+   ,   Oswaldo Giovanni Caceres Samayoa   ,   gios2911@gmail.com   ,   76
+
+       [[ 85 ]]    22   ,   25670101   ,   201314412   ,   B+   ,   Juan De Dios Molina Herrera   ,   juandem95@gmail.com   ,   76
+
+       [[ 86 ]]    23   ,   36010101   ,   201314642   ,   B+   ,   Glen Abra-Ham Calel Robledo   ,   gl3ncal3l@gmail.com   ,   76
+
+       [[ 87 ]]    24   ,   21820101   ,   201314716   ,   B+   ,   James Allan Hansen Melgar Morales    ,   2811874520101@ingenieria.usac.edu   ,   62
+
+       [[ 88 ]]    25   ,   26180101   ,   201314778   ,   B+   ,   Duglas Francisco Avila Torres   ,   avilatorresics@gmail.com   ,   59
+
+       [[ 89 ]]    26   ,   25340101   ,   201314810   ,   B+   ,   Luis Daniel Morales Aguirre   ,   201314810@ingenieria.usac.edu.gt   ,   84
+
+       [[ 90 ]]    27   ,   29070101   ,   201314886   ,   B+   ,   Henry Edmar Lopez Cardona   ,   henrylopezkre@gmail.com   ,   61
+
+       [[ 91 ]]    28   ,   25720101   ,   201318664   ,   B+   ,   Jenny Sharai Montenegro Contreras   ,   jennysharai14@gmail.com   ,   86
+
+       [[ 92 ]]    29   ,   22450101   ,   201403552   ,   B+   ,   Juan Carlos Aragón Bámaca   ,   juank1316@gmail.com   ,   59
+
+       [[ 93 ]]    30   ,   26070101   ,   201408470   ,   B+   ,   Sandra Eunice Jiménez Rodas   ,   sandraeujim@gmail.com   ,   78
+
+       [[ 94 ]]    31   ,   27610101   ,   201443726   ,   B+   ,   Tanya Beatriz Muhun Recinos   ,   tanyarecinos911@gmail.com   ,   80
+
+       [[ 95 ]]    32   ,   29292007   ,   201503368   ,   B+   ,   Fredy Jose Ramirez Sandoval   ,   fredyramirezsando@gmail.com   ,   82
+
+       [[ 96 ]]    33   ,   37750101   ,   201503392   ,   B+   ,   Mynor Joel Lombardo Molina Guevara   ,   mynormolina1@gmail.com   ,   95
+
+       [[ 97 ]]    34   ,   30800101   ,   201503422   ,   B+   ,   Susel Eugenia Retana Arriola   ,   sretanausac@gmail.com   ,   89
+
+       [[ 98 ]]    35   ,   25110113   ,   201503440   ,   B+   ,   Cesar Dionicio Sazo Mayen   ,   csazo171@gmail.com   ,   59
+
+       [[ 99 ]]    36   ,   26450101   ,   201503442   ,   B+   ,   Yadira Yasmin Ferrer Morales   ,   yyfm.95@gmail.com   ,   85
+
+       [[ 100 ]]    37   ,   27390101   ,   201503738   ,   B+   ,   Juan José Lima Ramírez   ,   jjlima.jjl@gmail.com   ,   69
+
+       [[ 101 ]]    38   ,   36421202   ,   201503774   ,   B+   ,   Esbin Daniel Gonzalez Orozco   ,   danielgo8646@gmail.com   ,   89
+
+       [[ 102 ]]    39   ,   28580101   ,   201503918   ,   B+   ,   Brayan Mauricio Aroche Boror   ,   aroche.brayan@gmail.com   ,   89
+
+       [[ 103 ]]    40   ,   22180101   ,   201504002   ,   B+   ,   Inti Andrés Samayoa Ortíz   ,   intirocks888@gmail.com   ,   61
+
+       [[ 104 ]]    41   ,   31540101   ,   201504028   ,   B+   ,   Rodney Estuardo López Marroquín   ,   rodx1497@gmail.com   ,   68
+
+       [[ 105 ]]    42   ,   30820101   ,   201504242   ,   B+   ,   Pablo Javier Blanco Calderón   ,   pablo6a@gmail.com   ,   85
+
+       [[ 106 ]]    43   ,   28080101   ,   201504290   ,   B+   ,   Bryan Eduardo Chacón López   ,   bryaned44@gmail.com   ,   67
+
+       [[ 107 ]]    44   ,   27440101   ,   201504420   ,   B+   ,   Ronald Neftali Berdúo Morales   ,   ronaldnef1996@gmail.com   ,   100
+
+       [[ 108 ]]    45   ,   25770101   ,   201504444   ,   B+   ,   Christian Enrique Ramos Alvarez   ,   christian7.gt@gmail.com   ,   70
+
+       [[ 109 ]]    46   ,   30800101   ,   201504468   ,   B+   ,   Guillermo Alfredo Peitzner Estrada   ,   guillermopeitzner@gmail.com   ,   99
+
+       [[ 110 ]]    47   ,   37360301   ,   201602420   ,   B+   ,   Ingrid Rossana Pérez Mena   ,   ingrita.rpm@gmail.com   ,   61
+
+       [[ 111 ]]    48   ,   31460101   ,   201602434   ,   B+   ,   Jeannira Del Rosario Sic Menéndez   ,   jeannirasic@gmail.com   ,   86
+
+       [[ 112 ]]    49   ,   33370101   ,   201602744   ,   B+   ,   David Omar Enriquez Reyes   ,   davidomarenriquezreyes@gmail.com   ,   67
+
+       [[ 113 ]]    50   ,   31130101   ,   201602754   ,   B+   ,   José Andrés Morales Calderón   ,   hp.ecene@gmail.com   ,   87
+
+       [[ 114 ]]    51   ,   37250101   ,   201602870   ,   B+   ,   Nery Eduardo Herrera Cottom   ,   tesco.herrera.edu@gmail.com   ,   82
+
+       [[ 115 ]]    52   ,   28030101   ,   201603102   ,   B+   ,   Willians Alberto Lemus López   ,   willialberto.125@gmail.com   ,   91
+
+       [[ 116 ]]    53   ,   23920101   ,   201610648   ,   B+   ,   David Jonathan González Gámez   ,   davidgmz79@gmail.com   ,   98
+
+       [[ 117 ]]    54   ,   23850101   ,   201612114   ,   B+   ,   Herbert Rafael Reyes Portillo   ,   herbertreyes13@gmail.com   ,   59
+
+       [[ 118 ]]    55   ,   34900101   ,   201612272   ,   B+   ,   Andrés Esteban Carvajal Morales   ,   andyecarvajal@gmail.com   ,   70
+
+       [[ 119 ]]    56   ,   31130108   ,   201612304   ,   B+   ,   Mindi Guisela Ajpop Aguilar   ,   mindi.ajpop@gmail.com   ,   78
+
+       [[ 120 ]]    57   ,   31290920   ,   201612326   ,   B+   ,   Eddy Arnoldo Reyes Hernández   ,   eddyarnoldo06@gmail.com   ,   89
+
+       [[ 121 ]]    58   ,   34460101   ,   201700314   ,   B+   ,   Carlos Rodrigo Estrada Najarro   ,   carlos.r.estrada.n@gmail.com   ,   67
+
+       [[ 122 ]]    59   ,   30430101   ,   201700342   ,   B+   ,   José Francisco Puac Ixcamparic   ,   puac235@gmail.com   ,   59
+
+       [[ 123 ]]    60   ,   35560101   ,   201700378   ,   B+   ,   Alison Cristina Leiva Paredes   ,   alisonleiva24@gmail.com   ,   100
+
+       [[ 124 ]]    61   ,   36020101   ,   201700886   ,   B+   ,   Andhy Lizandro Solís Osorio   ,   andhysolis99@gmail.com   ,   78
+
+       [[ 125 ]]    62   ,   36120101   ,   201701048   ,   B+   ,   Ronald Gabriel Romero González   ,   baco420151@gmail.com   ,   61
+
+       [[ 126 ]]    0   ,   3789012   ,   202000001   ,   C   ,   Juanca Maeda   ,   maeda@gmail.com   ,   64
+
+       [[ 127 ]]    2   ,   1619403   ,   199516264   ,   C   ,   Sergio Fernando Giovani Morales Diaz   ,   envidiom@gmail.com   ,   57
+
+       [[ 128 ]]    3   ,   2448401   ,   199811002   ,   C   ,   Arnaldo Patricio Paxtor García   ,   arnaldo.paxtor@gmail.com   ,   68
+
+       [[ 129 ]]    1   ,   1777901   ,   961670932   ,   C   ,   Mynor Wotzbely Hidalgo Letona   ,   mynhidwotz@gmail.com   ,   59
+
+       [[ 130 ]]    4   ,   2605901   ,   200011652   ,   C   ,   Oscar Humberto Morales Oviedo   ,   icellguatemala@gmail.com   ,   63
+
+       [[ 131 ]]    5   ,   2902501   ,   200117439   ,   C   ,   José David Castro Bámaca   ,   josdivad@gmail.com   ,   66
+
+       [[ 132 ]]    6   ,   2007501   ,   200412956   ,   C   ,   Nelson Jair González Pérez   ,   njgp86@gmail.com   ,   78
+
+       [[ 133 ]]    7   ,   2876501   ,   200614911   ,   C   ,   Pedro Carlos Dávila Martinez   ,   slipcs6@gmail.com   ,   95
+
+       [[ 134 ]]    8   ,   2430601   ,   200714175   ,   C   ,   Jennifer Lorena Rodriguez Lopez   ,   jenny7127@gmail.com   ,   70
+
+       [[ 135 ]]    9   ,   2141004   ,   200714327   ,   C   ,   Victor Arturo Cochoy Tzunun   ,   vcochoy@gmail.com   ,   86
+
+       [[ 136 ]]    10   ,   2914606   ,   200714473   ,   C   ,   Pablo Jonathán Yeguech Sanic   ,   pablogp8@gmail.com   ,   97
+
+       [[ 137 ]]    11   ,   1996301   ,   200818841   ,   C   ,   Carlos Eduardo Monzón Duarte   ,   cmd12398@gmail.com   ,   97
+
+       [[ 138 ]]    12   ,   2899601   ,   200819214   ,   C   ,   Carlos Esteban Godinez Delgado   ,   car5night@gmail.com   ,   64
+
+       [[ 139 ]]    13   ,   2701101   ,   200915078   ,   C   ,   José Remberto Morejón Morales   ,   jose.usac.edu@gmail.com   ,   61
+
+       [[ 140 ]]    14   ,   2601711   ,   200915080   ,   C   ,   Julio Roberto Vasquez Santiago   ,   otreborjjj@gmail.com   ,   64
+
+       [[ 141 ]]    15   ,   2612001   ,   200915347   ,   C   ,   Erick Fernando Reyes Mancilla   ,   fernandoreyes182@gmail.com   ,   63
+
+       [[ 142 ]]    16   ,   2307301   ,   200915390   ,   C   ,   Jose Carlos Toj Ajuchan   ,   chino1230@gmail.com   ,   59
+
+       [[ 143 ]]    17   ,   2188801   ,   200915423   ,   C   ,   Gabriela Marilyn Orellana Solorzano   ,   gaba.ra91o@gmail.com   ,   95
+
+       [[ 144 ]]    18   ,   2191701   ,   200915466   ,   C   ,   Oliver Alexander Rodas Mendoza   ,   oliver.rodas@popoyan.com.gt   ,   70
+
+       [[ 145 ]]    19   ,   2431101   ,   200920081   ,   C   ,   Andrea Virginia Chavarria Guzmán   ,   andychava@gmail.com   ,   76
+
+       [[ 146 ]]    20   ,   2983305   ,   201020975   ,   C   ,   Ottoniel Guarchaj   ,   otttoguitar@gmail.com   ,   90
+
+       [[ 147 ]]    21   ,   2757201   ,   201114124   ,   C   ,   Jorge Antonio Rompiche Herrera   ,   2247557220101@ingenieria.usac.edu.gt    ,   76
+
+       [[ 148 ]]    22   ,   2853401   ,   201114336   ,   C   ,   Kevin Alejandro Sánchez Samayoa   ,   ka_sanchezsamayoa@outlook.com   ,   76
+
+       [[ 149 ]]    23   ,   2098101   ,   201114527   ,   C   ,   Cristian Esteban Moino Rodriguez   ,   moino.cristian@gmail.com   ,   80
+
+       [[ 150 ]]    24   ,   2918901   ,   201114726   ,   C   ,   Migdalia Iveth Mateo Pérez   ,   mivethp@gmail.com   ,   78
+
+       [[ 151 ]]    25   ,   2472901   ,   201122864   ,   C   ,   Luis Carlos Valiente Salazar   ,   luiskr1993@gmail.com   ,   97
+
+       [[ 152 ]]    26   ,   1042404   ,   201122934   ,   C   ,   Marco Antonio Xocop Roquel   ,   marcstu2007@gmail.com   ,   82
+
+       [[ 153 ]]    27   ,   2441301   ,   201212623   ,   C   ,   Kenia Marisol Zepeda López   ,   kenia.apk@gmail.com   ,   80
+
+       [[ 154 ]]    28   ,   2894801   ,   201212808   ,   C   ,   Denis Francisco Vasquez Flores   ,   vasquezdennisan@gmail.com   ,   68
+
+       [[ 155 ]]    29   ,   2874201   ,   201212854   ,   C   ,   Freddy Alejandro Monterroso   ,   freddy.a.monterroso@gmail.com   ,   94
+
+       [[ 156 ]]    30   ,   2760317   ,   201213194   ,   C   ,   Carlos Omar Aquino Escobar   ,   carlos.aquino093@gmail.com   ,   84
+
+       [[ 157 ]]    31   ,   2252201   ,   201213255   ,   C   ,   Leonel Eduardo Avila Calvillo   ,   leo.avilac8@gmail.com   ,   61
+
+       [[ 158 ]]    32   ,   2279201   ,   201213282   ,   C   ,   Sergio Fernando De Los Rios Roque   ,   sergiofernando23234@gmail.com   ,   88
+
+       [[ 159 ]]    33   ,   3915701   ,   201213619   ,   C   ,   José Javier Barreda Mancilla   ,   javier.barreda94@gmail.com   ,   58
+
+       [[ 160 ]]    34   ,   2244801   ,   201220165   ,   C   ,   Oscar Rolando Bernard Peralta   ,   oscarol14394@gmail.com   ,   61
+
+       [[ 161 ]]    35   ,   2161001   ,   201222595   ,   C   ,   Ana Lucrecia Villatoro Rodriguez   ,   lukycrazy@gmail.com   ,   76
+
+       [[ 162 ]]    36   ,   2517501   ,   201246079   ,   C   ,   Axel Smaylie López Xum   ,   2635017521001@ingenieria.usac.edu.gt   ,   65
+
+       [[ 163 ]]    37   ,   2415602   ,   201313663   ,   C   ,   Daniel Alberto Juárez Back   ,   d.juarez1094@gmail.com   ,   82
+
+       [[ 164 ]]    38   ,   2322701   ,   201313688   ,   C   ,   Marellyn Lisbeth Trejo Castro    ,   mlis.trejo@gmail.com   ,   64
+
+       [[ 165 ]]    39   ,   2398101   ,   201313819   ,   C   ,   César Javier Solares Orozco   ,   checha.db63@gmail.com   ,   90
+
+       [[ 166 ]]    40   ,   2416601   ,   201313898   ,   C   ,   Eduardo Javier Hevia Calderón   ,   javierhc22@gmail.com   ,   59
+
+       [[ 167 ]]    41   ,   2989106   ,   201314291   ,   C   ,   Luis Miguel Tun Garcia   ,   502luismiguel@gmail.com   ,   97
+
+       [[ 168 ]]    42   ,   2445814   ,   201314359   ,   C   ,   Mario Roberto Cojolon Shoc   ,   mario69series24@gmail.com   ,   84
+
+       [[ 169 ]]    43   ,   2041601   ,   201314408   ,   C   ,   Erick Fernando Hernandez Arroyo   ,   erickhernandez1710@gmail.com   ,   76
+
+       [[ 170 ]]    44   ,   2988101   ,   201314474   ,   C   ,   Bayron Romeo Axpuac Yoc   ,   misinicialesbray@gmail.com   ,   63
+
+       [[ 171 ]]    45   ,   2819214   ,   201314556   ,   C   ,   Carlos Gabriel Peralta Cambrán   ,   carlospecam@gmail.com   ,   66
+
+       [[ 172 ]]    46   ,   2305601   ,   201314565   ,   C   ,   Danilo Urias Coc   ,   d14urias@gmail.com   ,   76
+
+       [[ 173 ]]    47   ,   2738401   ,   201314713   ,   C   ,   Fernando Andrés Mérida Antón   ,   fer.merida94@gmail.com   ,   99
+
+       [[ 174 ]]    48   ,   2430601   ,   201314808   ,   C   ,   Leslie Fabiola Morales González   ,   les.mg.usac@gmail.com   ,   72
+
+       [[ 175 ]]    49   ,   2189302   ,   201314891   ,   C   ,   Luis Javier Yela Quijada   ,   javyela@gmail.com   ,   64
+
+       [[ 176 ]]    50   ,   3912801   ,   201325533   ,   C   ,   Erick Fernando Elias Díaz   ,   elias25533@gmail.com   ,   73
+
+       [[ 177 ]]    51   ,   2660711   ,   201346084   ,   C   ,   José Alberto Alarcón Chigua   ,   jalbertochigua@gmail.com   ,   92
+
+       [[ 178 ]]    52   ,   2757001   ,   201403703   ,   C   ,   Rubén Emilio Osorio Sotorro   ,   rubenosorio88@gmail.com   ,   90
+
+       [[ 179 ]]    53   ,   2433601   ,   201404104   ,   C   ,   Andrea Nicte Vicente Campos   ,   andreanicte02@gmail.com   ,   90
+
+       [[ 180 ]]    54   ,   2103201   ,   201503378   ,   C   ,   Escarleth Andrea Velasco Campos   ,   velandreas@gmail.com   ,   70
+
+       [[ 181 ]]    55   ,   3498403   ,   201503385   ,   C   ,   Brandon Antony Chitay Coutiño   ,   antonchitay@gmail.com   ,   61
+
+       [[ 182 ]]    56   ,   3262914   ,   201503464   ,   C   ,   Roberto Adrián Cux Bran   ,   roberto.cux@gmail.com   ,   61
+
+       [[ 183 ]]    57   ,   2695901   ,   201503470   ,   C   ,   Yimmi Daniel Ruano Pernillo   ,   yimmiss305@gmail.com   ,   88
+
+       [[ 184 ]]    58   ,   3664301   ,   201503692   ,   C   ,   Diego Ernesto Sebastian Osorio Garcia   ,   diegoesog11@gmail.com   ,   63
+
+       [[ 185 ]]    59   ,   2916901   ,   201503699   ,   C   ,   Eddy Javier Sirin Hernandez   ,   eddjavs@gmail.com   ,   86
+
+       [[ 186 ]]    60   ,   2135901   ,   201503702   ,   C   ,   Edgar Humberto Borrayo Bartolón   ,   95.b.edgar@gmail.com   ,   70
+
+       [[ 187 ]]    61   ,   3851401   ,   201503712   ,   C   ,   Oscar Rene Cuellar Mancilla   ,   oscarrenecuellarmancilla@gmail.com   ,   0
+
+       [[ 188 ]]    62   ,   3195901   ,   201503750   ,   C   ,   Carlos Eduardo Carías Salan   ,   carloscariasingenieria@gmail.com   ,   96
+
+       [[ 189 ]]    63   ,   3096501   ,   201503984   ,   C   ,   Fernando Vidal Ruiz Piox   ,   feruiz.12000@gmail.com   ,   68
+
+       [[ 190 ]]    64   ,   3321101   ,   201504100   ,   C   ,   Christopher Alexander Lopez Orellana   ,   crhalfa09@gmail.com   ,   57
+
+       [[ 191 ]]    65   ,   3333102   ,   201504448   ,   C   ,   Jefferson José Carlos Linares Cerón   ,   karlosceron15@gmail.com   ,   97
+
+       [[ 192 ]]    66   ,   3878301   ,   201513760   ,   C   ,   Marco Pablo Mazariegos Macario   ,   marcomazariegos18@gmail.com   ,   70
+
+       [[ 193 ]]    67   ,   2120501   ,   201602520   ,   C   ,   Marvin Ronaldo Martinez Marroquin   ,   marvin1ronal@gmail.com   ,   84
+
+       [[ 194 ]]    68   ,   3935801   ,   201602723   ,   C   ,   Diego Alejandro Caballeros Melchor   ,   ultimaster22@gmail.com   ,   90
+
+       [[ 195 ]]    69   ,   3134501   ,   201602743   ,   C   ,   Fernando Arturo Pensamiento Calderon   ,   fernanpensa@gmail.com   ,   59
+
+       [[ 196 ]]    70   ,   3106801   ,   201602797   ,   C   ,   Edgar Arnoldo Aldana Arriola   ,   arnolso201@gmail.com   ,   97
+
+       [[ 197 ]]    71   ,   3273201   ,   201602929   ,   C   ,   Sebastián Gómez Lavarreda   ,   santi.lavarreda@gmail.com   ,   77
+
+       [[ 198 ]]    72   ,   3353701   ,   201602986   ,   C   ,   Nery Antonio Alvizures Sologaistoa   ,   nery016s@gmail.com   ,   88
+
+       [[ 199 ]]    73   ,   3181801   ,   201603029   ,   C   ,   Luis Leonel Aguilar Sánchez   ,   leoaguilarsanchez97@gmail.com   ,   94
+
+       [[ 200 ]]    74   ,   2270813   ,   201603189   ,   C   ,   Jose Ramiro Mateo Pu   ,   ramiromateo88@gmail.com   ,   76
+
+       [[ 201 ]]    75   ,   3553901   ,   201610657   ,   C   ,   Sergio Alejandro Silva Roldán   ,   18sergiosilva@gmail.com   ,   61
+
+       [[ 202 ]]    76   ,   3615801   ,   201612097   ,   C   ,   Erick Alexander Lemus Morales   ,   erick.lemus1998@gmail.com   ,   63
+
+       [[ 203 ]]    77   ,   3928301   ,   201612204   ,   C   ,   Marylin Irenia Hernández Muñoz   ,   maryirenia@gmail.com   ,   64
+
+       [[ 204 ]]    78   ,   3427109   ,   201612219   ,   C   ,   Herlindo René Corona Arenales   ,   uhcorona@gmail.com   ,   59
+
+       [[ 205 ]]    79   ,   3944015   ,   201612408   ,   C   ,   Katherine Lisseth Sánchez Girón   ,   sanchezkathy29@gmail.com   ,   74
+
+       [[ 206 ]]    80   ,   3843201   ,   201612499   ,   C   ,   Henry Adolfo Galvez   ,   soulofhenry@gmail.com   ,   67
+
+       [[ 207 ]]    81   ,   3514001   ,   201700392   ,   C   ,   César Josué Reyes Díaz   ,   chechajosue@gmail.com   ,   97
+
+       [[ 208 ]]    82   ,   3624601   ,   201700507   ,   C   ,   Kimberly Mireya Elias Diaz   ,   kim.eliasdiaz@gmail.com   ,   82
+
+       [[ 209 ]]    83   ,   2809701   ,   201700675   ,   C   ,   David Rolando Elias Montufar   ,   davideliaspc@gmail.com   ,   99
+
+       [[ 210 ]]    84   ,   3364014   ,   201700944   ,   C   ,   Alan Joel Morataya Escobar   ,   alanmorataya19@gmail.com   ,   84
+
+       [[ 211 ]]    85   ,   3658201   ,   201709155   ,   C   ,   Kevin Alexander Garcia Jachac   ,   kevinalexandergarcia1999@gmail.com   ,   69
+
+       [[ 212 ]]    86   ,   3818601   ,   201709362   ,   C   ,   Bruno Marco Jose Coronado Morales   ,   bcoronado.morales@gmail.com   ,   88
+
+       [[ 213 ]]    0   ,   789012   ,   201602656   ,   A   ,   Luis Lizama   ,   lizama@gmail.com   ,   93
+
+       [[ 214 ]]    1   ,   23970101   ,   200412765   ,   A   ,   Jorge Enrique Archer Rosales   ,   jearbasp@gmail.com   ,   87
+
+       [[ 215 ]]    2   ,   22020101   ,   200517803   ,   A   ,   Johnny Mike Bravo Zamora   ,   jbravozam@gmail.com   ,   93
+
+       [[ 216 ]]    3   ,   26110110   ,   200611517   ,   A   ,   Jose Domingo Tubac Chocon   ,   jhosdimax@gmail.com   ,   59
+
+       [[ 217 ]]    4   ,   23981401   ,   200915609   ,   A   ,   Gary Joan Ortiz Lopez   ,   gortiz1490@gmail.com   ,   59
+
+       [[ 218 ]]    5   ,   20250101   ,   201020209   ,   A   ,   José Daniel Carías Juarroz   ,   jdcarias01@gmail.com   ,   67
+
+       [[ 219 ]]    6   ,   20140114   ,   201020247   ,   A   ,   Haroldo Pablo Arias Molina   ,   ihpam25@gmail.com   ,   65
+
+       [[ 220 ]]    7   ,   16290101   ,   201114496   ,   A   ,   German Mazariegos Salguero   ,   trapavoided22@gmail.com   ,   69
+
+       [[ 221 ]]    8   ,   20660101   ,   201114502   ,   A   ,   Rodolfo Orantes Orellana   ,   rochofo@gmail.com   ,   91
+
+       [[ 222 ]]    9   ,   20370101   ,   201123848   ,   A   ,   Mario Josué Alvarado Lima   ,   oiramalli@gmail.com   ,   59
+
+       [[ 223 ]]    10   ,   23520101   ,   201212956   ,   A   ,   Jose David Axpuac Velasquez   ,   jose.axpuac@gmail.com   ,   78
+
+       [[ 224 ]]    11   ,   24800101   ,   201213233   ,   A   ,   Guillermo Rene Medinilla Hernandez   ,   medinilla.guillermo@gmail.com   ,   99
+
+       [[ 225 ]]    12   ,   22850101   ,   201216022   ,   A   ,   Ramon Osvaldo Patzan Caballeros   ,   christsoldier92@gmail.com   ,   72
+
+       [[ 226 ]]    13   ,   26300401   ,   201220159   ,   A   ,   Diego Ahtohil Noj Armira   ,   diego28shil@gmail.com   ,   95
+
+       [[ 227 ]]    14   ,   21181503   ,   201313875   ,   A   ,   Hayrton Omar Ixpatá Coloch   ,   hayrtonixpata@gmail.com   ,   69
+
+       [[ 228 ]]    15   ,   25140101   ,   201314112   ,   A   ,   Randolph Estuardo Muy Chanchavac   ,   randolph.estuardo.2012@gmail.com   ,   84
+
+       [[ 229 ]]    16   ,   23700101   ,   201403532   ,   A   ,   Ever Eduardo Chicas Prado   ,   everchicasp@gmail.com   ,   61
+
+       [[ 230 ]]    17   ,   23550101   ,   201403632   ,   A   ,   Jorge David Espina Molina   ,   canchemolinas@gmail.com   ,   61
+
+       [[ 231 ]]    18   ,   24810101   ,   201403862   ,   A   ,   Brandon Bredly Alvarez López   ,   brandonbbal1994@gmail.com   ,   91
+
+       [[ 232 ]]    19   ,   29080101   ,   201403905   ,   A   ,   Javier Alberto Cabrera Puente   ,   j.a.cabrerapuente@gmail.com   ,   61
+
+       [[ 233 ]]    20   ,   34280101   ,   201404367   ,   A   ,   Jose Andrés Ruiz Peer   ,   jruizpeer@gmail.com   ,   59
+
+       [[ 234 ]]    21   ,   32570509   ,   201408486   ,   A   ,   Sharolin Guadalupe Lacunza González   ,   sharolin33@gmail.com   ,   57
+
+       [[ 235 ]]    22   ,   30150301   ,   201503651   ,   A   ,   Jose Fernando Valdez Perez   ,   valdezpjose@gmail.com   ,   69
+
+       [[ 236 ]]    23   ,   29151010   ,   201503746   ,   A   ,   Raymundo Alexander Ixvalan Pacheco   ,   alexixva@gmail.com   ,   93
+
+       [[ 237 ]]    24   ,   29110101   ,   201503869   ,   A   ,   Juan Pablo Juárez López   ,   juarezjuanpa@gmail.com   ,   82
+
+       [[ 238 ]]    25   ,   28250301   ,   201503910   ,   A   ,   Ariel Alejandro Bautista Méndez   ,   arielbm46@gmail.com   ,   68
+
+       [[ 239 ]]    26   ,   35660101   ,   201504042   ,   A   ,   Julio Estuardo Gómez Alonzo   ,   esthuardo12@gmail.com   ,   78
+
+       [[ 240 ]]    27   ,   29940101   ,   201504143   ,   A   ,   Carlos Roberto Jiménez Pérez   ,   carlosjimenez2286@gmail.com   ,   93
+
+       [[ 241 ]]    28   ,   30530101   ,   201504192   ,   A   ,   Maynor David Salguero Guillén   ,   mada.salgui@gmail.com   ,   100
+
+       [[ 242 ]]    29   ,   30740110   ,   201504381   ,   A   ,   Julio Antonio Chaicoj Cotzojay   ,   juliocotzo11@gmail.com   ,   63
+
+       [[ 243 ]]    30   ,   34270101   ,   201504497   ,   A   ,   Carlos Luis Pablo Hernandez Gramajo   ,   wichos11.ch@gmail.com   ,   59
+
+       [[ 244 ]]    31   ,   30180401   ,   201513699   ,   A   ,   Esdras Jonatan Noj Larios   ,   esdrasjnl@gmail.com   ,   59
+
+       [[ 245 ]]    32   ,   30700101   ,   201602412   ,   A   ,   William Adolfo Corado Cabrera   ,   coradowilly@gmail.com   ,   100
+
+       [[ 246 ]]    33   ,   29160101   ,   201602569   ,   A   ,   Christopher Jhoanis Soto Cifuentes   ,   christophersoto97@gmail.com   ,   99
+
+       [[ 247 ]]    34   ,   36780901   ,   201602811   ,   A   ,   Oscar Ariel Corleto Soto   ,   oscarcorleto000@gmail.com   ,   97
+
+       [[ 248 ]]    35   ,   30700101   ,   201602820   ,   A   ,   Luis Alfonso Melgar Arizpe   ,   alfonso.melgar97@gmail.com   ,   71
+
+       [[ 249 ]]    36   ,   29330101   ,   201602916   ,   A   ,   Ricardo Antonio Menéndez Tobías   ,   richimenen@gmail.com   ,   68
+
+       [[ 250 ]]    37   ,   30450101   ,   201602975   ,   A   ,   Ruth Nohemy Ardón Lechuga   ,   ruthlechuga.1997@gmail.com   ,   63
+
+       [[ 251 ]]    38   ,   29960101   ,   201602988   ,   A   ,   Ozmar René Escobar Avila   ,   superspeed52@gmail.com   ,   95
+
+       [[ 252 ]]    39   ,   30520101   ,   201603067   ,   A   ,   Carlos Giovani Gil Chacón   ,   carlos_gil1997@yahoo.com   ,   63
+
+       [[ 253 ]]    40   ,   35470101   ,   201603095   ,   A   ,   Abner Fernando Cardona Ramirez    ,   abner.cardona1997@gmail.com   ,   74
+
+       [[ 254 ]]    41   ,   30090101   ,   201603174   ,   A   ,   Daniel Alejandro Castellon Schaad   ,   danielschaad2020@gmail.com   ,   88
+
+       [[ 255 ]]    42   ,   36830108   ,   201603191   ,   A   ,   Pablo Andrés Hernández Rivera   ,   hpablo677@gmail.com   ,   98
+
+       [[ 256 ]]    43   ,   29540101   ,   201610673   ,   A   ,   Yaiza Estefanía Pineda González   ,   ypineda2014ig@gmail.com   ,   70
+
+       [[ 257 ]]    44   ,   30550108   ,   201612274   ,   A   ,   Carlos Antonio Campaneros Benito   ,   carloscampaneros@gmail.com   ,   80
+
+       [[ 258 ]]    45   ,   27570116   ,   201700995   ,   A   ,   Luis Pedro Pineda González   ,   luispinedagonzalez33@gmail.com   ,   75
+
+       [[ 259 ]]    46   ,   35330403   ,   201701020   ,   A   ,   Angel Marcelo Rama Marroquín García   ,   anmaramaga@gmail.com   ,   57
+
+       [[ 260 ]]    47   ,   30970101   ,   201701029   ,   A   ,   Edson Armando Guix Manhel   ,   edsonguix@gmail.com   ,   59
+
+       [[ 261 ]]    48   ,   32951014   ,   201709177   ,   A   ,   Cristian Manuel Castellanos Ajtún   ,   cristian6cas@hotmail.es   ,   86
+
+       [[ 262 ]]    49   ,   30870101   ,   201713894   ,   A   ,   Brayan Alberto Chinchilla Ramos   ,   brayanch1297@gmail.com   ,   70
+
+       [[ 263 ]]    50   ,   30920108   ,   201730555   ,   A   ,   Francisco Javier Bran Fuentes   ,   javierbran73@gmail.com   ,   100
+
+     </LIST>
+
+>>---------------------------------- FIN EVALUACION LISTAS --------------------------------------------------
+
+>>
+
+>>
+
+>>
+
+>>
+
+>>
+
+>>---------------------------------- EVALUANDO ESTRUCTURAS --------------------------------------------------
+
+>>---------------------------------- EVALUANDO ESTRUCTURAS: VECTORES ----------------------------------------
+
+(DEPENDE DE COMO LO TRABAJARON)
+
+>>  3   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   0   ,   hola
+
+>>---------------------------------- EVALUANDO ESTRUCTURAS: MATRICES ----------------------------------------
+
+#SE CORRIGEN LAS OPERACIONES ARITMETICAS
+
+#INTEGER/INTEGER = INTEGER SEGÚN ENUNCIADO
+
+#INTEGER%%INTEGER = INTEGER SEGÚN ENUNCIADO
+
+
+
+#EL FOR AL IGUAL QUE EL SITUADO EN Z ES POR COLUMNAS
+
+---------------------------------- EVALUANDO ESTRUCTURAS: MATRICES ----------------------------------------
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+12.0
+
+87.0
+
+4104.0
+
+78135.0
+
+2.541865828347E12
+
+2.6623333280885244E19
+
+78135.0
+
+78135.0
+
+1.0077708E7
+
+1.0077708E7
+
+6.8719476752E10
+
+1.0
+
+4104.0
+
+3.0
+
+87.0
+
+4104.0
+
+78135.0
+
+1.0
+
+[87.0, 3.0, 78135.0, 87.0, 3.0, 78135.0, 87.0, 3.0, 78135.0]
+
+[12.0, 87.0, 4104.0, 78135.0, 2.541865828347E12, 2.6623333280885244E19, 78135.0, 78135.0, 1.0077708E7, 1.0077708E7, 6.8719476752E10, 1.0, 4104.0, 3.0, 87.0, 4104.0, 78135.0, 1.0, 12.0, 87.0, 4104.0, 78135.0, 2.541865828347E12, 2.6623333280885244E19, 78135.0, 78135.0, 1.0077708E7, 1.0077708E7, 6.8719476752E10, 1.0]
+
+4104.0
+
+1.0
+
+      [,1]                  [,2]                  [,3]                  [,4]                  [,5]                  [,6]                  [,7]                  [,8]                  [,9]
+
+[1,]  13.1                  4105.1                78136.1               13.1                  4105.1                78136.1               13.1                  4105.1                78136.1
+
+[2,]  88.1                  4.1                   78136.1               88.1                  4.1                   78136.1               88.1                  4.1                   78136.1
+
+[3,]  4105.1                88.1                  1.00777091E7          4105.1                88.1                  1.00777091E7          4105.1                88.1                  1.00777091E7
+
+[4,]  78136.1               4105.1                1.00777091E7          78136.1               4105.1                1.00777091E7          78136.1               4105.1                1.00777091E7
+
+[5,]  2.5418658283481E12    78136.1               6.87194767531E10      2.5418658283481E12    78136.1               6.87194767531E10      2.5418658283481E12    78136.1               6.87194767531E10
+
+[6,]  2.6623333280885244E19 2.1                   2.1                   2.6623333280885244E19 2.1                   2.1                   2.6623333280885244E19 2.1                   2.1
+
+[7,]  78136.1               13.1                  4105.1                78136.1               13.1                  4105.1                78136.1               13.1                  4105.1
+
+[8,]  78136.1               88.1                  4.1                   78136.1               88.1                  4.1                   78136.1               88.1                  4.1
+
+[9,]  1.00777091E7          4105.1                88.1                  1.00777091E7          4105.1                88.1                  1.00777091E7          4105.1                88.1
+
+[10,] 1.00777091E7          78136.1               4105.1                1.00777091E7          78136.1               4105.1                1.00777091E7          78136.1               4105.1
+
+[11,] 6.87194767531E10      2.5418658283481E12    78136.1               6.87194767531E10      2.5418658283481E12    78136.1               6.87194767531E10      2.5418658283481E12    78136.1
+
+[12,] 2.1                   2.6623333280885244E19 2.1                   2.1                   2.6623333280885244E19 2.1                   2.1                   2.6623333280885244E19 2.1
+
+[13,] 4105.1                78136.1               13.1                  4105.1                78136.1               13.1                  4105.1                78136.1               13.1
+
+[14,] 4.1                   78136.1               88.1                  4.1                   78136.1               88.1                  4.1                   78136.1               88.1
+
+[15,] 88.1                  1.00777091E7          4105.1                88.1                  1.00777091E7          4105.1                88.1                  1.00777091E7          4105.1
+
+[16,] 4105.1                1.00777091E7          78136.1               4105.1                1.00777091E7          78136.1               4105.1                1.00777091E7          78136.1
+
+[17,] 78136.1               6.87194767531E10      2.5418658283481E12    78136.1               6.87194767531E10      2.5418658283481E12    78136.1               6.87194767531E10      2.5418658283481E12
+
+[18,] 2.1                   2.1                   2.6623333280885244E19 2.1                   2.1                   2.6623333280885244E19 2.1                   2.1                   2.6623333280885244E19
+
+[19,] 13.1                  4105.1                78136.1               13.1                  4105.1                78136.1               13.1                  4105.1                78136.1
+
+[20,] 88.1                  4.1                   78136.1               88.1                  4.1                   78136.1               88.1                  4.1                   78136.1
+
+[21,] 4105.1                88.1                  1.00777091E7          4105.1                88.1                  1.00777091E7          4105.1                88.1                  1.00777091E7
+
+[22,] 78136.1               4105.1                1.00777091E7          78136.1               4105.1                1.00777091E7          78136.1               4105.1                1.00777091E7
+
+[23,] 2.5418658283481E12    78136.1               6.87194767531E10      2.5418658283481E12    78136.1               6.87194767531E10      2.5418658283481E12    78136.1               6.87194767531E10
+
+[24,] 2.6623333280885244E19 2.1                   2.1                   2.6623333280885244E19 2.1                   2.1                   2.6623333280885244E19 2.1                   2.1
+
+[25,] 78136.1               13.1                  4105.1                78136.1               13.1                  4105.1                78136.1               13.1                  4105.1
+
+[26,] 78136.1               88.1                  4.1                   78136.1               88.1                  4.1                   78136.1               88.1                  4.1
+
+[27,] 1.00777091E7          4105.1                88.1                  1.00777091E7          4105.1                88.1                  1.00777091E7          4105.1                88.1
+
+[28,] 1.00777091E7          78136.1               4105.1                1.00777091E7          78136.1               4105.1                1.00777091E7          78136.1               4105.1
+
+[29,] 6.87194767531E10      2.5418658283481E12    78136.1               6.87194767531E10      2.5418658283481E12    78136.1               6.87194767531E10      2.5418658283481E12    78136.1
+
+[30,] 2.1                   2.6623333280885244E19 2.1                   2.1                   2.6623333280885244E19 2.1                   2.1                   2.6623333280885244E19 2.1
+
+
+
+      [,1]                      [,2]                      [,3]                      [,4]                      [,5]                      [,6]                      [,7]                      [,8]                      [,9]
+
+[1,]  "13.1J#"                  "4105.1J#"                "78136.1J#"               "13.1J#"                  "4105.1J#"                "78136.1J#"               "13.1J#"                  "4105.1J#"                "78136.1J#"
+
+[2,]  "88.1J#"                  "4.1J#"                   "78136.1J#"               "88.1J#"                  "4.1J#"                   "78136.1J#"               "88.1J#"                  "4.1J#"                   "78136.1J#"
+
+[3,]  "4105.1J#"                "88.1J#"                  "1.00777091E7J#"          "4105.1J#"                "88.1J#"                  "1.00777091E7J#"          "4105.1J#"                "88.1J#"                  "1.00777091E7J#"
+
+[4,]  "78136.1J#"               "4105.1J#"                "1.00777091E7J#"          "78136.1J#"               "4105.1J#"                "1.00777091E7J#"          "78136.1J#"               "4105.1J#"                "1.00777091E7J#"
+
+[5,]  "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"
+
+[6,]  "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"
+
+[7,]  "78136.1J#"               "13.1J#"                  "4105.1J#"                "78136.1J#"               "13.1J#"                  "4105.1J#"                "78136.1J#"               "13.1J#"                  "4105.1J#"
+
+[8,]  "78136.1J#"               "88.1J#"                  "4.1J#"                   "78136.1J#"               "88.1J#"                  "4.1J#"                   "78136.1J#"               "88.1J#"                  "4.1J#"
+
+[9,]  "1.00777091E7J#"          "4105.1J#"                "88.1J#"                  "1.00777091E7J#"          "4105.1J#"                "88.1J#"                  "1.00777091E7J#"          "4105.1J#"                "88.1J#"
+
+[10,] "1.00777091E7J#"          "78136.1J#"               "4105.1J#"                "1.00777091E7J#"          "78136.1J#"               "4105.1J#"                "1.00777091E7J#"          "78136.1J#"               "4105.1J#"
+
+[11,] "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"
+
+[12,] "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"
+
+[13,] "4105.1J#"                "78136.1J#"               "13.1J#"                  "4105.1J#"                "78136.1J#"               "13.1J#"                  "4105.1J#"                "78136.1J#"               "13.1J#"
+
+[14,] "4.1J#"                   "78136.1J#"               "88.1J#"                  "4.1J#"                   "78136.1J#"               "88.1J#"                  "4.1J#"                   "78136.1J#"               "88.1J#"
+
+[15,] "88.1J#"                  "1.00777091E7J#"          "4105.1J#"                "88.1J#"                  "1.00777091E7J#"          "4105.1J#"                "88.1J#"                  "1.00777091E7J#"          "4105.1J#"
+
+[16,] "4105.1J#"                "1.00777091E7J#"          "78136.1J#"               "4105.1J#"                "1.00777091E7J#"          "78136.1J#"               "4105.1J#"                "1.00777091E7J#"          "78136.1J#"
+
+[17,] "78136.1J#"               "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"      "2.5418658283481E12J#"
+
+[18,] "2.1J#"                   "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"                   "2.6623333280885244E19J#"
+
+[19,] "13.1J#"                  "4105.1J#"                "78136.1J#"               "13.1J#"                  "4105.1J#"                "78136.1J#"               "13.1J#"                  "4105.1J#"                "78136.1J#"
+
+[20,] "88.1J#"                  "4.1J#"                   "78136.1J#"               "88.1J#"                  "4.1J#"                   "78136.1J#"               "88.1J#"                  "4.1J#"                   "78136.1J#"
+
+[21,] "4105.1J#"                "88.1J#"                  "1.00777091E7J#"          "4105.1J#"                "88.1J#"                  "1.00777091E7J#"          "4105.1J#"                "88.1J#"                  "1.00777091E7J#"
+
+[22,] "78136.1J#"               "4105.1J#"                "1.00777091E7J#"          "78136.1J#"               "4105.1J#"                "1.00777091E7J#"          "78136.1J#"               "4105.1J#"                "1.00777091E7J#"
+
+[23,] "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"
+
+[24,] "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"
+
+[25,] "78136.1J#"               "13.1J#"                  "4105.1J#"                "78136.1J#"               "13.1J#"                  "4105.1J#"                "78136.1J#"               "13.1J#"                  "4105.1J#"
+
+[26,] "78136.1J#"               "88.1J#"                  "4.1J#"                   "78136.1J#"               "88.1J#"                  "4.1J#"                   "78136.1J#"               "88.1J#"                  "4.1J#"
+
+[27,] "1.00777091E7J#"          "4105.1J#"                "88.1J#"                  "1.00777091E7J#"          "4105.1J#"                "88.1J#"                  "1.00777091E7J#"          "4105.1J#"                "88.1J#"
+
+[28,] "1.00777091E7J#"          "78136.1J#"               "4105.1J#"                "1.00777091E7J#"          "78136.1J#"               "4105.1J#"                "1.00777091E7J#"          "78136.1J#"               "4105.1J#"
+
+[29,] "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"               "6.87194767531E10J#"      "2.5418658283481E12J#"    "78136.1J#"
+
+[30,] "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"                   "2.1J#"                   "2.6623333280885244E19J#" "2.1J#"
+
+
+
+
+
+>>---------------------------------- EVALUANDO ESTRUCTURAS: ARREGLOS ----------------------------------------
+
+>>[[ , ,1 ,1]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,2 ,1]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,3 ,1]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,4 ,1]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,1 ,2]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,2 ,2]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,3 ,2]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,4 ,2]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,1 ,3]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,2 ,3]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,3 ,3]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,4 ,3]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,1 ,4]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,2 ,4]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,3 ,4]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+[[ , ,4 ,4]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         true              true              true              true
+
+       [[ 2 ]]         false             false             false             false
+
+       [[ 3 ]]         true              true              true              true
+
+       [[ 4 ]]         false             false             false             false
+
+
+
+(IMPRIME EL MISMO ARREGLO PERO CON UN CAMBIO EN ESTA POSICION)
+
+[[ , ,1 ,3]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         12                 1                 1                 1
+
+       [[ 2 ]]         0                  0                 0                 0
+
+       [[ 3 ]]         1                  1                 1                 1
+
+       [[ 4 ]]         0                  0                 0                 0
+
+
+
+(IMPRIME EL MISMO ARREGLO PERO CON UN CAMBIO EN ESTA POSICION)
+
+[[ , ,4 ,1]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         1.0                1.0               1.0              1.0
+
+       [[ 2 ]]         0.0                0.0               0.0              0.0
+
+       [[ 3 ]]         1.0                1.0               1.0              1.0
+
+       [[ 4 ]]         0.0                839.4093          0.0              0.0
+
+
+
+(IMPRIME EL MISMO ARREGLO PERO CON UN CAMBIO EN ESTA POSICION)
+
+[[ , ,1 ,1]]
+
+                     [[ 1 ]]            [[ 2 ]]           [[ 3 ]]           [[ 4 ]]
+
+       [[ 1 ]]         "1.0"              "1.0"             "1.0"             "1.0"
+
+       [[ 2 ]]         "0.0"              "0.0"             "J#"              "0.0"
+
+       [[ 3 ]]         "1.0"              "1.0"             "1.0"             "1.0"
+
+       [[ 4 ]]         "0.0"              "0.0"             "0.0"             "0.0"
+
+
+
+(IMPRIME EL MISMO ARREGLO PERO CON TODO DENTRO DE LISTAS)
+
+>>[[ , ,1 ,1]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "J#"    ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,2 ,1]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,3 ,1]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,4 ,1]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[ "839.4093" ]    List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,1 ,2]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,2 ,2]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,3 ,2]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,4 ,2]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,1 ,3]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "12.0"   ]    List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,2 ,3]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,3 ,3]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,4 ,3]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,1 ,4]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,2 ,4]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,3 ,4]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+[[ , ,4 ,4]]
+
+                    [[ 1 ]]               [[ 2 ]]               [[ 3 ]]               [[ 4 ]]
+
+       [[ 1 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 2 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+       [[ 3 ]]      List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]     List[   "1.0"   ]
+
+       [[ 4 ]]      List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]     List[   "0.0"   ]
+
+
+
+
+
+
+
+>>[[ , ,1 ,1]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,2 ,1]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,3 ,1]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,4 ,1]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,1 ,2]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,2 ,2]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,3 ,2]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,4 ,2]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,1 ,3]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,2 ,3]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,3 ,3]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,4 ,3]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,1 ,4]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,2 ,4]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+[[ , ,3 ,4]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+[[ , ,4 ,4]]
+
+                    [[ 1 ]]                              [[ 2 ]]                               [[ 3 ]]                              [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+(IMPRIME EL MISMO ARREGLO PERO CON UN CAMBIO EN ESTA POSICION)
+
+[[ , ,1 ,3]]
+
+                    [[ 1 ]]                              [[ 2 ]]                              [[ 3 ]]                               [[ 4 ]]
+
+       [[ 1 ]]      List[   12   ]                    List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+(IMPRIME EL MISMO ARREGLO PERO CON UN CAMBIO EN ESTA POSICION)
+
+[[ , ,4 ,1]]
+
+                    [[ 1 ]]                              [[ 2 ]]                              [[ 3 ]]                               [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   839.4093   ]              List[   true   ,   false   ]      List[   true   ,   false   ]
+
+
+
+(IMPRIME EL MISMO ARREGLO PERO CON UN CAMBIO EN ESTA POSICION)
+
+[[ , ,1 ,1]]
+
+                    [[ 1 ]]                              [[ 2 ]]                              [[ 3 ]]                               [[ 4 ]]
+
+       [[ 1 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 2 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   "J#"   ,   "<3"    ]      List[   true   ,   false   ]
+
+       [[ 3 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+       [[ 4 ]]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]      List[   true   ,   false   ]
+
+>>---------------------------------- FIN EVALUACION ESTRUCTURAS --------------------------------------------------
+
+>>
+
+>>
+
+>>
+
+>>
+
+>>
+
+---------------------------------- EVALUANDO ARCHIVO DE ALBA --------------------------------------------------
+
+>>-----------------CALIFICACION-----------------
+
+>>========= Metodo Declaracion =========
+
+>>   Voy a ganar Compiladores 2 :D
+
+>>======================================
+
+>>========= Error Ambitos ==============
+
+>>Error Semántico: La variable amb1 no esixte en este ámbito. en Expresion en la línea: 612 y columna: 36.
+
+>>======================================
+
+>>================ Nice ================
+
+>>   Sin error: Desde ambito2
+
+>>======================================
+
+>>==============Aritmeticas=============
+
+>>   Hola COMPI
+
+>>   El valor de  n1 = 52.1
+
+>>   El valor de n3 = 70.0
+
+>>Operaciones Aritmeticas 1: valor esperado:
+
+a)62
+
+b)0
+
+c)-19
+
+d)256
+
+resultados>
+
+>>   a) 62
+
+>>   b) 0
+
+>>   c) -19
+
+>>   d) 256.0
+
+>>Operaciones aritmeticas 1 bien :D
+
+>>Operaciones Aritmeticas 2: valor esperado> -20  41, resultado>
+
+>>   -20
+
+>>   41.0
+
+>>Operaciones aritmeticas 2 bien :D
+
+>>======================================
+
+>>==============Logicas1=============
+
+>>Bien primera condicion :)
+
+>>Bien segunda condicion:)
+
+>>======================================
+
+>>==============Logicas2=============
+
+>>Not y Ands Correctos
+
+>>Nots y Ors correectos
+
+>>======================================
+
+>>==============relacionales1=============
+
+>>salida Correcta Relacionales 1!
+
+>>======================================
+
+>>vas bien, animo :D
+
+>>============Relacionales2=============
+
+>>salida CORRECTA en relacionales2!!
+
+>>======================================
+
+>>    1
+
+>>    1 2
+
+>>    1 2 3
+
+>>    1 2 3 4
+
+>>    1 2 3 4 5
+
+>>    1 2 3 4 5 6
+
+>>    1 2 3 4 5 6 7
+
+>>    1 2 3 4 5 6 7 8
+
+>>   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+>>   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+>>   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+>>   . . . . . . . . . * * * . . . . . . . * * * . . . . . . . . .
+
+>>   . . . . . . . * * * * * * * . . . * * * * * * * . . . . . . .
+
+>>   . . . . . * * * * * * * * * * * * * * * * * * * * * . . . . .
+
+>>   . . . . . * * * * * * * * * * * * * * * * * * * * * . . . . .
+
+>>   . . . . * * * * * * * * * * * * * * * * * * * * * * * . . . .
+
+>>   . . . . * * * * * * * * * * * * * * * * * * * * * * * . . . .
+
+>>   . . . * * * * * * * * * * * * * * * * * * * * * * * * * . . .
+
+>>   . . . * * * * * * * * * * * * * * * * * * * * * * * * * . . .
+
+>>   . . . * * * * * * * * * * * * * * * * * * * * * * * * * . . .
+
+>>   . . . . * * * * * * * * * * * * * * * * * * * * * * * . . . .
+
+>>   . . . . * * * * * * * * * * * * * * * * * * * * * * * . . . .
+
+>>   . . . . . * * * * * * * * * * * * * * * * * * * * * . . . . .
+
+>>   . . . . . * * * * * * * * * * * * * * * * * * * * * . . . . .
+
+>>   . . . . . . . * * * * * * * * * * * * * * * * * . . . . . . .
+
+>>   . . . . . . . . * * * * * * * * * * * * * * * . . . . . . . .
+
+>>   . . . . . . . . . * * * * * * * * * * * * * . . . . . . . . .
+
+>>   . . . . . . . . . . * * * * * * * * * * * . . . . . . . . . .
+
+>>   . . . . . . . . . . . * * * * * * * * * . . . . . . . . . . .
+
+>>   . . . . . . . . . . . . * * * * * * * . . . . . . . . . . . .
+
+>>   . . . . . . . . . . . . . * * * * * . . . . . . . . . . . . .
+
+>>   . . . . . . . . . . . . . . * * * . . . . . . . . . . . . . .
+
+>>   . . . . . . . . . . . . . . . * . . . . . . . . . . . . . . .
+
+>>   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+>>if la figura es un corazon +10 <3
+
+>>                       *
+
+>>                     * * *
+
+>>                   * * * * *
+
+>>                 * * * * * * *
+
+>>               * * * * * * * * *
+
+>>             * * * * * * * * * * *
+
+>>           * * * * * * * * * * * * *
+
+>>         * * * * * * * * * * * * * * *
+
+>>                   * * * * *
+
+>>                   * * * * *
+
+>>if la figura es un Arbol +10 <3
+
+>>Esto se va a print 2 veces :3
+
+>>Esto se va a print 2 veces :3
+
+>>   punteo Final: 54
+
+
+
+>>---------------------------------- EVALUANDO RECURSIVAS --------------------------------------------------
+
+>>
+
+======================= FACTORIAL ======================
+
+
+
+>>   El factorial del numero 5 es: 120
+
+>>
+
+======================= POTENCIA =======================
+
+
+
+>>   El numero 2 elevado a la 5 potencia es: 32
+
+>>
+
+================= RECURSIVIDAD MULTIPLE =================
+
+
+
+>>
+
+============ HANOI ============
+
+
+
+>>   Solucion al problema de torres de Hanoi para n = 3
+
+>>   mover disco de 1 a3
+
+>>   mover disco de 1 a 2
+
+>>   mover disco de 3 a2
+
+>>   mover disco de 1 a 3
+
+>>   mover disco de 2 a1
+
+>>   mover disco de 2 a 3
+
+>>   mover disco de 1 a3
+
+>>
+
+================= RECURSIVIDAD CRUZADA
+
+>>
+
+===== Generar funciones Hoftadter
+
+
+
+>>
+
+== Femenina:
+
+
+
+>>   1
+
+>>   0
+
+>>   2
+
+>>   1
+
+>>   3
+
+>>   2
+
+>>   4
+
+>>   3
+
+>>   5
+
+>>   4
+
+>>
+
+== Masculina:
+
+
+
+>>   0
+
+>>   1
+
+>>   1
+
+>>   2
+
+>>   2
+
+>>   3
+
+>>   3
+
+>>   4
+
+>>   4
+
+>>   5
+
+>>
+
+===== Determinar la paridad de dos numeros
+
+
+
+>>   == El numero 17 es:
+
+>>impar
+
+>>   == El numero 68 es:
+
+>>par
+
+>>
+
+========== RECURSIVIDAD ANIDADA ==========
+
+
+
+>>   Funcion de Ackermann (3, 4) = 125
+
+
+
+>>---------------------------------- FIN EVALUACION RECURSIVAS --------------------------------------------------
+
+>>alumnos random que va ganar compi
+
+>> A :
+
+>>   47   ,   30970101   ,   201701029   ,   A   ,   Edson Armando Guix Manhel   ,   edsonguix@gmail.com   ,   0
+
+>> B- :
+
+>>   12   ,   789012   ,   201212945   ,   B-   ,   Elmer Edgardo Alay Yupe   ,   alayelmer1993@gmail.com   ,   0
+
+>> B+ :
+
+>>   28   ,   25720101   ,   201318664   ,   B+   ,   Jenny Sharai Montenegro Contreras   ,   jennysharai14@gmail.com   ,   0
+
+>> C :
+
+>>   3   ,   2448401   ,   199811002   ,   C   ,   Arnaldo Patricio Paxtor García   ,   arnaldo.paxtor@gmail.com   ,   0
+
+>>J# IS COMING <3
+
+>>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-FIN-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+*#
+
+#201314164
+
+#201701048
+
+#201612114
+
+#201213177
+
+#201503712
+
+#201602988
+
+
+
+a = c(40,33,5,34)
+
+
+
+plot( a, "O", "X", "Y", "Line Chart")
+
