@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>instrucciones</OriginalElement>
+  <nodes>
+    <node x="0.0" y="235.0">instrucciones.AsignacionIndiceEstructura</node>
+    <node x="507.0" y="384.0">instrucciones.While</node>
+    <node x="545.0" y="533.0">instrucciones.Return</node>
+    <node x="283.0" y="533.0">instrucciones.Switch</node>
+    <node x="0.0" y="384.0">instrucciones.For</node>
+    <node x="0.0" y="0.0">instrucciones.Declaracion</node>
+    <node x="0.0" y="533.0">instrucciones.DoWhile</node>
+    <node x="0.0" y="660.0">instrucciones.Continue</node>
+    <node x="379.0" y="235.0">instrucciones.If</node>
+    <node x="283.0" y="384.0">instrucciones.Acceso</node>
+    <node x="181.0" y="660.0">instrucciones.Break</node>
+    <node x="214.0" y="0.0">instrucciones.Asignacion</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.1" x="338.090909090909" y="319.18181818181813" />
+  <SelectedNodes>
+    <node>instrucciones.AsignacionIndiceEstructura</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

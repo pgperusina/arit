@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>nativas</OriginalElement>
+  <nodes>
+    <node x="0.0" y="404.0">nativas.StringLength</node>
+    <node x="887.0" y="911.0">nativas.Array</node>
+    <node x="442.0" y="1080.0">nativas.Ncol</node>
+    <node x="0.0" y="742.0">nativas.Barras</node>
+    <node x="881.0" y="1080.0">nativas.List</node>
+    <node x="455.0" y="573.0">nativas.Length</node>
+    <node x="921.0" y="0.0">nativas.Histograma</node>
+    <node x="438.0" y="0.0">nativas.Concatenar</node>
+    <node x="492.0" y="404.0">nativas.Remove</node>
+    <node x="445.0" y="213.0">nativas.ToLowerCase</node>
+    <node x="449.0" y="742.0">nativas.Matrix</node>
+    <node x="0.0" y="911.0">nativas.Mean</node>
+    <node x="953.0" y="404.0">nativas.Median</node>
+    <node x="0.0" y="213.0">nativas.Mode</node>
+    <node x="0.0" y="1249.0">nativas.Pie</node>
+    <node x="444.0" y="911.0">nativas.Linea</node>
+    <node x="897.0" y="742.0">nativas.Trunk</node>
+    <node x="0.0" y="1080.0">nativas.Nrow</node>
+    <node x="0.0" y="0.0">nativas.Print</node>
+    <node x="909.0" y="573.0">nativas.Round</node>
+    <node x="0.0" y="573.0">nativas.TypeOf</node>
+    <node x="941.0" y="213.0">nativas.ToUpperCase</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="600.9999999999999" y="659.5714285714284" />
+  <SelectedNodes>
+    <node>nativas.StringLength</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
