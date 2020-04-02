@@ -10,6 +10,7 @@ import instrucciones.Break;
 import instrucciones.Continue;
 import instrucciones.Return;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -18,8 +19,10 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.fxmisc.richtext.*;
 import javafx.fxml.Initializable;
@@ -31,6 +34,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -38,10 +42,16 @@ import static utilities.Utils.agregarFuncionesNativas;
 import static utilities.Utils.getRandomInRange;
 
 public class Controller implements Initializable {
+
+    public CodeArea archivo;
     @FXML
-    private CodeArea archivo;
+    private MenuItem menuAbrir;
     @FXML
-    private Button botonEjecutar;
+    private MenuItem menuGuardar;
+    @FXML
+    private MenuItem menuGuardarComo;
+    @FXML
+    private AnchorPane AnchorPane;
     @FXML
     private TextArea consola;
 
@@ -49,6 +59,7 @@ public class Controller implements Initializable {
     private Tabla tabla;
     private final String sourceCodeUrl = "https://github.com/pgperusina/arit/tree/develop";
     private URI codeUrl;
+    private URI grafoUrl;
     Stage stageReporteErrores;
     Scene sceneReporteErrores;
     Stage stageReporteTS;
@@ -56,6 +67,7 @@ public class Controller implements Initializable {
     Stage stageReporteGraficas;
     Scene sceneReporteGraficas;
     private Group groupChart;
+    File openedFile;
 
     TableView tablaErrores = new TableView();
     TableView tablaSimbolos = new TableView();
@@ -113,9 +125,9 @@ public class Controller implements Initializable {
     @FXML
     private void reporteErrores() throws IOException {
         stageReporteErrores = new Stage();
-        stageReporteErrores.setWidth(700);
+        stageReporteErrores.setWidth(900);
         stageReporteErrores.setHeight(500);
-        tablaErrores.setPrefWidth(700);
+        tablaErrores.setPrefWidth(900);
         tablaErrores.setPrefHeight(500);
         HBox hBox = new HBox(tablaErrores);
         hBox.setPrefWidth(stageReporteErrores.getWidth());
@@ -215,10 +227,29 @@ public class Controller implements Initializable {
         }
     }
 
+    @FXML
+    private void abrirArbol(ActionEvent event) {
+        try {
+            String openInstruction = "/usr/bin/open";
+            String graphFile = "file:///"+System.getProperty("user.dir")+"/grafo.png";
+
+            String[] cmd = new String[2];
+            cmd[0] = openInstruction;
+            cmd[1] = graphFile;
+
+            Runtime rt = Runtime.getRuntime();
+
+            rt.exec( cmd );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         archivo.setParagraphGraphicFactory(LineNumberFactory.get(archivo));
         try {
+            grafoUrl = new URI("file:///"+ System.getProperty("user.dir")+"/grafo.png");
             codeUrl = new URI(sourceCodeUrl);
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -226,9 +257,122 @@ public class Controller implements Initializable {
 
         initTablaErrores();
         initTablaTS();
+        initMenuItemAbrir();
+        initMenuItemGuardar();
+        initMenuItemGuardarComo();
+    }
+
+    private void initMenuItemGuardarComo() {
+        menuGuardarComo.setOnAction((ActionEvent event) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar como...");
+
+            FileChooser.ExtensionFilter extFilter =
+                    new FileChooser.ExtensionFilter("Arit and txt files (*.txt, *.arit)", "*.txt", "*.arit");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            File file = fileChooser.showSaveDialog(AnchorPane.getScene().getWindow());
+
+            if(file != null){
+                SaveFile(archivo.getText(), file);
+            }
+        });
+    }
+
+    private void initMenuItemGuardar() {
+        menuGuardar.setOnAction((ActionEvent event) -> {
+            FileChooser fileChooser = new FileChooser();
+
+            FileChooser.ExtensionFilter extFilter =
+                    new FileChooser.ExtensionFilter("Arit and txt files (*.txt, *.arit)", "*.txt", "*.arit");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            if(openedFile != null){
+                SaveFile(archivo.getText(), openedFile);
+            }
+        });
+    }
+
+    private void SaveFile(String content, File file){
+        try {
+            FileWriter fileWriter;
+
+            fileWriter = new FileWriter(file);
+            fileWriter.write(content);
+            fileWriter.close();
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Error guardando el archivo.");
+            alert.showAndWait();
+            return;
+        }
+
+    }
+
+    private void initMenuItemAbrir() {
+        try {
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory(new File("."));
+            FileChooser.ExtensionFilter extFilter1 =
+                    new FileChooser.ExtensionFilter("Arit Documents (*.arit, *.txt)", "*.txt","*.arit");
+            FileChooser.ExtensionFilter extFilter2 =
+                    new FileChooser.ExtensionFilter("All Files", "*.*");
+            fileChooser.getExtensionFilters().addAll(extFilter1, extFilter2);
+            fileChooser.getExtensionFilters().addAll(extFilter1, extFilter2);
+            fileChooser.setTitle("Abrir archivo...");
+
+
+            // create an Event Handler
+            EventHandler<ActionEvent> event =
+                    e -> {
+                        File file = fileChooser.showOpenDialog(AnchorPane.getScene().getWindow());
+                        if (file != null) {
+                            List<String> lines = new ArrayList<String>();
+                            String line;
+                            try {
+                                BufferedReader br = new BufferedReader(new FileReader(file));
+                                while ((line = br.readLine()) != null) {
+                                    lines.add(line);
+                                }
+                                br.close();
+                                archivo.clear();
+                                for (String linea : lines) {
+                                    archivo.appendText(linea);
+                                    archivo.appendText("\n");
+                                    archivo.appendText("\n");
+                                }
+                                this.openedFile = file;
+                            } catch (IOException ex) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Error leyendo el archivo para ser cargado.");
+                                alert.showAndWait();
+                                return;
+                            }
+                        } else {
+
+                            return;
+                        }
+                    };
+
+            menuAbrir.setOnAction(event);
+
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Error cargando el archivo.");
+            alert.showAndWait();
+            return;
+        }
     }
 
     private void initTablaTS() {
+        tablaSimbolos.getItems().clear();
         TableColumn<TSReporte, String> column1 = new TableColumn<>("Identificador");
         column1.setCellValueFactory(new PropertyValueFactory<>("id"));
 
@@ -266,7 +410,6 @@ public class Controller implements Initializable {
     }
 
     private void ejecutarArbol(Arbol arbol, Gramatica parser) throws ParseException {
-        System.out.println("ejecutandoooo");
         arbol.setInstrucciones(parser.analizar(new ArrayList<>()));
         arbol.setOutput(consola);
         tabla = new Tabla(null);
@@ -350,8 +493,6 @@ public class Controller implements Initializable {
                 instruccion.crearDotFile(dotBuilder, hijo);
             }
             dotBuilder.append("}");
-            System.out.println(dotBuilder.toString());
-            System.out.println(System.getProperty("user.dir"));
             crearArchivoDot(dotBuilder);
         } catch (Exception e) {
             e.printStackTrace();

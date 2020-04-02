@@ -2,9 +2,9 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.fxmisc.richtext.*?>
+<?import org.fxmisc.richtext.CodeArea?>
 
-<AnchorPane id="AnchorPane" prefHeight="950" prefWidth="1300" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aritUI.Controller">
+<AnchorPane fx:id="AnchorPane" prefHeight="950" prefWidth="1300" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aritUI.Controller">
     <children>
       <VBox layoutX="13.0" layoutY="6.0" prefHeight="950" prefWidth="1300">
          <MenuBar>
@@ -33,7 +33,7 @@
 
                <Button mnemonicParsing="false" onAction="#reporteErrores" prefHeight="100.0" prefWidth="250" text="Reporte de Errores" />
                <Button mnemonicParsing="false" onAction="#reporteTS" prefHeight="100.0" prefWidth="250" text="Reporte de Tabla de Símbolos" />
-               <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="250" text="Reporte de AST" />
+               <Button mnemonicParsing="false" onAction="#abrirArbol" prefHeight="100.0" prefWidth="250" text="Reporte de AST" />
                <Button mnemonicParsing="false" onAction="#reportGraficas" prefHeight="100.0" prefWidth="249.0" text="Mostrar Gráficas" />
             </children></HBox>
           <HBox fillHeight="true" layoutX="22.0" layoutY="84.0" prefHeight="801.0" prefWidth="1300.0" spacing="30">
